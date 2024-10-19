@@ -1,3 +1,119 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hit {
+  background-color: red; /* Permanent color change for a hit */
+  animation: hit-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.miss {
+  background-color: blue; /* Permanent color change for a miss */
+  animation: miss-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.ship {
+  background-color: green; /* Permanent color change for a ship segment */
+  animation: ship-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.kill {
+  background-color: black; /* Permanent color change for a kill */
+  animation: kill-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.final-segment {
+  background-color: #32cd32; /* Slightly brighter color for the final ship segment */
+  animation: final-segment-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+@keyframes miss-effect {
+  0% {
+    transform: scale(0.1);
+  }
+  25% {
+    transform: scale(0.2);
+  }
+  50% {
+    transform: scale(0.3);
+  }
+  75% {
+    transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes hit-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes ship-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1.8);
+  }
+  75% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes kill-effect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(3);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  75% {
+    transform: scale(2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes final-segment-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  75% {
+    transform: scale(1.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
