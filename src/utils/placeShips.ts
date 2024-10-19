@@ -2,17 +2,11 @@ import { TGrid, TShips } from "../types/types";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
-const isPlacementValid = (
-  grid: TGrid,
-  segments: number[],
-  shipSize: number
-) => {
-  for (let i = 0; i < shipSize; i++) {
-    const index = segments[i];
+const isPlacementValid = (grid: TGrid, segments: number[]) => {
+  for (const index of segments) {
     const x = index % 10;
     const y = Math.floor(index / 10);
 
-    // Check adjacent cells to ensure there's at least one empty cell separating ships
     const adjacentIndices = [
       index - 11,
       index - 10,
@@ -42,33 +36,61 @@ const isPlacementValid = (
   return true;
 };
 
+const generateShipSegments = (
+  start: number,
+  size: number,
+  grid: TGrid
+): number[] => {
+  let segments = [start];
+  let attempts = 0;
+  while (segments.length < size && attempts < 100) {
+    const x = segments[segments.length - 1] % 10;
+    const y = Math.floor(segments[segments.length - 1] / 10);
+    const possibleMoves = [
+      { dx: -1, dy: 0 }, // left
+      { dx: 1, dy: 0 }, // right
+      { dx: 0, dy: -1 }, // up
+      { dx: 0, dy: 1 }, // down
+    ];
+    possibleMoves.sort(() => Math.random() - 0.5);
+
+    let validMoveFound = false;
+    for (const move of possibleMoves) {
+      const newX = x + move.dx;
+      const newY = y + move.dy;
+      const newIndex = newY * 10 + newX;
+
+      if (
+        newX >= 0 &&
+        newX < 10 &&
+        newY >= 0 &&
+        newY < 10 &&
+        grid.cells[newIndex].status === "empty" &&
+        !segments.includes(newIndex)
+      ) {
+        segments.push(newIndex);
+        validMoveFound = true;
+        break;
+      }
+    }
+
+    if (!validMoveFound) {
+      segments = [start];
+      attempts++;
+    }
+  }
+  return segments;
+};
+
 export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
   ships.list.forEach((ship) => {
     let placed = false;
     let attempts = 0;
     while (!placed && attempts < 100) {
-      // Ensure the loop terminates after a certain number of attempts
-      const x = getRandomPosition();
-      const y = getRandomPosition();
-      const horizontal = Math.random() < 0.5;
+      const start = getRandomPosition() + getRandomPosition() * 10;
+      const segments = generateShipSegments(start, ship.size, grid);
 
-      const segments = [];
-      for (let i = 0; i < ship.size; i++) {
-        const posX = horizontal ? x + i : x;
-        const posY = horizontal ? y : y + i;
-        const index = posY * 10 + posX;
-
-        if (posX < 10 && posY < 10 && grid.cells[index].status === "empty") {
-          segments.push(index);
-        } else {
-          break;
-        }
-      }
-
-      if (
-        segments.length === ship.size &&
-        isPlacementValid(grid, segments, ship.size)
-      ) {
+      if (segments.length === ship.size && isPlacementValid(grid, segments)) {
         ship.segments = segments;
         segments.forEach((index) => {
           grid.cells[index].status = "ship";
@@ -78,10 +100,11 @@ export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
         console.log(`Placed ship ID ${ship.id} at positions: ${segments}`);
       }
       attempts++;
-      if (attempts === 100) {
+      if (attempts >= 100) {
         console.error(
           `Failed to place ship ID ${ship.id} after ${attempts} attempts`
         );
+        break;
       }
     }
   });

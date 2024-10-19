@@ -26,6 +26,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       const gridWithShips = placeShips(browserGrid, browserShips);
       setBrowserGrid(gridWithShips);
       setBrowserShips({ owner: "Browser", list: browserShips.list });
+      console.log(JSON.stringify(browserShips));
       isMounted.current = true;
     }
   }, []);
