@@ -10,6 +10,7 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
   const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
   const handleCellClick = (cellId: number) => {
+    // just a mock function for now
     setGrid((prevGrid: TGrid) => {
       const updatedCells: TCell[] = prevGrid.cells.map((cell) => {
         if (cell.id === cellId && !cell.isVisible) {

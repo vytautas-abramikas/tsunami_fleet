@@ -5,32 +5,32 @@
   transform: scale(1.5); /* scale-150 */
   transition: transform 0.2s ease-in-out; /* transition-transform, transform, duration-200, ease-in-out */
 }
+.empty {
+  background-color: blue; /* Permanent color change for a miss */
+  animation: empty-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.part-ship {
+  background-color: green; /* Permanent color change for a ship segment */
+  animation: part-ship-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
+.ship {
+  background-color: #32cd32; /* Slightly brighter color for the final ship segment */
+  animation: ship-effect 0.2s ease-in-out forwards;
+  pointer-events: none; /* Remove hover effect */
+}
 .hit {
   background-color: red; /* Permanent color change for a hit */
   animation: hit-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }
-.empty {
-  background-color: blue; /* Permanent color change for a miss */
-  animation: miss-effect 0.2s ease-in-out forwards;
-  pointer-events: none; /* Remove hover effect */
-}
-.ship {
-  background-color: green; /* Permanent color change for a ship segment */
-  animation: ship-effect 0.2s ease-in-out forwards;
-  pointer-events: none; /* Remove hover effect */
-}
-.kill {
+.sunk {
   background-color: black; /* Permanent color change for a kill */
-  animation: kill-effect 0.2s ease-in-out forwards;
+  animation: sunk-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }
-.final-segment {
-  background-color: #32cd32; /* Slightly brighter color for the final ship segment */
-  animation: final-segment-effect 0.2s ease-in-out forwards;
-  pointer-events: none; /* Remove hover effect */
-}
-@keyframes miss-effect {
+@keyframes empty-effect {
   0% {
     transform: scale(0.1);
   }
@@ -42,6 +42,40 @@
   }
   75% {
     transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes part-ship-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1.8);
+  }
+  75% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes ship-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  75% {
+    transform: scale(1.8);
   }
   100% {
     transform: scale(1);
@@ -64,24 +98,7 @@
     transform: scale(1);
   }
 }
-@keyframes ship-effect {
-  0% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(2);
-  }
-  50% {
-    transform: scale(1.8);
-  }
-  75% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes kill-effect {
+@keyframes sunk-effect {
   0% {
     transform: scale(1);
     opacity: 1;
@@ -101,22 +118,5 @@
   100% {
     transform: scale(1);
     opacity: 1;
-  }
-}
-@keyframes final-segment-effect {
-  0% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(2);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  75% {
-    transform: scale(1.8);
-  }
-  100% {
-    transform: scale(1);
   }
 }

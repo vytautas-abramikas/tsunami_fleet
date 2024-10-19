@@ -6,7 +6,7 @@ export const initializeGrid = (owner: "User" | "Browser"): TGrid => {
     return {
       id: i,
       pos,
-      isVisible: false,
+      isVisible: true,
       status: "empty",
     };
   });
