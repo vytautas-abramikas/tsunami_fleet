@@ -21,6 +21,18 @@ export type TGrid = {
   cells: TCell[];
 };
 
+export type TShip = {
+  id: number;
+  size: number;
+  segments: number[];
+  sunk: boolean;
+};
+
+export type TShips = {
+  owner: "User" | "Browser";
+  list: TShip[];
+};
+
 export type TGameContext = {
   userGrid: TGrid;
   browserGrid: TGrid;
