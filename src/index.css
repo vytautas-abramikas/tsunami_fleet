@@ -1,13 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+.unknown:hover {
+  transform: scale(1.5); /* scale-150 */
+  transition: transform 0.2s ease-in-out; /* transition-transform, transform, duration-200, ease-in-out */
+}
 .hit {
   background-color: red; /* Permanent color change for a hit */
   animation: hit-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }
-.miss {
+.empty {
   background-color: blue; /* Permanent color change for a miss */
   animation: miss-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */

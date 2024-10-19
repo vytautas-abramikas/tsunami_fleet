@@ -11,6 +11,11 @@ export type TCell = {
   shipId?: number;
 };
 
+export type TCellProps = {
+  cell: TCell;
+  onClick: (id: number) => void;
+};
+
 export type TGrid = {
   owner: "User" | "Browser";
   cells: TCell[];
