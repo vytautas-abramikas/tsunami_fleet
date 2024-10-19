@@ -1,7 +1,8 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useEffect, useRef } from "react";
 import { TGrid, TGameContext, TShips } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
+import { placeShips } from "../utils/placeShips";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -16,6 +17,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [browserShips, setBrowserShips] = useState<TShips>(
     initializeShips("Browser")
   );
+
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      console.log("Initializing browser ships and placing them on grid...");
+      const gridWithShips = placeShips(browserGrid, browserShips);
+      setBrowserGrid(gridWithShips);
+      setBrowserShips({ owner: "Browser", list: browserShips.list });
+      isMounted.current = true;
+    }
+  }, []);
 
   return (
     <GameContext.Provider
