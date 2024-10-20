@@ -48,45 +48,43 @@ const generateShipSegments = (
   while (attempts < maxAttempts) {
     segments = [start];
     while (segments.length < size) {
-      const x = segments[segments.length - 1] % 10;
-      const y = Math.floor(segments[segments.length - 1] / 10);
-      const possibleMoves = [
-        { dx: -1, dy: 0 }, // left
-        { dx: 1, dy: 0 }, // right
-        { dx: 0, dy: -1 }, // up
-        { dx: 0, dy: 1 }, // down
-      ];
-      possibleMoves.sort(() => Math.random() - 0.5);
-
-      let validMoveFound = false;
-      for (const move of possibleMoves) {
-        const newX = x + move.dx;
-        const newY = y + move.dy;
-        const newIndex = newY * 10 + newX;
-
-        if (
-          newX >= 0 &&
-          newX < 10 &&
-          newY >= 0 &&
-          newY < 10 &&
-          grid.cells[newIndex].status === "empty" &&
-          !segments.includes(newIndex)
-        ) {
-          segments.push(newIndex);
-          validMoveFound = true;
-          break;
+      const candidates = [];
+      for (const seg of segments) {
+        const x = seg % 10;
+        const y = Math.floor(seg / 10);
+        const possibleMoves = [
+          { dx: -1, dy: 0 }, // left
+          { dx: 1, dy: 0 }, // right
+          { dx: 0, dy: -1 }, // up
+          { dx: 0, dy: 1 }, // down
+        ];
+        for (const move of possibleMoves) {
+          const newX = x + move.dx;
+          const newY = y + move.dy;
+          const newIndex = newY * 10 + newX;
+          if (
+            newX >= 0 &&
+            newX < 10 &&
+            newY >= 0 &&
+            newY < 10 &&
+            grid.cells[newIndex].status === "empty" &&
+            !segments.includes(newIndex)
+          ) {
+            candidates.push(newIndex);
+          }
         }
       }
-
-      if (!validMoveFound) {
+      if (candidates.length > 0) {
+        const newSegment =
+          candidates[Math.floor(Math.random() * candidates.length)];
+        segments.push(newSegment);
+      } else {
         break;
       }
     }
-
     if (segments.length === size) {
       return segments;
     }
-
     attempts++;
   }
   return [];
