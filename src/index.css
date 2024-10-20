@@ -5,7 +5,7 @@ body {
   user-select: none; /* Prevents text selection globally */
 }
 .new-message {
-  animation: new-message-effect 0.5s ease-in-out;
+  animation: new-message-effect 0.3s ease-in-out;
 }
 .unknown:hover {
   transform: scale(1.5); /* scale-150 */
@@ -38,19 +38,24 @@ body {
 }
 @keyframes new-message-effect {
   0% {
-    transform: scale(1);
+    transform: translateY(20px) rotate(0deg) scale(1);
+    color: currentColor;
   }
   25% {
-    transform: scale(3);
+    transform: translateY(10px) rotate(90deg) scale(3);
+    color: pink;
   }
   50% {
-    transform: scale(0.8);
+    transform: translateY(0) rotate(180deg) scale(0.8);
+    color: currentColor;
   }
   75% {
-    transform: scale(2);
+    transform: translateY(10px) rotate(270deg) scale(2);
+    color: pink;
   }
   100% {
-    transform: scale(1);
+    transform: translateY(0) rotate(360deg) scale(1);
+    color: currentColor;
   }
 }
 @keyframes empty-effect {
