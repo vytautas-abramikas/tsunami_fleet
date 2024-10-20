@@ -127,21 +127,17 @@ export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
   });
 
   // Validation step to check the number of occupied cells
-  const totalOccupiedCells = ships.list.reduce(
-    (acc, ship) => acc + ship.segments.length,
-    0
-  );
-  const expectedOccupiedCells = ships.list.reduce(
-    (acc, ship) => acc + ship.size,
-    0
-  );
-  if (totalOccupiedCells !== expectedOccupiedCells) {
+  const shipSegmentsCount = grid.cells.filter(
+    (cell) => cell.status === "ship"
+  )?.length;
+
+  if (shipSegmentsCount !== 20) {
     console.error(
-      `Mismatch in occupied cells: Found ${totalOccupiedCells}, expected ${expectedOccupiedCells}`
+      `Mismatch in occupied cells: Found ${shipSegmentsCount}, expected 20`
     );
   } else {
     console.log(
-      `All ships placed correctly with ${totalOccupiedCells} occupied cells`
+      `All ships placed correctly with ${shipSegmentsCount} occupied cells`
     );
   }
 
