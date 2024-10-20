@@ -27,13 +27,20 @@ export type TShips = {
   list: TShip[];
 };
 
+export type TMessage = {
+  text: string;
+  tailwindClasses?: string;
+};
+
 export type TGameContext = {
   userGrid: TGrid;
   browserGrid: TGrid;
   userShips: TShips;
   browserShips: TShips;
+  messages: TMessage[];
   setUserGrid: React.Dispatch<React.SetStateAction<TGrid>>;
   setBrowserGrid: React.Dispatch<React.SetStateAction<TGrid>>;
   setUserShips: React.Dispatch<React.SetStateAction<TShips>>;
   setBrowserShips: React.Dispatch<React.SetStateAction<TShips>>;
+  addMessage: (newMessage: TMessage) => void;
 };

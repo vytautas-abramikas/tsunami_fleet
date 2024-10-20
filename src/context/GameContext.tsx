@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
-import { TGrid, TGameContext, TShips } from "../types/types";
+import { TGrid, TGameContext, TShips, TMessage } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
 import { generateShips } from "../utils/generateShips";
@@ -19,6 +19,20 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     populateGrid("Browser", generatedShips)
   );
 
+  const [messages, setMessages] = useState<TMessage[]>([]);
+
+  const addMessage = (newMessage: TMessage) => {
+    const text = newMessage.text;
+    const tailwindClasses = newMessage.tailwindClasses || "text-white";
+    setMessages((prevMessages) => {
+      const updatedMessages = [{ text, tailwindClasses }, ...prevMessages];
+      if (updatedMessages.length > 3) {
+        updatedMessages.pop();
+      }
+      return updatedMessages;
+    });
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -26,10 +40,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         browserGrid,
         userShips,
         browserShips,
+        messages,
         setUserGrid,
         setBrowserGrid,
         setUserShips,
         setBrowserShips,
+        addMessage,
       }}
     >
       {children}
