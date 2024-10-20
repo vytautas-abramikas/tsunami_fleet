@@ -31,12 +31,14 @@ const isPlacementValid = (grid: TGrid, segments: number[]) => {
       const adjX = adj % 10;
       const adjY = Math.floor(adj / 10);
       if (
+        // this filters out false adjacents in edge cases, they are either out of bounds or on the other edge, so there is no need to check them
         adj >= 0 &&
         adj < 100 &&
         Math.abs(adjX - x) <= 1 &&
         Math.abs(adjY - y) <= 1
       ) {
         if (grid.cells[adj].status === "ship") {
+          //only checks if a cell is occupied if it is really adjacent
           return false;
         }
       }
