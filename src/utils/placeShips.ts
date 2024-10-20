@@ -42,8 +42,8 @@ const generateShipSegments = (
   grid: TGrid
 ): number[] => {
   let segments = [start];
-  let attempts = 0;
-  while (segments.length < size && attempts < 100) {
+  let backtrack = false;
+  while (segments.length < size && !backtrack) {
     const x = segments[segments.length - 1] % 10;
     const y = Math.floor(segments[segments.length - 1] / 10);
     const possibleMoves = [
@@ -75,14 +75,15 @@ const generateShipSegments = (
     }
 
     if (!validMoveFound) {
-      segments = [start];
-      attempts++;
+      backtrack = true;
     }
   }
   return segments;
 };
 
 export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
+  const occupiedPositions = new Set<number>();
+
   ships.list.forEach((ship) => {
     let placed = false;
     let attempts = 0;
@@ -91,13 +92,20 @@ export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
       const segments = generateShipSegments(start, ship.size, grid);
 
       if (segments.length === ship.size && isPlacementValid(grid, segments)) {
-        ship.segments = segments;
-        segments.forEach((index) => {
-          grid.cells[index].status = "ship";
-          grid.cells[index].shipId = ship.id;
-        });
-        placed = true;
-        console.log(`Placed ship ID ${ship.id} at positions: ${segments}`);
+        const uniquePositions = new Set(segments);
+        if (
+          uniquePositions.size === ship.size &&
+          [...uniquePositions].every((pos) => !occupiedPositions.has(pos))
+        ) {
+          ship.segments = segments;
+          segments.forEach((index) => {
+            grid.cells[index].status = "ship";
+            grid.cells[index].shipId = ship.id;
+            occupiedPositions.add(index);
+          });
+          placed = true;
+          console.log(`Placed ship ID ${ship.id} at positions: ${segments}`);
+        }
       }
       attempts++;
       if (attempts >= 100) {
@@ -108,6 +116,25 @@ export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
       }
     }
   });
+
+  // Validation step to check the number of occupied cells
+  const totalOccupiedCells = ships.list.reduce(
+    (acc, ship) => acc + ship.segments.length,
+    0
+  );
+  const expectedOccupiedCells = ships.list.reduce(
+    (acc, ship) => acc + ship.size,
+    0
+  );
+  if (totalOccupiedCells !== expectedOccupiedCells) {
+    console.error(
+      `Mismatch in occupied cells: Found ${totalOccupiedCells}, expected ${expectedOccupiedCells}`
+    );
+  } else {
+    console.log(
+      `All ships placed correctly with ${totalOccupiedCells} occupied cells`
+    );
+  }
 
   return grid;
 };
