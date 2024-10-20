@@ -90,7 +90,7 @@ const generateShipSegments = (
   return [];
 };
 
-export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
+export const generateShips = (grid: TGrid, ships: TShips): TGrid => {
   const occupiedPositions = new Set<number>();
 
   ships.list.forEach((ship) => {

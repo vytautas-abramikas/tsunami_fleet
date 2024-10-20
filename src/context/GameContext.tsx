@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode } from "react";
 import { TGrid, TGameContext, TShips } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
-import { placeShips } from "../utils/placeShips";
+import { generateShips } from "../utils/generateShips";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -14,7 +14,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   let initialBrowsergrid = initializeGrid("Browser");
   let initialBrowserShips = initializeShips("Browser");
-  initialBrowsergrid = placeShips(initialBrowsergrid, initialBrowserShips);
+  initialBrowsergrid = generateShips(initialBrowsergrid, initialBrowserShips);
 
   const [browserGrid, setBrowserGrid] = useState<TGrid>(initialBrowsergrid);
 
