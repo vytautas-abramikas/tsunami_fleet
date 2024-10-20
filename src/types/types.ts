@@ -1,11 +1,5 @@
-export type TPoint = {
-  x: number;
-  y: number;
-};
-
 export type TCell = {
   id: number;
-  pos: TPoint;
   isVisible: boolean;
   status: "empty" | "part-ship" | "ship" | "hit" | "sunk";
   shipId?: number;
