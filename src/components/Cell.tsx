@@ -4,7 +4,7 @@ export const Cell: React.FC<TCellProps> = ({ cell, onClick }) => {
   return (
     <div
       key={cell.id}
-      className={`cell w-10 h-10 border border-gray-700 ${
+      className={`cell w-10 h-10 border border-gray-700 shadow-lg ${
         cell.isVisible ? cell.status : "unknown"
       }`}
       onClick={() => onClick(cell.id)}
