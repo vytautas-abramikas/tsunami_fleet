@@ -1,4 +1,6 @@
 import { TGrid, TShips } from "../types/types";
+import { initializeGrid } from "./initializeGrid";
+import { initializeShips } from "./initializeShips";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
@@ -90,7 +92,9 @@ const generateShipSegments = (
   return [];
 };
 
-export const generateShips = (grid: TGrid, ships: TShips): TGrid => {
+export const generateShips = (owner: "User" | "Browser"): TShips => {
+  let grid = initializeGrid(owner);
+  let ships = initializeShips(owner);
   const occupiedPositions = new Set<number>();
 
   ships.list.forEach((ship) => {
@@ -149,5 +153,5 @@ export const generateShips = (grid: TGrid, ships: TShips): TGrid => {
     );
   }
 
-  return grid;
+  return ships;
 };
