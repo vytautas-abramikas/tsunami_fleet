@@ -97,7 +97,15 @@ export const placeShips = (grid: TGrid, ships: TShips): TGrid => {
     let placed = false;
     let attempts = 0;
     while (!placed && attempts < 100) {
-      const start = getRandomPosition() + getRandomPosition() * 10;
+      let isCellAvailable = false;
+      let start = -1;
+      while (!isCellAvailable) {
+        start = getRandomPosition() + getRandomPosition() * 10;
+        let isValidPosition = isPlacementValid(grid, [start]);
+        if (grid.cells[start].status === "empty" && isValidPosition) {
+          isCellAvailable = true;
+        }
+      }
       const segments = generateShipSegments(start, ship.size, grid);
 
       if (segments.length === ship.size && isPlacementValid(grid, segments)) {
