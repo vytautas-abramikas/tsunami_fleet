@@ -5,6 +5,13 @@ import { initializeShips } from "./initializeShips";
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
 const isPlacementValid = (grid: TGrid, segments: number[]) => {
+  const anyCellsOccupied: boolean = segments.some(
+    (segment) => grid.cells[segment].status === "ship"
+  );
+  if (anyCellsOccupied) {
+    //any segments in grid cells already occupied
+    return false;
+  }
   for (const index of segments) {
     const x = index % 10;
     const y = Math.floor(index / 10);
@@ -48,9 +55,9 @@ const generateShipSegments = (
   let segments: number[];
 
   while (attempts < maxAttempts) {
-    segments = [start];
+    segments = [start]; //First segment is the starting position
     while (segments.length < size) {
-      const candidates = [];
+      const candidates: number[] = [];
       for (const seg of segments) {
         const x = seg % 10;
         const y = Math.floor(seg / 10);
@@ -65,12 +72,14 @@ const generateShipSegments = (
           const newY = y + move.dy;
           const newIndex = newY * 10 + newX;
           if (
+            //position is within the grid, not occupied, not yet selected for segment placement and not yet a candidate
             newX >= 0 &&
             newX < 10 &&
             newY >= 0 &&
             newY < 10 &&
             grid.cells[newIndex].status === "empty" &&
-            !segments.includes(newIndex)
+            !segments.includes(newIndex) &&
+            !candidates.includes(newIndex)
           ) {
             candidates.push(newIndex);
           }
@@ -81,6 +90,7 @@ const generateShipSegments = (
           candidates[Math.floor(Math.random() * candidates.length)];
         segments.push(newSegment);
       } else {
+        // no possible further cells to place a segment, retry from starting position
         break;
       }
     }
@@ -89,6 +99,7 @@ const generateShipSegments = (
     }
     attempts++;
   }
+  // failed to generate suitable segments for a ship from starting position in a maximum number of allowed attempts, abort, return empty array
   return [];
 };
 
@@ -96,40 +107,43 @@ export const generateShips = (owner: "User" | "Browser"): TShips => {
   let grid = initializeGrid(owner);
   let ships = initializeShips(owner);
   const occupiedPositions = new Set<number>();
+  const maxAttempts = 100;
 
   ships.list.forEach((ship) => {
     let placed = false;
     let attempts = 0;
-    while (!placed && attempts < 100) {
-      let isCellAvailable = false;
+    while (!placed && attempts < maxAttempts) {
+      let isValidPosition = false;
       let start = -1;
-      while (!isCellAvailable) {
+      while (!isValidPosition) {
+        // Get a suitable starting cell to build a ship
         start = getRandomPosition() + getRandomPosition() * 10;
-        let isValidPosition = isPlacementValid(grid, [start]);
-        if (grid.cells[start].status === "empty" && isValidPosition) {
-          isCellAvailable = true;
-        }
+        isValidPosition = isPlacementValid(grid, [start]);
       }
       const segments = generateShipSegments(start, ship.size, grid);
-
       if (segments.length === ship.size && isPlacementValid(grid, segments)) {
+        // Ship length is correct and placement area is clear
         const uniquePositions = new Set(segments);
         if (
+          // Ship segments are all in different cells and all the segment cells are not yet occupied
           uniquePositions.size === ship.size &&
           [...uniquePositions].every((pos) => !occupiedPositions.has(pos))
         ) {
           ship.segments = segments;
           segments.forEach((index) => {
             grid.cells[index].status = "ship";
-            grid.cells[index].shipId = ship.id;
             occupiedPositions.add(index);
           });
           placed = true;
-          console.log(`Placed ship ID ${ship.id} at positions: ${segments}`);
+          console.log(
+            `Placed ship ID ${ship.id} at positions: ${segments} in ${
+              attempts + 1
+            } attempts`
+          );
         }
       }
       attempts++;
-      if (attempts >= 100) {
+      if (attempts >= maxAttempts) {
         console.error(
           `Failed to place ship ID ${ship.id} after ${attempts} attempts`
         );
@@ -138,7 +152,7 @@ export const generateShips = (owner: "User" | "Browser"): TShips => {
     }
   });
 
-  // Validation step to check the number of occupied cells
+  // Final validation - there is an exact number of ship segments needed on board
   const shipSegmentsCount = grid.cells.filter(
     (cell) => cell.status === "ship"
   )?.length;
