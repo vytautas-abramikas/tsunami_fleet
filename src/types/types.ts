@@ -31,12 +31,20 @@ export type TMessage = {
   classes?: string;
 };
 
+export type TButtonProps = {
+  text: string;
+  classes: string;
+  onClick: (...args: any[]) => any;
+  args?: any[];
+};
+
 export type TGameContext = {
   userGrid: TGrid;
   browserGrid: TGrid;
   userShips: TShips;
   browserShips: TShips;
   messages: TMessage[];
+  buttons: TButtonProps[];
   setUserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
   setBrowserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
   updateGrid: (owner: "User" | "Browser", updatedCells: TCell[]) => void;

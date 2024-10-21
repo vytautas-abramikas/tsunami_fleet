@@ -1,5 +1,12 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { TGrid, TGameContext, TShips, TMessage, TCell } from "../types/types";
+import {
+  TGrid,
+  TGameContext,
+  TShips,
+  TMessage,
+  TCell,
+  TButtonProps,
+} from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
 import { generateShips } from "../utils/generateShips";
@@ -14,6 +21,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [userGrid, setUserGrid] = useState<TGrid | null>(null);
   const [browserShips, setBrowserShips] = useState<TShips | null>(null);
   const [browserGrid, setBrowserGrid] = useState<TGrid | null>(null);
+  const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
 
   // Initialize the state once
@@ -27,6 +35,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     setUserGrid(initialUserGrid);
     setBrowserShips(initialBrowserShips);
     setBrowserGrid(initialBrowserGrid);
+    setButtons(initialButtons);
   }, []);
 
   const updateGrid = (owner: "User" | "Browser", updatedCells: TCell[]) => {
@@ -63,6 +72,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white";
     setMessages((prevMessages) => {
+      console.log("msg");
       const updatedMessages = [{ text, classes }, ...prevMessages];
       if (updatedMessages.length > 3) {
         updatedMessages.pop();
@@ -70,6 +80,27 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       return updatedMessages;
     });
   };
+
+  const initialButtons: TButtonProps[] = [
+    {
+      text: "Maybe",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: addMessage,
+      args: [{ text: "Maybe" }],
+    },
+    {
+      text: "Yes",
+      classes: "bg-green-600 hover:bg-green-700 text-white",
+      onClick: addMessage,
+      args: [{ text: "Yes" }],
+    },
+    {
+      text: "No",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: addMessage,
+      args: [{ text: "No" }],
+    },
+  ];
 
   if (!userGrid || !browserGrid || !userShips || !browserShips) {
     return (
@@ -85,6 +116,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         userShips,
         browserShips,
         messages,
+        buttons,
         setUserShips,
         setBrowserShips,
         updateGrid,
