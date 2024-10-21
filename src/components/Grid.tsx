@@ -11,6 +11,7 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
     browserShips,
     setUserGrid,
     setBrowserGrid,
+    addMessage,
   } = useGameContext();
   const grid = owner === "User" ? userGrid : browserGrid;
   const ships = owner === "User" ? userShips : browserShips;
@@ -29,6 +30,7 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
             status: "sunk" as "sunk",
             isVisible: true,
           }));
+          addMessage({ text: "Ship sunk!" });
         } else {
           const updatedCell = {
             ...cell,
@@ -36,18 +38,26 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
             isVisible: true,
           };
           updatedCells = [updatedCell];
+          addMessage({ text: "Ship hit!" });
         }
       } else {
         const updatedCell = { ...cell, isVisible: true };
         updatedCells = [updatedCell];
+        addMessage({ text: "Missed!" });
       }
     }
-    setGrid((prevGrid: TGrid) => ({
-      ...prevGrid,
-      cells: prevGrid.cells.map(
-        (cell) => updatedCells.find((updated) => updated.id === cell.id) || cell
-      ),
-    }));
+    setGrid((prevGrid: TGrid | null) => {
+      if (!prevGrid) return prevGrid;
+
+      return {
+        ...prevGrid,
+        cells: prevGrid.cells.map(
+          (gridCell) =>
+            updatedCells.find((updated) => updated.id === gridCell.id) ||
+            gridCell
+        ),
+      };
+    });
   };
 
   const isLastSegment = (cellId: number): boolean => {
