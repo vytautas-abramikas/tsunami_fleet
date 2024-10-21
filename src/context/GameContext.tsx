@@ -61,9 +61,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const addMessage = (newMessage: TMessage) => {
     const text = newMessage.text;
-    const tailwindClasses = newMessage.tailwindClasses || "text-white";
+    const classes = newMessage.classes || "text-white";
     setMessages((prevMessages) => {
-      const updatedMessages = [{ text, tailwindClasses }, ...prevMessages];
+      const updatedMessages = [{ text, classes }, ...prevMessages];
       if (updatedMessages.length > 3) {
         updatedMessages.pop();
       }

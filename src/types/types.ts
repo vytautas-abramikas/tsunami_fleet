@@ -28,7 +28,7 @@ export type TShips = {
 
 export type TMessage = {
   text: string;
-  tailwindClasses?: string;
+  classes?: string;
 };
 
 export type TGameContext = {

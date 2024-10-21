@@ -18,7 +18,7 @@ export const MessageConsole: React.FC = () => {
       <div className="flex items-center justify-center h-12 w-full">
         <p
           className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-25 ${
-            messages.length > 2 ? messages[2].tailwindClasses : ""
+            messages.length > 2 ? messages[2].classes : ""
           }`}
         >
           {messages.length > 2 ? messages[2].text : null}
@@ -27,7 +27,7 @@ export const MessageConsole: React.FC = () => {
       <div className="flex items-center justify-center h-12 w-full">
         <p
           className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-50 ${
-            messages.length > 1 ? messages[1].tailwindClasses : ""
+            messages.length > 1 ? messages[1].classes : ""
           }`}
         >
           {messages.length > 1 ? messages[1].text : null}
@@ -37,7 +37,7 @@ export const MessageConsole: React.FC = () => {
         <p
           className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed ${
             triggerEffect ? "new-message" : ""
-          } ${messages.length > 0 ? messages[0].tailwindClasses : ""}`}
+          } ${messages.length > 0 ? messages[0].classes : ""}`}
         >
           {messages.length > 0 ? messages[0].text : null}
         </p>
