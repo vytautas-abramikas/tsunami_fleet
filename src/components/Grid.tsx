@@ -4,28 +4,74 @@ import { Cell } from "./Cell";
 import { TCell, TGrid } from "../types/types";
 
 export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
-  const { userGrid, browserGrid, setUserGrid, setBrowserGrid } =
-    useGameContext();
+  const {
+    userGrid,
+    userShips,
+    browserGrid,
+    browserShips,
+    setUserGrid,
+    setBrowserGrid,
+  } = useGameContext();
   const grid = owner === "User" ? userGrid : browserGrid;
+  const ships = owner === "User" ? userShips : browserShips;
   const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
   const handleCellClick = (cellId: number) => {
     // just a mock function for now
-    setGrid((prevGrid: TGrid) => {
-      const updatedCells: TCell[] = prevGrid.cells.map((cell) => {
-        if (cell.id === cellId && !cell.isVisible) {
-          const newStatus: "hit" | "empty" =
-            cell.status === "ship" ? "hit" : "empty";
-          return {
+    const cell = grid.cells[cellId];
+    console.log(JSON.stringify(cell));
+    let updatedCells: TCell[] = [];
+    if (cell.id === cellId && !cell.isVisible) {
+      if (cell.status === "ship" && cell.shipId) {
+        if (isLastSegment(cellId)) {
+          updatedCells = getShipCells(cell.shipId).map((cell) => ({
             ...cell,
+            status: "sunk" as "sunk",
             isVisible: true,
-            status: newStatus,
+          }));
+        } else {
+          const updatedCell = {
+            ...cell,
+            status: "hit" as "hit",
+            isVisible: true,
           };
+          updatedCells = [updatedCell];
         }
-        return cell;
-      });
-      return { ...prevGrid, cells: updatedCells };
-    });
+      } else {
+        const updatedCell = { ...cell, isVisible: true };
+        updatedCells = [updatedCell];
+      }
+    }
+    setGrid((prevGrid: TGrid) => ({
+      ...prevGrid,
+      cells: prevGrid.cells.map(
+        (cell) => updatedCells.find((updated) => updated.id === cell.id) || cell
+      ),
+    }));
+  };
+
+  const isLastSegment = (cellId: number): boolean => {
+    const shipId = grid.cells[cellId].shipId;
+    if (!shipId) {
+      return false;
+    } else {
+      const shipSegments = ships.list[shipId - 1].segments;
+      const cells = getShipCells(shipId);
+      const cellsHitLength = cells.reduce(
+        (acc, cur) => acc + (cur.status === "hit" ? 1 : 0),
+        0
+      );
+      if (shipSegments.length - cellsHitLength === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  const getShipCells = (shipId: number): TCell[] => {
+    const shipSegments = ships.list[shipId - 1].segments;
+    return shipSegments.map((seg) => grid.cells[seg]);
   };
 
   return (

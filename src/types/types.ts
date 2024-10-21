@@ -19,7 +19,6 @@ export type TShip = {
   id: number;
   size: number;
   segments: number[];
-  sunk: boolean;
 };
 
 export type TShips = {
@@ -38,9 +37,9 @@ export type TGameContext = {
   userShips: TShips;
   browserShips: TShips;
   messages: TMessage[];
-  setUserGrid: React.Dispatch<React.SetStateAction<TGrid>>;
-  setBrowserGrid: React.Dispatch<React.SetStateAction<TGrid>>;
-  setUserShips: React.Dispatch<React.SetStateAction<TShips>>;
-  setBrowserShips: React.Dispatch<React.SetStateAction<TShips>>;
+  setUserGrid: React.Dispatch<React.SetStateAction<TGrid | null>>;
+  setBrowserGrid: React.Dispatch<React.SetStateAction<TGrid | null>>;
+  setUserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
+  setBrowserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
   addMessage: (newMessage: TMessage) => void;
 };

@@ -137,11 +137,11 @@ export const generateShips = (owner: "User" | "Browser"): TShips => {
             occupiedPositions.add(index);
           });
           placed = true;
-          console.log(
-            `Placed ship ID ${ship.id} at positions: ${segments} in ${
-              attempts + 1
-            } attempts`
-          );
+          // console.log(
+          //   `Placed ship ID ${ship.id} at positions: ${segments} in ${
+          //     attempts + 1
+          //   } attempts`
+          // );
         }
       }
       attempts++;
