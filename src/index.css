@@ -33,7 +33,7 @@ body {
   pointer-events: none; /* Remove hover effect */
 }
 .sunk {
-  background-color: black; /* Permanent color change for a kill */
+  background-color: rgb(75, 25, 25); /* Permanent color change for a kill */
   opacity: 50;
   animation: sunk-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
