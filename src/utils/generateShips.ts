@@ -4,7 +4,7 @@ import { initializeShips } from "./initializeShips";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
-const isPlacementValid = (grid: TGrid, segments: number[]) => {
+const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
   const anyCellsOccupied: boolean = segments.some(
     (segment) => grid.cells[segment].status === "ship"
   );
@@ -120,10 +120,13 @@ export const generateShips = (owner: "User" | "Browser"): TShips => {
       while (!isValidPosition) {
         // Get a suitable starting cell to build a ship
         start = getRandomPosition() + getRandomPosition() * 10;
-        isValidPosition = isPlacementValid(grid, [start]);
+        isValidPosition = isShipPlacementValid(grid, [start]);
       }
       const segments = generateShipSegments(start, ship.size, grid);
-      if (segments.length === ship.size && isPlacementValid(grid, segments)) {
+      if (
+        segments.length === ship.size &&
+        isShipPlacementValid(grid, segments)
+      ) {
         // Ship length is correct and placement area is clear
         const uniquePositions = new Set(segments);
         if (
