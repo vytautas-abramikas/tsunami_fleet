@@ -12,13 +12,11 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
     userShips,
     browserGrid,
     browserShips,
-    setUserGrid,
-    setBrowserGrid,
+    updateGrid,
     addMessage,
   } = useGameContext();
   const grid = owner === "User" ? userGrid : browserGrid;
   const ships = owner === "User" ? userShips : browserShips;
-  const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
   const handleCellClick = (cellId: number) => {
     // just a mock function for now
@@ -60,18 +58,7 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
         addMessage({ text: "Missed..." });
       }
     }
-    setGrid((prevGrid: TGrid | null) => {
-      if (!prevGrid) return prevGrid;
-
-      return {
-        ...prevGrid,
-        cells: prevGrid.cells.map(
-          (gridCell) =>
-            updatedCells.find((updated) => updated.id === gridCell.id) ||
-            gridCell
-        ),
-      };
-    });
+    updateGrid(owner, updatedCells);
   };
 
   return (

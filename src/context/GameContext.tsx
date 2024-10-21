@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { TGrid, TGameContext, TShips, TMessage } from "../types/types";
+import { TGrid, TGameContext, TShips, TMessage, TCell } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
 import { generateShips } from "../utils/generateShips";
@@ -29,6 +29,36 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     setBrowserGrid(initialBrowserGrid);
   }, []);
 
+  const updateGrid = (owner: "User" | "Browser", updatedCells: TCell[]) => {
+    if (owner === "User") {
+      setUserGrid((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return {
+          ...prev,
+          cells: prev.cells.map(
+            (cell) =>
+              updatedCells.find((updated) => updated.id === cell.id) || cell
+          ),
+        };
+      });
+    } else {
+      setBrowserGrid((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return {
+          ...prev,
+          cells: prev.cells.map(
+            (cell) =>
+              updatedCells.find((updated) => updated.id === cell.id) || cell
+          ),
+        };
+      });
+    }
+  };
+
   const addMessage = (newMessage: TMessage) => {
     const text = newMessage.text;
     const tailwindClasses = newMessage.tailwindClasses || "text-white";
@@ -55,10 +85,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         userShips,
         browserShips,
         messages,
-        setUserGrid,
-        setBrowserGrid,
         setUserShips,
         setBrowserShips,
+        updateGrid,
         addMessage,
       }}
     >

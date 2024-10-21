@@ -37,9 +37,8 @@ export type TGameContext = {
   userShips: TShips;
   browserShips: TShips;
   messages: TMessage[];
-  setUserGrid: React.Dispatch<React.SetStateAction<TGrid | null>>;
-  setBrowserGrid: React.Dispatch<React.SetStateAction<TGrid | null>>;
   setUserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
   setBrowserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
+  updateGrid: (owner: "User" | "Browser", updatedCells: TCell[]) => void;
   addMessage: (newMessage: TMessage) => void;
 };
