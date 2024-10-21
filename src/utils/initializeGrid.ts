@@ -7,6 +7,7 @@ export const initializeGrid = (owner: "User" | "Browser"): TGrid => {
       id: i,
       isVisible: owner === "Browser" ? false : true,
       status: "empty",
+      shipId: 0,
     };
   });
   return { owner, cells };

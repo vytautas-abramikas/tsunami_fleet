@@ -2,7 +2,7 @@ export type TCell = {
   id: number;
   isVisible: boolean;
   status: "empty" | "part-ship" | "ship" | "hit" | "sunk";
-  shipId?: number;
+  shipId: number;
 };
 
 export type TCellProps = {
