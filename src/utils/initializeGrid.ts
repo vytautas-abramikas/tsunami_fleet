@@ -4,7 +4,7 @@ export const initializeGrid = (owner: "User" | "Browser"): TGrid => {
   const cells: TCell[] = Array.from({ length: 100 }, (_, i) => {
     return {
       id: i,
-      isVisible: true,
+      isVisible: owner === "User" ? false : true,
       status: "empty",
     };
   });
