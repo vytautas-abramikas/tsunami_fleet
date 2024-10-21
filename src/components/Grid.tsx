@@ -3,6 +3,8 @@ import { useGameContext } from "../hooks/useGameContext";
 import { Cell } from "./Cell";
 import { TCell, TGrid } from "../types/types";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
+import { getShipCells } from "../utils/getShipCells";
+import { isLastSegment } from "../utils/isLastSegment";
 
 export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
   const {
@@ -25,12 +27,14 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
       if (cell.status === "ship") {
-        if (isLastSegment(cellId)) {
-          let sunkCells = getShipCells(cell.shipId).map((cell) => ({
-            ...cell,
-            status: "sunk" as "sunk",
-            isVisible: true,
-          }));
+        if (isLastSegment(cellId, ships, grid)) {
+          let sunkCells = getShipCells(cell.shipId, ships, grid).map(
+            (cell) => ({
+              ...cell,
+              status: "sunk" as "sunk",
+              isVisible: true,
+            })
+          );
           let revealedNeighbors: TCell[] = getShipNeighborCells(
             cell.shipId,
             ships,
@@ -38,9 +42,9 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
           ).map((cell) => ({ ...cell, isVisible: true }));
           updatedCells = [...sunkCells, ...revealedNeighbors];
           addMessage({ text: "Ship sunk!" });
-          console.log(
-            JSON.stringify(getShipNeighborCells(cell.shipId, ships, grid))
-          );
+          // console.log(
+          //   JSON.stringify(getShipNeighborCells(cell.shipId, ships, grid))
+          // );
         } else {
           const updatedCell = {
             ...cell,
@@ -68,26 +72,6 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
         ),
       };
     });
-  };
-
-  const isLastSegment = (cellId: number): boolean => {
-    const shipId = grid.cells[cellId].shipId;
-    const shipSegments = ships.list[shipId - 1].segments;
-    const cells = getShipCells(shipId);
-    const cellsHitLength = cells.reduce(
-      (acc, cur) => acc + (cur.status === "hit" ? 1 : 0),
-      0
-    );
-    if (shipSegments.length - cellsHitLength === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const getShipCells = (shipId: number): TCell[] => {
-    const shipSegments = ships.list[shipId - 1].segments;
-    return shipSegments.map((seg) => grid.cells[seg]);
   };
 
   return (
