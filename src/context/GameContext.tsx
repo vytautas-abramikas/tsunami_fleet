@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
+
 import {
   TGrid,
   TGameContext,
@@ -72,7 +73,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white";
     setMessages((prevMessages) => {
-      console.log("msg");
       const updatedMessages = [{ text, classes }, ...prevMessages];
       if (updatedMessages.length > 3) {
         updatedMessages.pop();

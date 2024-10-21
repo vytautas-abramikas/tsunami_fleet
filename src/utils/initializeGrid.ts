@@ -5,9 +5,10 @@ export const initializeGrid = (owner: "User" | "Browser"): TGrid => {
   const cells: TCell[] = Array.from({ length: 100 }, (_, i) => {
     return {
       id: i,
-      isVisible: owner === "Browser" ? false : true,
+      isVisible: false,
       status: "empty",
       shipId: 0,
+      active: true,
     };
   });
   return { owner, cells };
