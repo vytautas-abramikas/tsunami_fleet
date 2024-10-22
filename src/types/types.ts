@@ -1,9 +1,9 @@
 export type TCell = {
   id: number;
   isVisible: boolean;
-  status: "empty" | "part-ship" | "ship" | "hit" | "sunk";
+  status: "empty" | "segment" | "ship" | "hit" | "sunk";
   shipId: number;
-  active: boolean;
+  isActive: boolean;
 };
 
 export type TCellProps = {
@@ -20,6 +20,7 @@ export type TShip = {
   id: number;
   size: number;
   segments: number[];
+  sunk: boolean;
 };
 
 export type TShips = {
@@ -46,8 +47,7 @@ export type TGameContext = {
   browserShips: TShips;
   messages: TMessage[];
   buttons: TButtonProps[];
-  setUserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
-  setBrowserShips: React.Dispatch<React.SetStateAction<TShips | null>>;
+  updateShip: (owner: "User" | "Browser", ship: TShip) => void;
   updateGrid: (owner: "User" | "Browser", updatedCells: TCell[]) => void;
   addMessage: (newMessage: TMessage) => void;
 };

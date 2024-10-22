@@ -17,9 +17,9 @@ body {
   animation: empty-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }
-.part-ship {
+.segment {
   background-color: green; /* Permanent color change for a ship segment */
-  animation: part-ship-effect 0.2s ease-in-out forwards;
+  animation: segment-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }
 .ship {
@@ -77,7 +77,7 @@ body {
     transform: scale(1);
   }
 }
-@keyframes part-ship-effect {
+@keyframes segment-effect {
   0% {
     transform: scale(1);
   }

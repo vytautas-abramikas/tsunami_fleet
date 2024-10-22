@@ -162,9 +162,11 @@ export const generateShips = (owner: "User" | "Browser"): TShips => {
     (cell) => cell.status === "ship"
   )?.length;
 
-  if (shipSegmentsCount !== 20) {
+  const expectedCount = ships.list.reduce((acc, curr) => acc + curr.size, 0);
+
+  if (shipSegmentsCount !== expectedCount) {
     console.error(
-      `Mismatch in occupied cells: Found ${shipSegmentsCount}, expected 20`
+      `Mismatch in occupied cells: Found ${shipSegmentsCount}, expected ${expectedCount}`
     );
   } else {
     console.log(

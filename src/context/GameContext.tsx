@@ -6,6 +6,7 @@ import {
   TMessage,
   TCell,
   TButtonProps,
+  TShip,
 } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
@@ -68,6 +69,24 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const updateShip = (owner: "User" | "Browser", ship: TShip) => {
+    if (owner === "User") {
+      setUserShips((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return { ...prev, ship };
+      });
+    } else {
+      setBrowserShips((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        return { ...prev, ship };
+      });
+    }
+  };
+
   const addMessage = (newMessage: TMessage) => {
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white";
@@ -116,8 +135,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         browserShips,
         messages,
         buttons,
-        setUserShips,
-        setBrowserShips,
+        updateShip,
         updateGrid,
         addMessage,
       }}

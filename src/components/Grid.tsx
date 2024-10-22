@@ -26,12 +26,12 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
       // if (cell.status === "empty") {
-      //   status = Math.floor(Math.random() * 3) > 1 ? "part-ship" : "ship";
+      //   status = Math.floor(Math.random() * 3) > 1 ? "segment" : "ship";
       //   updatedCells = [
       //     {
       //       ...cell,
       //       isVisible: true,
-      //       status: status as "part-ship" | "ship",
+      //       status: status as "segment" | "ship",
       //       shipId: 1,
       //     },
       //   ];
