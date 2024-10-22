@@ -17,11 +17,11 @@ export const MessageConsole: React.FC = () => {
     <div className="flex flex-col h-44 pt-8 space-y-2">
       <div className="flex items-center justify-center h-12 w-full">
         <p
-          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-25 ${
-            messages.length > 2 ? messages[2].classes : ""
-          }`}
+          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed ${
+            triggerEffect ? "new-message" : ""
+          } ${messages.length > 0 ? messages[0].classes : ""}`}
         >
-          {messages.length > 2 ? messages[2].text : null}
+          {messages.length > 0 ? messages[0].text : null}
         </p>
       </div>
       <div className="flex items-center justify-center h-12 w-full">
@@ -35,11 +35,11 @@ export const MessageConsole: React.FC = () => {
       </div>
       <div className="flex items-center justify-center h-12 w-full">
         <p
-          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed ${
-            triggerEffect ? "new-message" : ""
-          } ${messages.length > 0 ? messages[0].classes : ""}`}
+          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-25 ${
+            messages.length > 2 ? messages[2].classes : ""
+          }`}
         >
-          {messages.length > 0 ? messages[0].text : null}
+          {messages.length > 2 ? messages[2].text : null}
         </p>
       </div>
     </div>
