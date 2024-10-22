@@ -5,6 +5,7 @@ import { TCell } from "../types/types";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { getShipCells } from "../utils/getShipCells";
 import { isLastSegment } from "../utils/isLastSegment";
+// import { getNextShipSegmentCandidates } from "../utils/getNextShipSegmentCandidates";
 
 export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
   const {
@@ -24,6 +25,17 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
     // console.log(JSON.stringify(cell));
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
+      // if (cell.status === "empty") {
+      //   status = Math.floor(Math.random() * 3) > 1 ? "part-ship" : "ship";
+      //   updatedCells = [
+      //     {
+      //       ...cell,
+      //       isVisible: true,
+      //       status: status as "part-ship" | "ship",
+      //       shipId: 1,
+      //     },
+      //   ];
+      // }
       if (cell.status === "ship") {
         if (isLastSegment(cellId, ships, grid)) {
           let sunkCells = getShipCells(cell.shipId, ships, grid).map(
@@ -59,6 +71,12 @@ export const Grid: React.FC<{ owner: "User" | "Browser" }> = ({ owner }) => {
       }
     }
     updateGrid(owner, updatedCells);
+    // console.log(
+    //   getNextShipSegmentCandidates(
+    //     grid,
+    //     updatedCells.map((cell) => cell.id)
+    //   )
+    // );
   };
 
   return (
