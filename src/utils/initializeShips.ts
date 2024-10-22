@@ -1,6 +1,6 @@
-import { TShip, TShips } from "../types/types";
+import { Combatant, TShip, TShips } from "../types/types";
 
-export const initializeShips = (owner: "User" | "Browser"): TShips => {
+export const initializeShips = (owner: Combatant): TShips => {
   console.log(`${owner}' ships initializing`);
   const shipSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
   const list: TShip[] = shipSizes.map((size, index) => ({

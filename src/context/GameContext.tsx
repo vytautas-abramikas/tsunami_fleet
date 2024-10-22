@@ -7,6 +7,7 @@ import {
   TCell,
   TButtonProps,
   TShip,
+  Combatant,
 } from "../types/types";
 import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
@@ -18,6 +19,7 @@ export const GameContext = createContext<TGameContext | null>(null);
 export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [activeCombatant, setActiveCombatant] = useState<Combatant>("User");
   const [userShips, setUserShips] = useState<TShips | null>(null);
   const [userGrid, setUserGrid] = useState<TGrid | null>(null);
   const [browserShips, setBrowserShips] = useState<TShips | null>(null);
@@ -39,7 +41,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     setButtons(initialButtons);
   }, []);
 
-  const updateGrid = (owner: "User" | "Browser", updatedCells: TCell[]) => {
+  const updateGrid = (owner: Combatant, updatedCells: TCell[]) => {
     if (owner === "User") {
       setUserGrid((prev) => {
         if (!prev) {
@@ -69,7 +71,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const updateShip = (owner: "User" | "Browser", ship: TShip) => {
+  const updateShip = (owner: Combatant, ship: TShip) => {
     if (owner === "User") {
       setUserShips((prev) => {
         if (!prev) {
@@ -129,12 +131,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <GameContext.Provider
       value={{
+        activeCombatant,
         userGrid,
         browserGrid,
         userShips,
         browserShips,
         messages,
         buttons,
+        setActiveCombatant,
         updateShip,
         updateGrid,
         addMessage,

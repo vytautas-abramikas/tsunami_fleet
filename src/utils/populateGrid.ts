@@ -1,10 +1,7 @@
-import { TGrid, TShips } from "../types/types";
+import { Combatant, TGrid, TShips } from "../types/types";
 import { initializeGrid } from "./initializeGrid";
 
-export const populateGrid = (
-  owner: "User" | "Browser",
-  ships: TShips
-): TGrid => {
+export const populateGrid = (owner: Combatant, ships: TShips): TGrid => {
   let grid = initializeGrid(owner);
   ships.list.forEach((ship) =>
     ship.segments.forEach((segment) => {

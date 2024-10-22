@@ -1,3 +1,5 @@
+export type Combatant = "User" | "Browser";
+
 export type TCell = {
   id: number;
   isVisible: boolean;
@@ -12,7 +14,7 @@ export type TCellProps = {
 };
 
 export type TGrid = {
-  owner: "User" | "Browser";
+  owner: Combatant;
   cells: TCell[];
 };
 
@@ -24,7 +26,7 @@ export type TShip = {
 };
 
 export type TShips = {
-  owner: "User" | "Browser";
+  owner: Combatant;
   list: TShip[];
 };
 
@@ -41,13 +43,15 @@ export type TButtonProps = {
 };
 
 export type TGameContext = {
+  activeCombatant: Combatant;
   userGrid: TGrid;
   browserGrid: TGrid;
   userShips: TShips;
   browserShips: TShips;
   messages: TMessage[];
   buttons: TButtonProps[];
-  updateShip: (owner: "User" | "Browser", ship: TShip) => void;
-  updateGrid: (owner: "User" | "Browser", updatedCells: TCell[]) => void;
+  setActiveCombatant: React.Dispatch<React.SetStateAction<Combatant>>;
+  updateShip: (owner: Combatant, ship: TShip) => void;
+  updateGrid: (owner: Combatant, updatedCells: TCell[]) => void;
   addMessage: (newMessage: TMessage) => void;
 };
