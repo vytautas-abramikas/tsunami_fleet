@@ -20,7 +20,7 @@ export type TShip = {
   id: number;
   size: number;
   segments: number[];
-  sunk: boolean;
+  isSunk: boolean;
 };
 
 export type TShips = {

@@ -7,7 +7,7 @@ export const initializeShips = (owner: "User" | "Browser"): TShips => {
     id: index + 1,
     size,
     segments: [],
-    sunk: false,
+    isSunk: false,
   }));
   return { owner, list };
 };
