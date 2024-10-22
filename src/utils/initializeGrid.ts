@@ -1,6 +1,6 @@
-import { Combatant, TCell, TGrid } from "../types/types";
+import { TCombatant, TCell, TGrid } from "../types/types";
 
-export const initializeGrid = (owner: Combatant): TGrid => {
+export const initializeGrid = (owner: TCombatant): TGrid => {
   console.log(`${owner}' grid initializing`);
   const cells: TCell[] = Array.from({ length: 100 }, (_, i) => {
     return {

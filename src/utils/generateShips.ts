@@ -1,4 +1,4 @@
-import { Combatant, TGrid, TShips } from "../types/types";
+import { TCombatant, TGrid, TShips } from "../types/types";
 import { initializeGrid } from "./initializeGrid";
 import { initializeShips } from "./initializeShips";
 
@@ -105,7 +105,7 @@ const generateShipSegments = (
   return [];
 };
 
-export const generateShips = (owner: Combatant): TShips => {
+export const generateShips = (owner: TCombatant): TShips => {
   let grid = initializeGrid(owner);
   let ships = initializeShips(owner);
   const occupiedPositions = new Set<number>();

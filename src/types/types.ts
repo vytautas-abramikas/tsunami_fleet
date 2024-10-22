@@ -1,4 +1,6 @@
-export type Combatant = "User" | "Browser";
+export type TCombatant = "User" | "Browser";
+
+export type TAppState = "Welcome" | "Placement" | "Battle" | "BattleOver";
 
 export type TCell = {
   id: number;
@@ -14,7 +16,7 @@ export type TCellProps = {
 };
 
 export type TGrid = {
-  owner: Combatant;
+  owner: TCombatant;
   cells: TCell[];
 };
 
@@ -26,7 +28,7 @@ export type TShip = {
 };
 
 export type TShips = {
-  owner: Combatant;
+  owner: TCombatant;
   list: TShip[];
 };
 
@@ -43,15 +45,17 @@ export type TButtonProps = {
 };
 
 export type TGameContext = {
-  activeCombatant: Combatant;
+  appState: TAppState;
+  activeCombatant: TCombatant;
   userGrid: TGrid;
   browserGrid: TGrid;
   userShips: TShips;
   browserShips: TShips;
   messages: TMessage[];
   buttons: TButtonProps[];
-  setActiveCombatant: React.Dispatch<React.SetStateAction<Combatant>>;
-  updateShip: (owner: Combatant, ship: TShip) => void;
-  updateGrid: (owner: Combatant, updatedCells: TCell[]) => void;
+  setAppState: React.Dispatch<React.SetStateAction<TAppState>>;
+  setActiveCombatant: React.Dispatch<React.SetStateAction<TCombatant>>;
+  updateShip: (owner: TCombatant, ship: TShip) => void;
+  updateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
   addMessage: (newMessage: TMessage) => void;
 };

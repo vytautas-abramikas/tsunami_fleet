@@ -1,13 +1,13 @@
 import React from "react";
 import { useGameContext } from "../hooks/useGameContext";
 import { Cell } from "./Cell";
-import { Combatant, TCell } from "../types/types";
+import { TCombatant, TCell } from "../types/types";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { getShipCells } from "../utils/getShipCells";
 import { isLastSegment } from "../utils/isLastSegment";
 // import { getNextShipSegmentCandidates } from "../utils/getNextShipSegmentCandidates";
 
-export const Grid: React.FC<{ owner: Combatant }> = ({ owner }) => {
+export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const {
     userGrid,
     userShips,
