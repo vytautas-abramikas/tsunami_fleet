@@ -20,7 +20,7 @@ export const GameContext = createContext<TGameContext | null>(null);
 export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [appState, setAppState] = useState<TAppState>("Welcome");
+  const [appState, setAppState] = useState<TAppState>("PlacementStart");
   const [activeCombatant, setActiveCombatant] = useState<TCombatant>("User");
   const [userShips, setUserShips] = useState<TShips | null>(null);
   const [userGrid, setUserGrid] = useState<TGrid | null>(null);
@@ -107,8 +107,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     {
       text: "Maybe",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-      onClick: addMessage,
-      args: [{ text: "Maybe" }],
+      onClick: setAppState,
+      args: ["Welcome"],
     },
     {
       text: "Yes",

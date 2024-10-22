@@ -1,6 +1,14 @@
 export type TCombatant = "User" | "Browser";
 
-export type TAppState = "Welcome" | "Placement" | "Battle" | "BattleOver";
+export type TAppState =
+  | "Welcome"
+  | "PlacementStart"
+  | "PlacementGenerate"
+  | "PlacementFirstSegment"
+  | "PlacementAdditionalSegments"
+  | "PlacementFinalize"
+  | "Battle"
+  | "BattleOver";
 
 export type TCell = {
   id: number;
