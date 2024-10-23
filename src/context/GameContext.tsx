@@ -64,7 +64,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       };
     });
   };
-  //Wrapper for 2 setter functions, sets an updated ship into state
+  //SOLE purpose is to mark ship sunk, TODO: Remove the function, the property etc. Wrapper for 2 setter functions, sets an updated ship into state
   const updateShip = (owner: TCombatant, updatedShip: TShip) => {
     const setShips = owner === "User" ? setUserShips : setBrowserShips;
 
