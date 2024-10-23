@@ -5,7 +5,6 @@ import { TCombatant, TCell } from "../types/types";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { getShipCells } from "../utils/getShipCells";
 import { isLastSegment } from "../utils/isLastSegment";
-// import { getNextShipSegmentCandidates } from "../utils/getNextShipSegmentCandidates";
 
 export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const {
@@ -13,6 +12,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
     userShips,
     browserGrid,
     browserShips,
+    updateShip,
     updateGrid,
     addMessage,
   } = useGameContext();
@@ -21,23 +21,19 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
 
   const handleCellClick = (cellId: number) => {
     // just a mock function for now
+    if (owner === "Browser") {
+      handleUserShot(cellId);
+    }
+  };
+
+  const handleUserShot = (cellId: number) => {
     const cell = grid.cells[cellId];
     // console.log(JSON.stringify(cell));
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
-      // if (cell.status === "empty") {
-      //   status = Math.floor(Math.random() * 3) > 1 ? "segment" : "ship";
-      //   updatedCells = [
-      //     {
-      //       ...cell,
-      //       isVisible: true,
-      //       status: status as "segment" | "ship",
-      //       shipId: 1,
-      //     },
-      //   ];
-      // }
       if (cell.status === "ship") {
         if (isLastSegment(cellId, ships, grid)) {
+          //if last ship segment is hit, mark all ship segments as sunk
           let sunkCells = getShipCells(cell.shipId, ships, grid).map(
             (cell) => ({
               ...cell,
@@ -45,17 +41,18 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
               isVisible: true,
             })
           );
+          //mark neighboring cells of a sunk ship as visible
           let revealedNeighbors: TCell[] = getShipNeighborCells(
             cell.shipId,
             ships,
             grid
           ).map((cell) => ({ ...cell, isVisible: true }));
+          //merge all updated cells into one array, set ship state as sunk, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
+          updateShip(owner, { ...ships.list[cell.shipId - 1], isSunk: true });
           addMessage({ text: "Ship sunk!" });
-          // console.log(
-          //   JSON.stringify(getShipNeighborCells(cell.shipId, ships, grid))
-          // );
         } else {
+          //if the segment hit is not the last one of its ship
           const updatedCell = {
             ...cell,
             status: "hit" as "hit",
@@ -65,18 +62,14 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           addMessage({ text: "Ship hit!" });
         }
       } else {
+        //if an empty cell is hit, just reveal it
         const updatedCell = { ...cell, isVisible: true };
         updatedCells = [updatedCell];
         addMessage({ text: "Missed..." });
       }
     }
+    //set new grid state
     updateGrid(owner, updatedCells);
-    // console.log(
-    //   getNextShipSegmentCandidates(
-    //     grid,
-    //     updatedCells.map((cell) => cell.id)
-    //   )
-    // );
   };
 
   return (

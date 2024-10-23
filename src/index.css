@@ -12,8 +12,8 @@ body {
   transition: transform 0.2s ease-in-out; /* transition-transform, transform, duration-200, ease-in-out */
 }
 .empty {
-  background-color: rgb(35, 35, 170); /* Permanent color change for a miss */
-  opacity: 25%;
+  background-color: rgb(11, 99, 69); /* Permanent color change for a miss */
+  opacity: 50%;
   animation: empty-effect 0.2s ease-in-out forwards;
   pointer-events: none; /* Remove hover effect */
 }

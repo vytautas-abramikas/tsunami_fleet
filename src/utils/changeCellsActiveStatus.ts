@@ -12,32 +12,32 @@ export const changeCellsActiveStatus = (
       if (mode === "include") {
         changedCells = grid.cells.map((cell) => ({
           ...cell,
-          active: cellIds.includes(cell.id),
+          isActive: cellIds.includes(cell.id),
         }));
       } else {
         changedCells = grid.cells.map((cell) => ({
           ...cell,
-          active: !cellIds.includes(cell.id),
+          isActive: !cellIds.includes(cell.id),
         }));
       }
     } else {
       if (mode === "include") {
         changedCells = grid.cells.map((cell) => ({
           ...cell,
-          active: !cellIds.includes(cell.id),
+          isActive: !cellIds.includes(cell.id),
         }));
       } else {
         changedCells = grid.cells.map((cell) => ({
           ...cell,
-          active: cellIds.includes(cell.id),
+          isActive: cellIds.includes(cell.id),
         }));
       }
     }
   } else {
     if (action === "activate") {
-      changedCells = grid.cells.map((cell) => ({ ...cell, active: true }));
+      changedCells = grid.cells.map((cell) => ({ ...cell, isActive: true }));
     } else {
-      changedCells = grid.cells.map((cell) => ({ ...cell, active: false }));
+      changedCells = grid.cells.map((cell) => ({ ...cell, isActive: false }));
     }
   }
   return { ...grid, cells: changedCells };

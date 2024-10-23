@@ -14,13 +14,15 @@ import { initializeGrid } from "../utils/initializeGrid";
 import { initializeShips } from "../utils/initializeShips";
 import { generateShips } from "../utils/generateShips";
 import { populateGrid } from "../utils/populateGrid";
+import { changeCellsActiveStatus } from "../utils/changeCellsActiveStatus";
+import { getAllShipsCellsSetVisible } from "../utils/getAllShipsCellsSetVisible";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
 export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [appState, setAppState] = useState<TAppState>("PlacementStart");
+  const [appState, setAppState] = useState<TAppState>("Welcome");
   const [activeCombatant, setActiveCombatant] = useState<TCombatant>("User");
   const [userShips, setUserShips] = useState<TShips | null>(null);
   const [userGrid, setUserGrid] = useState<TGrid | null>(null);
@@ -31,64 +33,87 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   // Initialize the state once
   useEffect(() => {
-    const initialUserShips = initializeShips("User");
-    const initialUserGrid = initializeGrid("User");
-    const initialBrowserShips = generateShips("Browser");
-    const initialBrowserGrid = populateGrid("Browser", initialBrowserShips);
-
-    setUserShips(initialUserShips);
-    setUserGrid(initialUserGrid);
-    setBrowserShips(initialBrowserShips);
-    setBrowserGrid(initialBrowserGrid);
+    setNewUserGrid();
+    setRandomBrowserGrid();
     setButtons(initialButtons);
   }, []);
 
+  //Actions on appState change
+  useEffect(() => {
+    if (appState === "PlacementGenerate" && userGrid) {
+      console.log("PlacementGenerate");
+      deactivateGrid("User");
+      setRandomUserGrid();
+    }
+  }, [appState]);
+
+  //Setter for grid, updating some cells
   const updateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
-    if (owner === "User") {
-      setUserGrid((prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return {
-          ...prev,
-          cells: prev.cells.map(
-            (cell) =>
-              updatedCells.find((updated) => updated.id === cell.id) || cell
-          ),
-        };
-      });
-    } else {
-      setBrowserGrid((prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return {
-          ...prev,
-          cells: prev.cells.map(
-            (cell) =>
-              updatedCells.find((updated) => updated.id === cell.id) || cell
-          ),
-        };
-      });
+    const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
+
+    setGrid((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      return {
+        ...prev,
+        cells: prev.cells.map(
+          (cell) =>
+            updatedCells.find((updated) => updated.id === cell.id) || cell
+        ),
+      };
+    });
+  };
+  //Wrapper for 2 setter functions, sets an updated ship into state
+  const updateShip = (owner: TCombatant, updatedShip: TShip) => {
+    const setShips = owner === "User" ? setUserShips : setBrowserShips;
+
+    setShips((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        list: prev.list.map((ship) =>
+          ship.id === updatedShip.id ? updatedShip : ship
+        ),
+      };
+    });
+  };
+
+  const deactivateGrid = (owner: TCombatant) => {
+    let deactivatedGrid: TGrid = { owner: owner, cells: [] };
+    if (owner === "User" && userGrid) {
+      deactivatedGrid = changeCellsActiveStatus(userGrid, "deactivate");
+      setUserGrid(deactivatedGrid);
+    } else if (browserGrid) {
+      deactivatedGrid = changeCellsActiveStatus(browserGrid, "deactivate");
+      setBrowserGrid(deactivatedGrid);
     }
   };
 
-  const updateShip = (owner: TCombatant, ship: TShip) => {
-    if (owner === "User") {
-      setUserShips((prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return { ...prev, ship };
-      });
-    } else {
-      setBrowserShips((prev) => {
-        if (!prev) {
-          return prev;
-        }
-        return { ...prev, ship };
-      });
+  const setRandomUserGrid = () => {
+    if (userGrid) {
+      const generatedUserShips = generateShips("User");
+      const populatedUserGrid = populateGrid("User", generatedUserShips);
+      const gridWithShipsVisible = getAllShipsCellsSetVisible(
+        generatedUserShips,
+        populatedUserGrid
+      );
+      updateGrid("User", gridWithShipsVisible);
     }
+  };
+
+  const setNewUserGrid = () => {
+    const initialUserShips = initializeShips("User");
+    const initialUserGrid = initializeGrid("User");
+    setUserShips(initialUserShips);
+    setUserGrid(initialUserGrid);
+  };
+
+  const setRandomBrowserGrid = () => {
+    const initialBrowserShips = generateShips("Browser");
+    const initialBrowserGrid = populateGrid("Browser", initialBrowserShips);
+    setBrowserShips(initialBrowserShips);
+    setBrowserGrid(initialBrowserGrid);
   };
 
   const addMessage = (newMessage: TMessage) => {
@@ -108,7 +133,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       text: "Maybe",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
       onClick: setAppState,
-      args: ["Welcome"],
+      args: ["PlacementGenerate"],
     },
     {
       text: "Yes",
