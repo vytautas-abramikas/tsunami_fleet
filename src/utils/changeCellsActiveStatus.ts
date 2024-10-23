@@ -6,28 +6,29 @@ export const changeCellsActiveStatus = (
   mode?: "include" | "exclude",
   cellIds?: number[]
 ): TGrid => {
+  console.log("changeCellsActiveStatus");
   let changedCells: TCell[] = [];
-  if (mode && cellIds && cellIds.length) {
+  if (mode && cellIds) {
     if (action === "activate") {
       if (mode === "include") {
-        changedCells = grid.cells.map((cell) => ({
+        changedCells = grid.map((cell) => ({
           ...cell,
           isActive: cellIds.includes(cell.id),
         }));
       } else {
-        changedCells = grid.cells.map((cell) => ({
+        changedCells = grid.map((cell) => ({
           ...cell,
           isActive: !cellIds.includes(cell.id),
         }));
       }
     } else {
       if (mode === "include") {
-        changedCells = grid.cells.map((cell) => ({
+        changedCells = grid.map((cell) => ({
           ...cell,
           isActive: !cellIds.includes(cell.id),
         }));
       } else {
-        changedCells = grid.cells.map((cell) => ({
+        changedCells = grid.map((cell) => ({
           ...cell,
           isActive: cellIds.includes(cell.id),
         }));
@@ -35,10 +36,10 @@ export const changeCellsActiveStatus = (
     }
   } else {
     if (action === "activate") {
-      changedCells = grid.cells.map((cell) => ({ ...cell, isActive: true }));
+      changedCells = grid.map((cell) => ({ ...cell, isActive: true }));
     } else {
-      changedCells = grid.cells.map((cell) => ({ ...cell, isActive: false }));
+      changedCells = grid.map((cell) => ({ ...cell, isActive: false }));
     }
   }
-  return { ...grid, cells: changedCells };
+  return [...changedCells];
 };

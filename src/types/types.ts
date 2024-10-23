@@ -23,10 +23,8 @@ export type TCellProps = {
   onClick: (id: number) => void;
 };
 
-export type TGrid = {
-  owner: TCombatant;
-  cells: TCell[];
-};
+//just there to distinguish a full grid from an array of cells of arbitrary length
+export type TGrid = TCell[];
 
 export type TShip = {
   id: number;
@@ -34,10 +32,8 @@ export type TShip = {
   segments: number[];
 };
 
-export type TShips = {
-  owner: TCombatant;
-  list: TShip[];
-};
+//just there to distinguish a full list of ships from an array of ships of arbitrary length
+export type TShips = TShip[];
 
 export type TMessage = {
   text: string;

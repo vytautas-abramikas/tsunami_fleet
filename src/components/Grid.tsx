@@ -26,7 +26,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   };
 
   const handleUserShot = (cellId: number) => {
-    const cell = grid.cells[cellId];
+    const cell = grid[cellId];
     // console.log(JSON.stringify(cell));
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
@@ -71,8 +71,8 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   };
 
   return (
-    <div key={grid.owner} className="grid grid-cols-10 gap-1">
-      {grid.cells.map((cell) => (
+    <div key={owner} className="grid grid-cols-10 gap-1">
+      {grid.map((cell) => (
         <Cell key={cell.id} cell={cell} onClick={handleCellClick} />
       ))}
     </div>

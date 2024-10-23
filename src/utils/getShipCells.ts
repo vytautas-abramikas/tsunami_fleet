@@ -5,6 +5,7 @@ export const getShipCells = (
   ships: TShips,
   grid: TGrid
 ): TCell[] => {
-  const shipSegments = ships.list[shipId - 1].segments;
-  return shipSegments.map((seg) => grid.cells[seg]);
+  console.log("getShipCells");
+  const shipSegments = ships[shipId - 1].segments;
+  return shipSegments.map((seg) => grid[seg]);
 };

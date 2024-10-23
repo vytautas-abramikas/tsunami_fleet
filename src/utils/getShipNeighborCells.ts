@@ -5,7 +5,8 @@ export const getShipNeighborCells = (
   ships: TShips,
   grid: TGrid
 ): TCell[] => {
-  const shipSegments = ships.list[shipId - 1].segments;
+  const shipSegments = ships[shipId - 1].segments;
+  console.log("getShipNeighborCells");
   let indices = [];
   for (const index of shipSegments) {
     const x = index % 10;
@@ -31,12 +32,12 @@ export const getShipNeighborCells = (
         adj < 100 &&
         Math.abs(adjX - x) <= 1 &&
         Math.abs(adjY - y) <= 1 &&
-        grid.cells[adj].status === "empty"
+        grid[adj].status === "empty"
       ) {
         indices.push(adj);
       }
     }
   }
   const uniqueIndices = [...new Set(indices)];
-  return uniqueIndices.map((i) => ({ ...grid.cells[i] }));
+  return uniqueIndices.map((i) => ({ ...grid[i] }));
 };

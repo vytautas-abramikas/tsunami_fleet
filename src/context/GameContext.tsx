@@ -34,13 +34,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     setNewUserGrid();
     setRandomBrowserGrid();
-    setButtons(initialButtons);
+    setButtons(testButtons);
   }, []);
 
   //Actions on appState change
   useEffect(() => {
     if (appState === "PlacementGenerate" && userGrid) {
-      console.log("PlacementGenerate");
+      console.log("appState: PlacementGenerate");
       deactivateGrid("User");
       setRandomUserGrid();
     }
@@ -48,24 +48,26 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   //Setter for grid, updating some cells
   const updateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
+    console.log("updateGrid");
     const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
     setGrid((prev) => {
+      // console.log(JSON.stringify(prev));
       if (!prev) {
         return prev;
       }
-      return {
-        ...prev,
-        cells: prev.cells.map(
+      return [
+        ...prev.map(
           (cell) =>
             updatedCells.find((updated) => updated.id === cell.id) || cell
         ),
-      };
+      ];
     });
   };
 
   const deactivateGrid = (owner: TCombatant) => {
-    let deactivatedGrid: TGrid = { owner: owner, cells: [] };
+    console.log("deactivateGrid");
+    let deactivatedGrid: TGrid = [];
     if (owner === "User" && userGrid) {
       deactivatedGrid = changeCellsActiveStatus(userGrid, "deactivate");
       setUserGrid(deactivatedGrid);
@@ -76,9 +78,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setRandomUserGrid = () => {
+    console.log("setRandomUserGrid");
     if (userGrid) {
-      const generatedUserShips = generateShips("User");
-      const populatedUserGrid = populateGrid("User", generatedUserShips);
+      const generatedUserShips = generateShips();
+      const populatedUserGrid = populateGrid(generatedUserShips);
       const gridWithShipsVisible = getAllShipsCellsSetVisible(
         generatedUserShips,
         populatedUserGrid
@@ -88,20 +91,23 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setNewUserGrid = () => {
-    const initialUserShips = initializeShips("User");
-    const initialUserGrid = initializeGrid("User");
+    console.log("setNewUserGrid");
+    const initialUserShips = initializeShips();
+    const initialUserGrid = initializeGrid();
     setUserShips(initialUserShips);
     setUserGrid(initialUserGrid);
   };
 
   const setRandomBrowserGrid = () => {
-    const initialBrowserShips = generateShips("Browser");
-    const initialBrowserGrid = populateGrid("Browser", initialBrowserShips);
+    console.log("setRandomBrowserGrid");
+    const initialBrowserShips = generateShips();
+    const initialBrowserGrid = populateGrid(initialBrowserShips);
     setBrowserShips(initialBrowserShips);
     setBrowserGrid(initialBrowserGrid);
   };
 
   const addMessage = (newMessage: TMessage) => {
+    console.log("addMessage");
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white";
     setMessages((prevMessages) => {
@@ -113,7 +119,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const initialButtons: TButtonProps[] = [
+  const testButtons: TButtonProps[] = [
     {
       text: "Maybe",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",

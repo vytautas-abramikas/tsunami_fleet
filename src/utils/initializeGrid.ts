@@ -1,7 +1,7 @@
-import { TCombatant, TCell, TGrid } from "../types/types";
+import { TCell, TGrid } from "../types/types";
 
-export const initializeGrid = (owner: TCombatant): TGrid => {
-  console.log(`${owner}' grid initializing`);
+export const initializeGrid = (): TGrid => {
+  console.log("initializeGrid");
   const cells: TCell[] = Array.from({ length: 100 }, (_, i) => {
     return {
       id: i,
@@ -11,5 +11,5 @@ export const initializeGrid = (owner: TCombatant): TGrid => {
       isActive: true,
     };
   });
-  return { owner, cells };
+  return cells;
 };

@@ -1,12 +1,13 @@
-import { TCombatant, TGrid, TShips } from "../types/types";
+import { TGrid, TShips } from "../types/types";
 import { initializeGrid } from "./initializeGrid";
 import { initializeShips } from "./initializeShips";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
 const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
+  // console.log("isShipPlacementValid");
   const anyCellsOccupied: boolean = segments.some(
-    (segment) => grid.cells[segment].status === "ship"
+    (segment) => grid[segment].status === "ship"
   );
   if (anyCellsOccupied) {
     //any segments in grid cells already occupied
@@ -37,7 +38,7 @@ const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
         Math.abs(adjX - x) <= 1 &&
         Math.abs(adjY - y) <= 1
       ) {
-        if (grid.cells[adj].status === "ship") {
+        if (grid[adj].status === "ship") {
           //only checks if a cell is occupied if it is really adjacent
           return false;
         }
@@ -55,7 +56,7 @@ const generateShipSegments = (
   let attempts = 0;
   const maxAttempts = 100;
   let segments: number[];
-
+  // console.log("generateShipSegments");
   while (attempts < maxAttempts) {
     segments = [start]; //First segment is the starting position
     while (segments.length < size) {
@@ -79,7 +80,7 @@ const generateShipSegments = (
             newX < 10 &&
             newY >= 0 &&
             newY < 10 &&
-            grid.cells[newIndex].status === "empty" &&
+            grid[newIndex].status === "empty" &&
             !segments.includes(newIndex) &&
             !candidates.includes(newIndex)
           ) {
@@ -105,13 +106,14 @@ const generateShipSegments = (
   return [];
 };
 
-export const generateShips = (owner: TCombatant): TShips => {
-  let grid = initializeGrid(owner);
-  let ships = initializeShips(owner);
+export const generateShips = (): TShips => {
+  console.log("generateShips");
+  let grid = initializeGrid();
+  let ships = initializeShips();
   const occupiedPositions = new Set<number>();
   const maxAttempts = 100;
 
-  ships.list.forEach((ship) => {
+  ships.forEach((ship) => {
     let placed = false;
     let attempts = 0;
     while (!placed && attempts < maxAttempts) {
@@ -136,7 +138,7 @@ export const generateShips = (owner: TCombatant): TShips => {
         ) {
           ship.segments = segments;
           segments.forEach((index) => {
-            grid.cells[index].status = "ship";
+            grid[index].status = "ship";
             occupiedPositions.add(index);
           });
           placed = true;
@@ -158,20 +160,20 @@ export const generateShips = (owner: TCombatant): TShips => {
   });
 
   // Final validation - there is an exact number of ship segments needed on board
-  const shipSegmentsCount = grid.cells.filter(
+  const shipSegmentsCount = grid.filter(
     (cell) => cell.status === "ship"
   )?.length;
 
-  const expectedCount = ships.list.reduce((acc, curr) => acc + curr.size, 0);
+  const expectedCount = ships.reduce((acc, curr) => acc + curr.size, 0);
 
   if (shipSegmentsCount !== expectedCount) {
     console.error(
       `Mismatch in occupied cells: Found ${shipSegmentsCount}, expected ${expectedCount}`
     );
   } else {
-    console.log(
-      `All ships placed correctly with ${shipSegmentsCount} occupied cells`
-    );
+    // console.log(
+    //   `All ships placed correctly with ${shipSegmentsCount} occupied cells`
+    // );
   }
 
   return ships;

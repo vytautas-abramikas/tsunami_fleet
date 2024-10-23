@@ -1,12 +1,13 @@
-import { TCombatant, TGrid, TShips } from "../types/types";
+import { TGrid, TShips } from "../types/types";
 import { initializeGrid } from "./initializeGrid";
 
-export const populateGrid = (owner: TCombatant, ships: TShips): TGrid => {
-  let grid = initializeGrid(owner);
-  ships.list.forEach((ship) =>
+export const populateGrid = (ships: TShips): TGrid => {
+  console.log("populateGrid");
+  let grid = initializeGrid();
+  ships.forEach((ship) =>
     ship.segments.forEach((segment) => {
-      grid.cells[segment].status = "ship";
-      grid.cells[segment].shipId = ship.id;
+      grid[segment].status = "ship";
+      grid[segment].shipId = ship.id;
     })
   );
   return grid;

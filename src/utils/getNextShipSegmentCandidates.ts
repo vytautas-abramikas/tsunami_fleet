@@ -4,6 +4,7 @@ export const getNextShipSegmentCandidates = (
   grid: TGrid,
   shipSegments: number[]
 ): number[] => {
+  console.log("getNextShipSegmentCandidates");
   const candidates = new Set();
 
   const directions = [
@@ -38,7 +39,7 @@ export const getNextShipSegmentCandidates = (
         newX < 10 &&
         newY >= 0 &&
         newY < 10 &&
-        grid.cells[newIndex].status === "empty" &&
+        grid[newIndex].status === "empty" &&
         !shipSegments.includes(newIndex)
       ) {
         const isValid = allDirections.every((adjDir) => {
@@ -52,7 +53,7 @@ export const getNextShipSegmentCandidates = (
             adjY < 0 ||
             adjY >= 10 || // Out of bounds
             shipSegments.includes(adjIndex) || // Part of the current ship
-            grid.cells[adjIndex].status === "empty" // Completely unoccupied
+            grid[adjIndex].status === "empty" // Completely unoccupied
           );
         });
 

@@ -4,11 +4,13 @@ export const getAllShipsCellsSetVisible = (
   ships: TShips,
   grid: TGrid
 ): TCell[] => {
+  console.log("getAllShipsCellsSetVisible");
   let cells: TCell[] = [];
-  ships.list.forEach((ship) =>
+  ships.forEach((ship) =>
     ship.segments.forEach((segment) =>
-      cells.push({ ...grid.cells[segment], isVisible: true })
+      cells.push({ ...grid[segment], isVisible: true })
     )
   );
+  // console.log(JSON.stringify(cells));
   return cells;
 };
