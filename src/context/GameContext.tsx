@@ -6,7 +6,6 @@ import {
   TMessage,
   TCell,
   TButtonProps,
-  TShip,
   TCombatant,
   TAppState,
 } from "../types/types";
@@ -60,20 +59,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         cells: prev.cells.map(
           (cell) =>
             updatedCells.find((updated) => updated.id === cell.id) || cell
-        ),
-      };
-    });
-  };
-  //SOLE purpose is to mark ship sunk, TODO: Remove the function, the property etc. Wrapper for 2 setter functions, sets an updated ship into state
-  const updateShip = (owner: TCombatant, updatedShip: TShip) => {
-    const setShips = owner === "User" ? setUserShips : setBrowserShips;
-
-    setShips((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        list: prev.list.map((ship) =>
-          ship.id === updatedShip.id ? updatedShip : ship
         ),
       };
     });
@@ -168,7 +153,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         buttons,
         setAppState,
         setActiveCombatant,
-        updateShip,
         updateGrid,
         addMessage,
       }}

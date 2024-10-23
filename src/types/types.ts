@@ -32,7 +32,6 @@ export type TShip = {
   id: number;
   size: number;
   segments: number[];
-  isSunk: boolean;
 };
 
 export type TShips = {
@@ -63,7 +62,6 @@ export type TGameContext = {
   buttons: TButtonProps[];
   setAppState: React.Dispatch<React.SetStateAction<TAppState>>;
   setActiveCombatant: React.Dispatch<React.SetStateAction<TCombatant>>;
-  updateShip: (owner: TCombatant, ship: TShip) => void;
   updateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
   addMessage: (newMessage: TMessage) => void;
 };

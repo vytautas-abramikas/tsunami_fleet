@@ -12,7 +12,6 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
     userShips,
     browserGrid,
     browserShips,
-    updateShip,
     updateGrid,
     addMessage,
   } = useGameContext();
@@ -47,10 +46,9 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
             ships,
             grid
           ).map((cell) => ({ ...cell, isVisible: true }));
-          //merge all updated cells into one array, set ship state as sunk, display message
+          //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
-          updateShip(owner, { ...ships.list[cell.shipId - 1], isSunk: true });
-          addMessage({ text: "Ship sunk!" });
+          addMessage({ text: "Ship !" });
         } else {
           //if the segment hit is not the last one of its ship
           const updatedCell = {

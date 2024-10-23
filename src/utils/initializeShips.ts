@@ -7,7 +7,6 @@ export const initializeShips = (owner: TCombatant): TShips => {
     id: index + 1,
     size,
     segments: [],
-    isSunk: false,
   }));
   return { owner, list };
 };
