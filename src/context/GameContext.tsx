@@ -9,11 +9,11 @@ import {
   TCombatant,
   TAppState,
 } from "../types/types";
-import { initializeGrid } from "../utils/initializeGrid";
-import { initializeShips } from "../utils/initializeShips";
-import { generateShips } from "../utils/generateShips";
-import { populateGrid } from "../utils/populateGrid";
-import { changeCellsActiveStatus } from "../utils/changeCellsActiveStatus";
+import { getInitializeGrid } from "../utils/getInitializeGrid";
+import { getInitializeShips } from "../utils/getInitializeShips";
+import { getGenerateShips } from "../utils/getGenerateShips";
+import { getPopulateGrid } from "../utils/getPopulateGrid";
+import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus";
 import { getAllShipsCellsSetVisible } from "../utils/getAllShipsCellsSetVisible";
 
 export const GameContext = createContext<TGameContext | null>(null);
@@ -40,15 +40,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   //Actions on appState change
   useEffect(() => {
     if (appState === "PlacementGenerate" && userGrid) {
-      console.log("appState: PlacementGenerate");
-      deactivateGrid("User");
+      console.log("%cappState: PlacementGenerate", "color: purple");
+      setDeactivateGrid("User");
       setRandomUserGrid();
     }
   }, [appState]);
 
   //Setter for grid, updating some cells
-  const updateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
-    console.log("updateGrid");
+  const setUpdateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
+    console.log("setUpdateGrid");
     const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
     setGrid((prev) => {
@@ -65,14 +65,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const deactivateGrid = (owner: TCombatant) => {
-    console.log("deactivateGrid");
+  const setDeactivateGrid = (owner: TCombatant) => {
+    console.log("setDeactivateGrid");
     let deactivatedGrid: TGrid = [];
     if (owner === "User" && userGrid) {
-      deactivatedGrid = changeCellsActiveStatus(userGrid, "deactivate");
+      deactivatedGrid = getChangeCellsActiveStatus(userGrid, "deactivate");
       setUserGrid(deactivatedGrid);
     } else if (browserGrid) {
-      deactivatedGrid = changeCellsActiveStatus(browserGrid, "deactivate");
+      deactivatedGrid = getChangeCellsActiveStatus(browserGrid, "deactivate");
       setBrowserGrid(deactivatedGrid);
     }
   };
@@ -80,34 +80,34 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const setRandomUserGrid = () => {
     console.log("setRandomUserGrid");
     if (userGrid) {
-      const generatedUserShips = generateShips();
-      const populatedUserGrid = populateGrid(generatedUserShips);
+      const generatedUserShips = getGenerateShips();
+      const populatedUserGrid = getPopulateGrid(generatedUserShips);
       const gridWithShipsVisible = getAllShipsCellsSetVisible(
         generatedUserShips,
         populatedUserGrid
       );
-      updateGrid("User", gridWithShipsVisible);
+      setUpdateGrid("User", gridWithShipsVisible);
     }
   };
 
   const setNewUserGrid = () => {
     console.log("setNewUserGrid");
-    const initialUserShips = initializeShips();
-    const initialUserGrid = initializeGrid();
+    const initialUserShips = getInitializeShips();
+    const initialUserGrid = getInitializeGrid();
     setUserShips(initialUserShips);
     setUserGrid(initialUserGrid);
   };
 
   const setRandomBrowserGrid = () => {
     console.log("setRandomBrowserGrid");
-    const initialBrowserShips = generateShips();
-    const initialBrowserGrid = populateGrid(initialBrowserShips);
+    const initialBrowserShips = getGenerateShips();
+    const initialBrowserGrid = getPopulateGrid(initialBrowserShips);
     setBrowserShips(initialBrowserShips);
     setBrowserGrid(initialBrowserGrid);
   };
 
-  const addMessage = (newMessage: TMessage) => {
-    console.log("addMessage");
+  const setAddMessage = (newMessage: TMessage) => {
+    console.log("setAddMessage");
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white";
     setMessages((prevMessages) => {
@@ -129,13 +129,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     {
       text: "Yes",
       classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: addMessage,
+      onClick: setAddMessage,
       args: [{ text: "Yes" }],
     },
     {
       text: "No",
       classes: "bg-red-600 hover:bg-red-700 text-white",
-      onClick: addMessage,
+      onClick: setAddMessage,
       args: [{ text: "No" }],
     },
   ];
@@ -159,8 +159,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         buttons,
         setAppState,
         setActiveCombatant,
-        updateGrid,
-        addMessage,
+        setUpdateGrid,
+        setAddMessage,
       }}
     >
       {children}

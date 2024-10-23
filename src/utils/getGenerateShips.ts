@@ -1,6 +1,6 @@
 import { TGrid, TShips } from "../types/types";
-import { initializeGrid } from "./initializeGrid";
-import { initializeShips } from "./initializeShips";
+import { getInitializeGrid } from "./getInitializeGrid";
+import { getInitializeShips } from "./getInitializeShips";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
@@ -48,7 +48,7 @@ const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
   return true;
 };
 
-const generateShipSegments = (
+const getGenerateShipSegments = (
   start: number,
   size: number,
   grid: TGrid
@@ -106,10 +106,10 @@ const generateShipSegments = (
   return [];
 };
 
-export const generateShips = (): TShips => {
-  console.log("generateShips");
-  let grid = initializeGrid();
-  let ships = initializeShips();
+export const getGenerateShips = (): TShips => {
+  console.log("getGenerateShips");
+  let grid = getInitializeGrid();
+  let ships = getInitializeShips();
   const occupiedPositions = new Set<number>();
   const maxAttempts = 100;
 
@@ -124,7 +124,7 @@ export const generateShips = (): TShips => {
         start = getRandomPosition() + getRandomPosition() * 10;
         isValidPosition = isShipPlacementValid(grid, [start]);
       }
-      const segments = generateShipSegments(start, ship.size, grid);
+      const segments = getGenerateShipSegments(start, ship.size, grid);
       if (
         segments.length === ship.size &&
         isShipPlacementValid(grid, segments)

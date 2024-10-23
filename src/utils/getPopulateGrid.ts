@@ -1,9 +1,9 @@
 import { TGrid, TShips } from "../types/types";
-import { initializeGrid } from "./initializeGrid";
+import { getInitializeGrid } from "./getInitializeGrid";
 
-export const populateGrid = (ships: TShips): TGrid => {
-  console.log("populateGrid");
-  let grid = initializeGrid();
+export const getPopulateGrid = (ships: TShips): TGrid => {
+  console.log("getPopulateGrid");
+  let grid = getInitializeGrid();
   ships.forEach((ship) =>
     ship.segments.forEach((segment) => {
       grid[segment].status = "ship";

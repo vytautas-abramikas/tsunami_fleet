@@ -1,12 +1,12 @@
 import { TCell, TGrid } from "../types/types";
 
-export const changeCellsActiveStatus = (
+export const getChangeCellsActiveStatus = (
   grid: TGrid,
   action: "activate" | "deactivate",
   mode?: "include" | "exclude",
   cellIds?: number[]
 ): TGrid => {
-  console.log("changeCellsActiveStatus");
+  console.log("getChangeCellsActiveStatus");
   let changedCells: TCell[] = [];
   if (mode && cellIds) {
     if (action === "activate") {

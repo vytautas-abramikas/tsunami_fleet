@@ -58,6 +58,6 @@ export type TGameContext = {
   buttons: TButtonProps[];
   setAppState: React.Dispatch<React.SetStateAction<TAppState>>;
   setActiveCombatant: React.Dispatch<React.SetStateAction<TCombatant>>;
-  updateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
-  addMessage: (newMessage: TMessage) => void;
+  setUpdateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
+  setAddMessage: (newMessage: TMessage) => void;
 };
