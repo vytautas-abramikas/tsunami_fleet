@@ -33,19 +33,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Initialize the state once
   useEffect(() => {
     console.log("%cInitial useEffect", "color: purple");
-    setNewUserGrid();
+    // setNewUserGrid();
     setRandomBrowserGrid();
   }, []);
 
   //Actions on appState change
   useEffect(() => {
     if (appState === "Welcome") {
+      setMessages([{ text: "Dare to brave the seas?" }]);
       setButtons(welcomeButtons);
     }
     if (appState === "PlacementGenerate" && userGrid) {
       console.log("%cappState: PlacementGenerate", "color: purple");
       // setDeactivateGrid("User");
       setRandomUserGrid();
+      setMessages([{ text: "Ready to set sail?" }]);
       setButtons(placementGenerateButtons);
       // console.log(JSON.stringify(userGrid));
       // setTimeout(() => setDeactivateGrid("User"), 1000);
