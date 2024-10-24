@@ -15,6 +15,7 @@ import { getGenerateShips } from "../utils/getGenerateShips";
 import { getPopulateGrid } from "../utils/getPopulateGrid";
 import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus";
 import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
+import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -51,11 +52,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
     if (appState === "BattleStart") {
       console.log("%cappState: BattleStart", "color: purple");
-      setMessages([{ text: "Ready for battle?" }]);
+      setDeactivateGrid("Browser");
+      const startingPlayer = getWhoGetsFirstTurn();
+      setActiveCombatant(startingPlayer);
+      setMessages([
+        { text: `${startingPlayer} gets to start. Ready for battle?` },
+      ]);
       setButtons(battleStartButtons);
     }
     if (appState === "Battle") {
-      setDeactivateGrid("Browser");
     }
   }, [appState]);
 
@@ -148,7 +153,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const placementGenerateButtons: TButtonProps[] = [
     {
-      text: "Start Battle",
+      text: "Ready",
       classes: "bg-green-600 hover:bg-green-700 text-white",
       onClick: setAppState,
       args: ["BattleStart"],
@@ -169,22 +174,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const battleStartButtons: TButtonProps[] = [
     {
-      text: "DeactivateTestAppState",
-      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      text: "Start battle",
+      classes: "bg-green-600 hover:bg-green-700 text-white",
       onClick: setAppState,
       args: ["Battle"],
     },
     {
-      text: "DeactivateTestClick",
-      classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: setDeactivateGrid,
-      args: ["Browser"],
-    },
-    {
-      text: "No",
+      text: "Chicken out",
       classes: "bg-red-600 hover:bg-red-700 text-white",
-      onClick: setAddMessage,
-      args: [{ text: "No" }],
+      onClick: setAppState,
+      args: ["Welcome"],
     },
   ];
 
