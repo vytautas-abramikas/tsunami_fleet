@@ -8,7 +8,7 @@ export const ButtonBoard: React.FC = () => {
       {buttons.map((button, index) => (
         <button
           key={index}
-          className={`py-2 px-8 mr-4 ml-4 hover:scale-110 transition duration-500 ease-out text-center font-bold text-2xl rounded-lg shadow-lg ${button.classes}`}
+          className={`py-2 px-8 mr-4 ml-4 hover:scale-110 transition duration-500 ease-out text-center font-bold text-2xl rounded-lg shadow-lg tshadow ${button.classes}`}
           onClick={() => button.onClick(...(button.args || []))}
         >
           {button.text}

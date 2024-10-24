@@ -4,6 +4,9 @@
 body {
   user-select: none; /* Prevents text selection globally */
 }
+.tshadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 .new-message {
   animation: new-message-effect 0.3s ease-in-out;
 }
