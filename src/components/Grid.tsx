@@ -8,20 +8,27 @@ import { isLastSegment } from "../utils/isLastSegment";
 
 export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const {
+    appState,
+    activeCombatant,
     userGrid,
     userShips,
     browserGrid,
     browserShips,
     setUpdateGrid,
     setAddMessage,
+    setActiveCombatant,
   } = useGameContext();
   const grid = owner === "User" ? userGrid : browserGrid;
   const ships = owner === "User" ? userShips : browserShips;
 
   const handleCellClick = (cellId: number) => {
     // just a mock function for now
-    if (owner === "Browser") {
-      console.log(browserGrid);
+    if (
+      appState === "Battle" &&
+      activeCombatant === "User" &&
+      owner === "Browser"
+    ) {
+      // console.log(browserGrid);
       handleUserShot(cellId);
     }
   };
@@ -34,7 +41,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
       if (cell.status === "ship") {
         if (isLastSegment(cellId, ships, grid)) {
           //if last ship segment is hit, mark all ship segments as sunk
-          let sunkCells = getShipCells(cell.shipId, ships, grid).map(
+          const sunkCells = getShipCells(cell.shipId, ships, grid).map(
             (cell) => ({
               ...cell,
               status: "sunk" as "sunk",
@@ -42,14 +49,14 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
             })
           );
           //mark neighboring cells of a sunk ship as visible
-          let revealedNeighbors: TCell[] = getShipNeighborCells(
+          const revealedNeighbors: TCell[] = getShipNeighborCells(
             cell.shipId,
             ships,
             grid
           ).map((cell) => ({ ...cell, isVisible: true }));
           //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
-          setAddMessage({ text: "Ship sunk !" });
+          setAddMessage({ text: "Ship sunk! Find the next one!" });
         } else {
           //if the segment hit is not the last one of its ship
           const updatedCell = {
@@ -58,13 +65,14 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
             isVisible: true,
           };
           updatedCells = [updatedCell];
-          setAddMessage({ text: "Ship hit!" });
+          setAddMessage({ text: "Ship hit! Try and sink it!" });
         }
       } else {
         //if an empty cell is hit, just reveal it
         const updatedCell = { ...cell, isVisible: true };
         updatedCells = [updatedCell];
-        setAddMessage({ text: "Missed..." });
+        setAddMessage({ text: "Missed... Browser's turn now." });
+        setActiveCombatant("Browser");
       }
     }
     //set new grid state

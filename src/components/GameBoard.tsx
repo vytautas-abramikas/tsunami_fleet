@@ -15,7 +15,7 @@ export const GameBoard: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center">
           <h2
-            className={`font-bold mb-4 drop-shadow-lg ${
+            className={`font-bold mb-4 drop-shadow-lg h-10 ${
               isBattle && activeCombatant === "User"
                 ? "text-yellow-300 text-3xl"
                 : "text-white text-2xl"
@@ -28,7 +28,7 @@ export const GameBoard: React.FC = () => {
         {isBattle && (
           <div className="flex flex-col items-center justify-center">
             <h2
-              className={`font-bold mb-4 drop-shadow-lg ${
+              className={`font-bold mb-4 drop-shadow-lg h-10 ${
                 isBattle && activeCombatant === "Browser"
                   ? "text-yellow-300 text-3xl"
                   : "text-white text-2xl"

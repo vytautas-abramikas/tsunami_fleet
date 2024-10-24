@@ -52,7 +52,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
     if (appState === "BattleStart") {
       console.log("%cappState: BattleStart", "color: purple");
-      setDeactivateGrid("Browser");
+      setGridActiveStatus("Browser", "deactivate");
       const startingPlayer = getWhoGetsFirstTurn();
       setActiveCombatant(startingPlayer);
       setMessages([
@@ -61,8 +61,24 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setButtons(battleStartButtons);
     }
     if (appState === "Battle") {
+      console.log("%cappState: Battle", "color: purple");
+      setButtons([]);
+      setMessages([]);
     }
   }, [appState]);
+
+  useEffect(() => {
+    if (appState === "Battle") {
+      console.log(`--- ${activeCombatant} ---`);
+      if (activeCombatant === "User") {
+        setGridActiveStatus("Browser", "activate");
+        setAddMessage({ text: "User, your turn!" });
+      } else {
+        setGridActiveStatus("Browser", "deactivate");
+        setTimeout(() => setActiveCombatant("User"), 100);
+      }
+    }
+  }, [activeCombatant, appState]);
 
   //Setter for grid, updating some cells
   const setUpdateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
@@ -83,19 +99,22 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const setDeactivateGrid = (owner: TCombatant) => {
-    console.log("setDeactivateGrid");
-    let deactivatedGrid: TGrid = [];
+  const setGridActiveStatus = (
+    owner: TCombatant,
+    mode: "activate" | "deactivate"
+  ) => {
+    console.log("setGridActiveStatus");
+    let modifiedGrid: TGrid = [];
     if (owner === "User" && userGrid) {
-      console.log(JSON.stringify(userGrid));
-      deactivatedGrid = getChangeCellsActiveStatus(userGrid, "deactivate");
-      setUserGrid(deactivatedGrid);
+      // console.log(JSON.stringify(userGrid));
+      modifiedGrid = getChangeCellsActiveStatus(userGrid, mode);
+      setUpdateGrid(owner, modifiedGrid);
     } else if (browserGrid) {
-      console.log(JSON.stringify(browserGrid));
-      deactivatedGrid = getChangeCellsActiveStatus(browserGrid, "deactivate");
-      console.log(JSON.stringify(deactivatedGrid));
+      // console.log(JSON.stringify(browserGrid));
+      modifiedGrid = getChangeCellsActiveStatus(browserGrid, mode);
+      // console.log(JSON.stringify(deactivatedGrid));
       // setBrowserGrid(deactivatedGrid);
-      setUpdateGrid(owner, deactivatedGrid);
+      setUpdateGrid(owner, modifiedGrid);
     }
   };
 
