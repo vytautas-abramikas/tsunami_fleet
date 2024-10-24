@@ -33,6 +33,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Initialize the state once
   useEffect(() => {
     console.log("%cInitial useEffect", "color: purple");
+    setNewUserGrid(); //not needed but keeping it here to not get get warnings for unused (for now) function
     setRandomBrowserGrid();
   }, []);
 
@@ -187,26 +188,26 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     },
   ];
 
-  const testButtons: TButtonProps[] = [
-    {
-      text: "Maybe",
-      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-      onClick: setRandomUserGrid,
-      args: ["PlacementGenerate"],
-    },
-    {
-      text: "Yes",
-      classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: setAddMessage,
-      args: [{ text: "Yes" }],
-    },
-    {
-      text: "No",
-      classes: "bg-red-600 hover:bg-red-700 text-white",
-      onClick: setAddMessage,
-      args: [{ text: "No" }],
-    },
-  ];
+  // const testButtons: TButtonProps[] = [
+  //   {
+  //     text: "Maybe",
+  //     classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+  //     onClick: setRandomUserGrid,
+  //     args: ["PlacementGenerate"],
+  //   },
+  //   {
+  //     text: "Yes",
+  //     classes: "bg-green-600 hover:bg-green-700 text-white",
+  //     onClick: setAddMessage,
+  //     args: [{ text: "Yes" }],
+  //   },
+  //   {
+  //     text: "No",
+  //     classes: "bg-red-600 hover:bg-red-700 text-white",
+  //     onClick: setAddMessage,
+  //     args: [{ text: "No" }],
+  //   },
+  // ];
 
   return (
     <GameContext.Provider
