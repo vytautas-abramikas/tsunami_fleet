@@ -39,7 +39,11 @@ export const getChangeCellsActiveStatus = (
     if (action === "activate") {
       changedCells = grid.map((cell) => ({ ...cell, isActive: true }));
     } else {
-      changedCells = grid.map((cell) => ({ ...cell, isActive: false }));
+      changedCells = grid.map((cell) => ({
+        ...cell,
+        // isVisible: true,
+        isActive: false,
+      }));
     }
   }
   // console.log(changedCells.length);

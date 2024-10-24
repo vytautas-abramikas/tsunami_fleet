@@ -52,12 +52,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       // console.log(JSON.stringify(userGrid));
       // setTimeout(() => setDeactivateGrid("User"), 1000);
     }
-    if (appState === "PlacementFinalize" && userGrid) {
-      console.log("%cappState: PlacementFinalize", "color: purple");
-      setDeactivateGrid("User");
-      // setRandomUserGrid();
-      // console.log(JSON.stringify(userGrid));
-      // setTimeout(() => setDeactivateGrid("User"), 1000);
+    if (appState === "BattleStart" && userGrid) {
+      console.log("%cappState: BattleStart", "color: purple");
+      // setDeactivateGrid("Browser");
+      setMessages([{ text: "Ready for battle?" }]);
+      setButtons(battleStartButtons);
     }
   }, [appState]);
 
@@ -88,7 +87,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       deactivatedGrid = getChangeCellsActiveStatus(userGrid, "deactivate");
       setUserGrid(deactivatedGrid);
     } else if (browserGrid) {
-      deactivatedGrid = getChangeCellsActiveStatus(browserGrid, "deactivate");
+      const grid = [...browserGrid];
+      console.log(JSON.stringify(grid));
+      deactivatedGrid = getChangeCellsActiveStatus(grid, "deactivate");
+      console.log(JSON.stringify(deactivatedGrid));
       setBrowserGrid(deactivatedGrid);
     }
   };
@@ -149,8 +151,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     {
       text: "Start Battle",
       classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: setAddMessage,
-      args: [{ text: "Starting battle..." }],
+      onClick: setAppState,
+      args: ["BattleStart"],
     },
     {
       text: "Reroll",
@@ -163,6 +165,27 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       classes: "bg-red-600 hover:bg-red-700 text-white",
       onClick: setAppState,
       args: ["Welcome"],
+    },
+  ];
+
+  const battleStartButtons: TButtonProps[] = [
+    {
+      text: "DeactivateTest",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setDeactivateGrid,
+      args: ["Browser"],
+    },
+    {
+      text: "Yes",
+      classes: "bg-green-600 hover:bg-green-700 text-white",
+      onClick: setAddMessage,
+      args: [{ text: "Yes" }],
+    },
+    {
+      text: "No",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAddMessage,
+      args: [{ text: "No" }],
     },
   ];
 

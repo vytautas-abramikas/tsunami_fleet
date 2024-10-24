@@ -16,6 +16,7 @@ export const App: React.FC = () => {
     appState === "PlacementAdditionalSegments" ||
     appState === "PlacementFinalize" ||
     appState === "Battle" ||
+    appState === "BattleStart" ||
     appState === "BattleOver";
   return (
     <>

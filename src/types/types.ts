@@ -7,6 +7,7 @@ export type TAppState =
   | "PlacementFirstSegment"
   | "PlacementAdditionalSegments"
   | "PlacementFinalize"
+  | "BattleStart"
   | "Battle"
   | "BattleOver";
 
