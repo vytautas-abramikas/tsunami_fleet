@@ -33,7 +33,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Initialize the state once
   useEffect(() => {
     console.log("%cInitial useEffect", "color: purple");
-    // setNewUserGrid();
     setRandomBrowserGrid();
   }, []);
 
@@ -45,16 +44,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
     if (appState === "PlacementGenerate") {
       console.log("%cappState: PlacementGenerate", "color: purple");
-      // setDeactivateGrid("User");
       setRandomUserGrid();
       setMessages([{ text: "Ready to set sail?" }]);
       setButtons(placementGenerateButtons);
-      // console.log(JSON.stringify(userGrid));
-      // setTimeout(() => setDeactivateGrid("User"), 1000);
     }
     if (appState === "BattleStart") {
       console.log("%cappState: BattleStart", "color: purple");
-      // setDeactivateGrid("Browser");
       setMessages([{ text: "Ready for battle?" }]);
       setButtons(battleStartButtons);
     }
@@ -93,7 +88,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       console.log(JSON.stringify(browserGrid));
       deactivatedGrid = getChangeCellsActiveStatus(browserGrid, "deactivate");
       console.log(JSON.stringify(deactivatedGrid));
-      setBrowserGrid(deactivatedGrid);
+      // setBrowserGrid(deactivatedGrid);
+      setUpdateGrid(owner, deactivatedGrid);
     }
   };
 
@@ -172,16 +168,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const battleStartButtons: TButtonProps[] = [
     {
-      text: "DeactivateTest",
+      text: "DeactivateTestAppState",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
       onClick: setAppState,
       args: ["Battle"],
     },
     {
-      text: "Yes",
+      text: "DeactivateTestClick",
       classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: setAddMessage,
-      args: [{ text: "Yes" }],
+      onClick: setDeactivateGrid,
+      args: ["Browser"],
     },
     {
       text: "No",

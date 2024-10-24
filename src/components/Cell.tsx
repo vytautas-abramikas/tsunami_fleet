@@ -11,7 +11,7 @@ export const Cell: React.FC<TCellProps> = ({ cell, onClick }) => {
       key={cell.id}
       className={`cell p-0 w-10 h-10 border border-gray-700 shadow-lg ${
         cell.isVisible ? cell.status : "unknown"
-      } ${!cell.isActive ? "pointer-events-none" : ""}`}
+      } ${!cell.isActive || cell.isVisible ? "pointer-events-none" : ""}`}
       onClick={handleClick}
     ></button>
   );

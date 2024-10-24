@@ -49,7 +49,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           ).map((cell) => ({ ...cell, isVisible: true }));
           //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
-          setAddMessage({ text: "Ship !" });
+          setAddMessage({ text: "Ship sunk !" });
         } else {
           //if the segment hit is not the last one of its ship
           const updatedCell = {
