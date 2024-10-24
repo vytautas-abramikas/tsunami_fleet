@@ -11,9 +11,9 @@ const getRandomIdFromList = (list: number[]): number => {
 export const getBrowserShotResults = (
   grid: TGrid,
   ships: TShips
-): { status: "empty" | "hit" | "sunk"; cells: TCell[] } => {
-  let status: "empty" | "hit" | "sunk" = "empty"; // just for now, cause TS!!!!!!!
-  let cells: TCell[] = [];
+): { browserHitStatus: "empty" | "hit" | "sunk"; cellsToProcess: TCell[] } => {
+  let browserHitStatus: "empty" | "hit" | "sunk" = "empty"; // just for now, cause TS!!!!!!!
+  let cellsToProcess: TCell[] = [];
   let cellToHitId: number;
 
   const cellsHitIds = grid
@@ -33,17 +33,18 @@ export const getBrowserShotResults = (
   //when cell to hit is known, check its status and determine what to do next
   //missed, return the cell uncovered
   if (grid[cellToHitId].status === "empty") {
-    status = "empty";
-    cells = [{ ...grid[cellToHitId], isVisible: true }];
+    browserHitStatus = "empty";
+    cellsToProcess = [{ ...grid[cellToHitId], isVisible: true }];
     //if it is a ship cell
   } else if (grid[cellToHitId].status === "ship") {
     //hit the ship but didn't sink it, return the hit cell and uncover it
     if (isLastSegment(cellToHitId, ships, grid)) {
       //hit the ship and sunk it, return the sunk cells and uncover its neighbors
       const shipId = grid[cellToHitId].shipId;
+      browserHitStatus = "sunk";
       const sunkCells = getShipCells(shipId, ships, grid).map((cell) => ({
         ...cell,
-        status: "sunk" as "sunk",
+        status: browserHitStatus,
         isVisible: true,
       }));
       const revealedNeighbors: TCell[] = getShipNeighborCells(
@@ -51,12 +52,14 @@ export const getBrowserShotResults = (
         ships,
         grid
       ).map((cell) => ({ ...cell, isVisible: true }));
-      status = "sunk";
-      cells = [...sunkCells, ...revealedNeighbors];
+
+      cellsToProcess = [...sunkCells, ...revealedNeighbors];
     } else {
-      status = "hit";
-      cells = [{ ...grid[cellToHitId], isVisible: true, status: status }];
+      browserHitStatus = "hit";
+      cellsToProcess = [
+        { ...grid[cellToHitId], isVisible: true, status: browserHitStatus },
+      ];
     }
   }
-  return { status, cells };
+  return { browserHitStatus, cellsToProcess };
 };

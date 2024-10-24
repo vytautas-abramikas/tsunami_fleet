@@ -16,6 +16,7 @@ import { getPopulateGrid } from "../utils/getPopulateGrid";
 import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus";
 import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
+import { getBrowserShotResults } from "../utils/getBrowserShotResults";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -75,7 +76,22 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAddMessage({ text: "User, your turn!" });
       } else {
         setGridActiveStatus("Browser", "deactivate");
-        setTimeout(() => setActiveCombatant("User"), 100);
+        setTimeout(() => {
+          const { browserHitStatus, cellsToProcess } = getBrowserShotResults(
+            userGrid,
+            userShips
+          );
+          setUpdateGrid("User", cellsToProcess);
+          setAddMessage({
+            text:
+              browserHitStatus === "empty"
+                ? "Browser missed..."
+                : browserHitStatus === "hit"
+                ? "Browser hit User's ship"
+                : "Browser sank User's ship",
+          });
+          setActiveCombatant("User");
+        }, 100);
       }
     }
   }, [activeCombatant, appState]);
