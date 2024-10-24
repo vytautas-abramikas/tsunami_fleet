@@ -21,6 +21,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const handleCellClick = (cellId: number) => {
     // just a mock function for now
     if (owner === "Browser") {
+      console.log(browserGrid);
       handleUserShot(cellId);
     }
   };
