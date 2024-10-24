@@ -14,7 +14,7 @@ import { getInitializeShips } from "../utils/getInitializeShips";
 import { getGenerateShips } from "../utils/getGenerateShips";
 import { getPopulateGrid } from "../utils/getPopulateGrid";
 import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus";
-import { getAllShipsCellsSetVisible } from "../utils/getAllShipsCellsSetVisible";
+import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -23,26 +23,39 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [appState, setAppState] = useState<TAppState>("Welcome");
   const [activeCombatant, setActiveCombatant] = useState<TCombatant>("User");
-  const [userShips, setUserShips] = useState<TShips | null>(null);
-  const [userGrid, setUserGrid] = useState<TGrid | null>(null);
-  const [browserShips, setBrowserShips] = useState<TShips | null>(null);
-  const [browserGrid, setBrowserGrid] = useState<TGrid | null>(null);
+  const [userShips, setUserShips] = useState<TShips | []>([]);
+  const [userGrid, setUserGrid] = useState<TGrid | []>([]);
+  const [browserShips, setBrowserShips] = useState<TShips | []>([]);
+  const [browserGrid, setBrowserGrid] = useState<TGrid | []>([]);
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
 
   // Initialize the state once
   useEffect(() => {
+    console.log("%cInitial useEffect", "color: purple");
     setNewUserGrid();
     setRandomBrowserGrid();
-    setButtons(testButtons);
   }, []);
 
   //Actions on appState change
   useEffect(() => {
+    if (appState === "Welcome") {
+      setButtons(welcomeButtons);
+    }
     if (appState === "PlacementGenerate" && userGrid) {
       console.log("%cappState: PlacementGenerate", "color: purple");
-      setDeactivateGrid("User");
+      // setDeactivateGrid("User");
       setRandomUserGrid();
+      setButtons(placementGenerateButtons);
+      // console.log(JSON.stringify(userGrid));
+      // setTimeout(() => setDeactivateGrid("User"), 1000);
+    }
+    if (appState === "PlacementFinalize" && userGrid) {
+      console.log("%cappState: PlacementFinalize", "color: purple");
+      setDeactivateGrid("User");
+      // setRandomUserGrid();
+      // console.log(JSON.stringify(userGrid));
+      // setTimeout(() => setDeactivateGrid("User"), 1000);
     }
   }, [appState]);
 
@@ -69,6 +82,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     console.log("setDeactivateGrid");
     let deactivatedGrid: TGrid = [];
     if (owner === "User" && userGrid) {
+      console.log(JSON.stringify(userGrid));
       deactivatedGrid = getChangeCellsActiveStatus(userGrid, "deactivate");
       setUserGrid(deactivatedGrid);
     } else if (browserGrid) {
@@ -82,11 +96,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     if (userGrid) {
       const generatedUserShips = getGenerateShips();
       const populatedUserGrid = getPopulateGrid(generatedUserShips);
-      const gridWithShipsVisible = getAllShipsCellsSetVisible(
-        generatedUserShips,
-        populatedUserGrid
+      const gridWithShipsVisible = getGridWithShipsVisible(populatedUserGrid);
+      const deactivatedGrid = getChangeCellsActiveStatus(
+        gridWithShipsVisible,
+        "deactivate"
       );
-      setUpdateGrid("User", gridWithShipsVisible);
+      setUserGrid(deactivatedGrid);
     }
   };
 
@@ -119,11 +134,41 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  const welcomeButtons: TButtonProps[] = [
+    {
+      text: "Build your fleet",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setAppState,
+      args: ["PlacementGenerate"],
+    },
+  ];
+
+  const placementGenerateButtons: TButtonProps[] = [
+    {
+      text: "Start Battle",
+      classes: "bg-green-600 hover:bg-green-700 text-white",
+      onClick: setAddMessage,
+      args: [{ text: "Starting battle..." }],
+    },
+    {
+      text: "Reroll",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setRandomUserGrid,
+    },
+
+    {
+      text: "Exit",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAppState,
+      args: ["Welcome"],
+    },
+  ];
+
   const testButtons: TButtonProps[] = [
     {
       text: "Maybe",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-      onClick: setAppState,
+      onClick: setRandomUserGrid,
       args: ["PlacementGenerate"],
     },
     {
@@ -139,12 +184,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       args: [{ text: "No" }],
     },
   ];
-
-  if (!userGrid || !browserGrid || !userShips || !browserShips) {
-    return (
-      <main className="bg-gradient-to-r from-purple-500 to-blue-900 text-white flex flex-col items-center justify-center min-h-screen overflow-hidden"></main>
-    );
-  }
 
   return (
     <GameContext.Provider
