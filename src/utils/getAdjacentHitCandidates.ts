@@ -1,6 +1,7 @@
-import { TGrid } from "../types/types";
+import { TCombatant, TGrid } from "../types/types";
 
 export const getAdjacentHitCandidates = (
+  owner: TCombatant,
   grid: TGrid,
   hitSegments: number[]
 ): number[] => {
@@ -28,7 +29,9 @@ export const getAdjacentHitCandidates = (
         newX < 10 &&
         newY >= 0 &&
         newY < 10 &&
-        !grid[newIndex].isVisible &&
+        (owner === "Browser"
+          ? !grid[newIndex].isVisible
+          : !grid[newIndex].isVisibleToBrowser) &&
         !hitSegments.includes(newIndex)
       ) {
         candidates.add(newIndex);

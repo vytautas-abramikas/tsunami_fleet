@@ -6,6 +6,7 @@ export const getInitializeGrid = (): TGrid => {
     return {
       id: i,
       isVisible: false,
+      isVisibleToBrowser: false,
       status: "empty",
       shipId: 0,
       isActive: true,

@@ -21,12 +21,16 @@ export const getBrowserShotResults = (
     .map((hitCell) => hitCell.id);
   //there is a ship hit but not sunk on grid
   if (cellsHitIds.length > 0) {
-    const potentialTargetIds = getAdjacentHitCandidates(grid, cellsHitIds);
+    const potentialTargetIds = getAdjacentHitCandidates(
+      "User",
+      grid,
+      cellsHitIds
+    );
     cellToHitId = getRandomIdFromList(potentialTargetIds);
   } else {
     //shooting randomly at any unknown cell
     const unknownCellsIds = grid
-      .filter((cell) => !cell.isVisible)
+      .filter((cell) => !cell.isVisibleToBrowser)
       .map((unknownCell) => unknownCell.id);
     cellToHitId = getRandomIdFromList(unknownCellsIds);
   }
@@ -34,30 +38,42 @@ export const getBrowserShotResults = (
   //missed, return the cell uncovered
   if (grid[cellToHitId].status === "empty") {
     browserHitStatus = "empty";
-    cellsToProcess = [{ ...grid[cellToHitId], isVisible: true }];
+    cellsToProcess = [
+      { ...grid[cellToHitId], isVisible: true, isVisibleToBrowser: true },
+    ];
     //if it is a ship cell
   } else if (grid[cellToHitId].status === "ship") {
     //hit the ship but didn't sink it, return the hit cell and uncover it
-    if (isLastSegment(cellToHitId, ships, grid)) {
+    const lastSegment = isLastSegment(cellToHitId, ships, grid);
+    console.log(lastSegment);
+    console.log(cellToHitId, ships, grid);
+    if (lastSegment) {
       //hit the ship and sunk it, return the sunk cells and uncover its neighbors
+      console.log("isLastSegment found!!!!!!");
       const shipId = grid[cellToHitId].shipId;
       browserHitStatus = "sunk";
       const sunkCells = getShipCells(shipId, ships, grid).map((cell) => ({
         ...cell,
         status: browserHitStatus,
         isVisible: true,
+        isVisibleToBrowser: true,
       }));
       const revealedNeighbors: TCell[] = getShipNeighborCells(
         shipId,
         ships,
         grid
-      ).map((cell) => ({ ...cell, isVisible: true }));
+      ).map((cell) => ({ ...cell, isVisible: true, isVisibleToBrowser: true }));
 
       cellsToProcess = [...sunkCells, ...revealedNeighbors];
     } else {
       browserHitStatus = "hit";
       cellsToProcess = [
-        { ...grid[cellToHitId], isVisible: true, status: browserHitStatus },
+        {
+          ...grid[cellToHitId],
+          isVisible: true,
+          isVisibleToBrowser: true,
+          status: browserHitStatus,
+        },
       ];
     }
   }

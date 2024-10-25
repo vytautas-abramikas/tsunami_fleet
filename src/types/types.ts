@@ -14,6 +14,7 @@ export type TAppState =
 export type TCell = {
   id: number;
   isVisible: boolean;
+  isVisibleToBrowser: boolean;
   status: "empty" | "segment" | "ship" | "hit" | "sunk";
   shipId: number;
   isActive: boolean;

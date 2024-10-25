@@ -47,7 +47,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
     if (appState === "PlacementGenerate") {
       console.log("%cappState: PlacementGenerate", "color: purple");
-      setRandomUserGrid();
+      setRandomUserShipsAndGrid();
       setMessages([{ text: "Ready to set sail?" }]);
       setButtons(placementGenerateButtons);
     }
@@ -68,6 +68,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [appState]);
 
+  //Batlle orchastration
   useEffect(() => {
     if (appState === "Battle") {
       console.log(`--- ${activeCombatant} ---`);
@@ -75,8 +76,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setGridActiveStatus("Browser", "activate");
         setAddMessage({ text: "User, your turn!" });
       } else {
-        setGridActiveStatus("Browser", "deactivate");
         setTimeout(() => {
+          setGridActiveStatus("Browser", "deactivate");
           const { browserHitStatus, cellsToProcess } = getBrowserShotResults(
             userGrid,
             userShips
@@ -90,7 +91,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
                 ? "Browser hit User's ship"
                 : "Browser sank User's ship",
           });
+          //if (browserHitStatus === "empty") {
           setActiveCombatant("User");
+          //}
         }, 100);
       }
     }
@@ -134,7 +137,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const setRandomUserGrid = () => {
+  const setRandomUserShipsAndGrid = () => {
     console.log("setRandomUserGrid");
     if (userGrid) {
       const generatedUserShips = getGenerateShips();
@@ -145,6 +148,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         "deactivate"
       );
       setUserGrid(deactivatedGrid);
+      setUserShips(generatedUserShips);
     }
   };
 
@@ -196,7 +200,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     {
       text: "Reroll",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-      onClick: setRandomUserGrid,
+      onClick: setRandomUserShipsAndGrid,
     },
 
     {
