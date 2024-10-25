@@ -5,6 +5,7 @@ import { TCombatant, TCell } from "../types/types";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { getShipCells } from "../utils/getShipCells";
 import { isLastSegment } from "../utils/isLastSegment";
+import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
 
 export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const {
@@ -14,6 +15,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
     userShips,
     browserGrid,
     browserShips,
+    setAppState,
     setUpdateGrid,
     setAddMessage,
     setActiveCombatant,
@@ -56,7 +58,16 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           ).map((cell) => ({ ...cell, isVisible: true }));
           //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
-          setAddMessage({ text: "Ship sunk! Find the next one!" });
+          const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(grid);
+          if (isBrowsersLastSegment) {
+            console.log("---last segment is to be sunk by User ----");
+            setAddMessage({
+              text: "User won! Congratulations!!!",
+            });
+            setAppState("BattleOver");
+          } else {
+            setAddMessage({ text: "Ship sunk! Find the next one!" });
+          }
         } else {
           //if the segment hit is not the last one of its ship
           const updatedCell = {

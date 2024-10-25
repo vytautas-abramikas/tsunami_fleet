@@ -17,7 +17,7 @@ import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus"
 import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
 import { getBrowserShotResults } from "../utils/getBrowserShotResults";
-import { isGameOverAndWhoWon } from "../utils/isGameOverAndWhoWon";
+import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -82,27 +82,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [appState]);
 
-  //Batlle orchestration
+  //Battle orchestration
   useEffect(() => {
-    if (appState === "Battle" || appState === "BattlePause") {
-      console.log("check if game is not over - ", appState);
-      const { isGameOver, whoWon } = isGameOverAndWhoWon(userGrid, browserGrid);
-
-      if (isGameOver) {
-        setMessages([
-          {
-            text: `Game over. ${
-              whoWon === "User"
-                ? "User won! Congratulations!!!"
-                : "Browser won. Better luck next time captain!"
-            }`,
-          },
-        ]);
-        setAppState("BattleOver");
-        return;
-      }
-    }
-
     if (appState === "Battle") {
       console.log(`--- ${activeCombatant} ---`);
       if (activeCombatant === "User") {
@@ -110,24 +91,29 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAddMessage({ text: "User, your turn!" });
       } else {
         setTimeout(() => {
+          const isUsersLastSegment = isLastSegmentToSinkOnGrid(userGrid);
           setGridActiveStatus("Browser", "deactivate");
           const { browserHitStatus, cellsToProcess } = getBrowserShotResults(
             userGrid,
             userShips
           );
           setUpdateGrid("User", cellsToProcess);
-          setAddMessage({
-            text:
-              browserHitStatus === "empty"
-                ? "Browser missed..."
-                : browserHitStatus === "hit"
-                ? "Browser hit User's ship"
-                : "Browser sank User's ship",
-          });
           if (browserHitStatus === "empty") {
+            setAddMessage({ text: "Browser missed..." });
             setActiveCombatant("User");
-          } else {
+          } else if (browserHitStatus === "hit") {
+            setAddMessage({ text: "Browser hit User's ship" });
             setAppState("BattlePause");
+          } else {
+            if (!isUsersLastSegment) {
+              setAddMessage({ text: "Browser sank User's ship" });
+              setAppState("BattlePause");
+            } else {
+              setAddMessage({
+                text: "Browser won. Better luck next time Captain!",
+              });
+              setAppState("BattleOver");
+            }
           }
         }, 100);
       }
@@ -269,27 +255,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       args: ["Welcome"],
     },
   ];
-
-  // const testButtons: TButtonProps[] = [
-  //   {
-  //     text: "Maybe",
-  //     classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-  //     onClick: setRandomUserGrid,
-  //     args: ["PlacementGenerate"],
-  //   },
-  //   {
-  //     text: "Yes",
-  //     classes: "bg-green-600 hover:bg-green-700 text-white",
-  //     onClick: setAddMessage,
-  //     args: [{ text: "Yes" }],
-  //   },
-  //   {
-  //     text: "No",
-  //     classes: "bg-red-600 hover:bg-red-700 text-white",
-  //     onClick: setAddMessage,
-  //     args: [{ text: "No" }],
-  //   },
-  // ];
 
   return (
     <GameContext.Provider
