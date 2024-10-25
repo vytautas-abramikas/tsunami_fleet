@@ -36,14 +36,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Initialize the state once
   useEffect(() => {
     console.log("%cInitial useEffect", "color: purple");
-    setNewUserGrid(); //not needed but keeping it here to not get get warnings for unused (for now) function
-    setRandomBrowserGrid();
+    setNewUserGrid(); //just to keep the function needed for now
   }, []);
 
   //Actions on appState change
   useEffect(() => {
     if (appState === "Welcome") {
       console.log("%cappState: Welcome", "color: purple");
+      setRandomBrowserGrid();
       setMessages([{ text: "Dare to brave the seas?" }]);
       setButtons(welcomeButtons);
     }
