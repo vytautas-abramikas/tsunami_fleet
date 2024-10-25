@@ -17,6 +17,7 @@ export const App: React.FC = () => {
     appState === "PlacementFinalize" ||
     appState === "Battle" ||
     appState === "BattleStart" ||
+    appState === "BattlePause" ||
     appState === "BattleOver";
   return (
     <>

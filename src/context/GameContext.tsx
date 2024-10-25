@@ -66,6 +66,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setButtons([]);
       setMessages([]);
     }
+    if (appState === "BattlePause") {
+      console.log("%cappState: BattlePause", "color: purple");
+      setTimeout(() => {
+        setAppState("Battle");
+      }, 200);
+    }
   }, [appState]);
 
   //Batlle orchastration
@@ -91,9 +97,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
                 ? "Browser hit User's ship"
                 : "Browser sank User's ship",
           });
-          //if (browserHitStatus === "empty") {
-          setActiveCombatant("User");
-          //}
+          if (browserHitStatus === "empty") {
+            setActiveCombatant("User");
+          } else {
+            setAppState("BattlePause");
+          }
         }, 100);
       }
     }

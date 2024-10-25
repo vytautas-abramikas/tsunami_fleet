@@ -9,6 +9,7 @@ export type TAppState =
   | "PlacementFinalize"
   | "BattleStart"
   | "Battle"
+  | "BattlePause"
   | "BattleOver";
 
 export type TCell = {

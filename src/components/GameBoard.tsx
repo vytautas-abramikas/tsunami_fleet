@@ -7,6 +7,7 @@ export const GameBoard: React.FC = () => {
   const isBattle: boolean =
     appState === "BattleStart" ||
     appState === "Battle" ||
+    appState === "BattlePause" ||
     appState === "BattleOver";
   return (
     <>
