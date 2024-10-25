@@ -43,6 +43,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   //Actions on appState change
   useEffect(() => {
     if (appState === "Welcome") {
+      console.log("%cappState: Welcome", "color: purple");
       setMessages([{ text: "Dare to brave the seas?" }]);
       setButtons(welcomeButtons);
     }
@@ -75,13 +76,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [appState]);
 
-  //Batlle orchastration
+  //Batlle orchestration
   useEffect(() => {
     if (appState === "Battle" || "BattlePause") {
       const { isGameOver, whoWon } = isGameOverAndWhoWon(userGrid, browserGrid);
 
       if (isGameOver) {
         setAppState("BattleOver");
+        console.log("%cappState: BattleOver", "color: purple");
+        setGridActiveStatus("User", "deactivate");
+        setGridActiveStatus("Browser", "deactivate");
         setMessages([
           {
             text: `Game over. ${
@@ -91,6 +95,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
             }`,
           },
         ]);
+        setButtons(gameOverButtons);
         return;
       }
     }
@@ -247,6 +252,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     },
     {
       text: "Chicken out",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAppState,
+      args: ["Welcome"],
+    },
+  ];
+
+  const gameOverButtons: TButtonProps[] = [
+    {
+      text: "Exit",
       classes: "bg-red-600 hover:bg-red-700 text-white",
       onClick: setAppState,
       args: ["Welcome"],
