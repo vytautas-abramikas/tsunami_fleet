@@ -26,7 +26,7 @@ export type TCellProps = {
   onClick: (id: number) => void;
 };
 
-//just there to distinguish a full grid from an array of cells of arbitrary length
+//just there to distinguish a full grid from an array of cells of arbitrary length in a function declaration
 export type TGrid = TCell[];
 
 export type TShip = {
@@ -35,7 +35,7 @@ export type TShip = {
   segments: number[];
 };
 
-//just there to distinguish a full list of ships from an array of ships of arbitrary length
+//just there to distinguish a full list of ships from an array of ships of arbitrary length in a function declaration
 export type TShips = TShip[];
 
 export type TMessage = {

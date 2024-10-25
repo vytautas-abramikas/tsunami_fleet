@@ -12,7 +12,7 @@ export const getBrowserShotResults = (
   grid: TGrid,
   ships: TShips
 ): { browserHitStatus: "empty" | "hit" | "sunk"; cellsToProcess: TCell[] } => {
-  let browserHitStatus: "empty" | "hit" | "sunk" = "empty"; // just for now, cause TS!!!!!!!
+  let browserHitStatus: "empty" | "hit" | "sunk" = "empty";
   let cellsToProcess: TCell[] = [];
   let cellToHitId: number;
 
@@ -49,7 +49,7 @@ export const getBrowserShotResults = (
     console.log(cellToHitId, ships, grid);
     if (lastSegment) {
       //hit the ship and sunk it, return the sunk cells and uncover its neighbors
-      console.log("isLastSegment found!!!!!!");
+      // console.log("isLastSegment found");
       const shipId = grid[cellToHitId].shipId;
       browserHitStatus = "sunk";
       const sunkCells = getShipCells(shipId, ships, grid).map((cell) => ({
