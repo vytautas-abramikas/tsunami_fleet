@@ -74,18 +74,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAppState("Battle");
       }, 200);
     }
+    if (appState === "BattleOver") {
+      console.log("%cappState: BattleOver", "color: purple");
+      setGridActiveStatus("User", "deactivate");
+      setGridActiveStatus("Browser", "deactivate");
+      setButtons(gameOverButtons);
+    }
   }, [appState]);
 
   //Batlle orchestration
   useEffect(() => {
-    if (appState === "Battle" || "BattlePause") {
+    if (appState === "Battle" || appState === "BattlePause") {
+      console.log("check if game is not over - ", appState);
       const { isGameOver, whoWon } = isGameOverAndWhoWon(userGrid, browserGrid);
 
       if (isGameOver) {
-        setAppState("BattleOver");
-        console.log("%cappState: BattleOver", "color: purple");
-        setGridActiveStatus("User", "deactivate");
-        setGridActiveStatus("Browser", "deactivate");
         setMessages([
           {
             text: `Game over. ${
@@ -95,7 +98,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
             }`,
           },
         ]);
-        setButtons(gameOverButtons);
+        setAppState("BattleOver");
         return;
       }
     }
