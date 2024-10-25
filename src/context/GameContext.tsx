@@ -17,6 +17,7 @@ import { getChangeCellsActiveStatus } from "../utils/getChangeCellsActiveStatus"
 import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
 import { getBrowserShotResults } from "../utils/getBrowserShotResults";
+import { isGameOverAndWhoWon } from "../utils/isGameOverAndWhoWon";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -76,6 +77,24 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   //Batlle orchastration
   useEffect(() => {
+    if (appState === "Battle" || "BattlePause") {
+      const { isGameOver, whoWon } = isGameOverAndWhoWon(userGrid, browserGrid);
+
+      if (isGameOver) {
+        setAppState("BattleOver");
+        setMessages([
+          {
+            text: `Game over. ${
+              whoWon === "User"
+                ? "User won! Congratulations!!!"
+                : "Browser won. Better luck next time captain!"
+            }`,
+          },
+        ]);
+        return;
+      }
+    }
+
     if (appState === "Battle") {
       console.log(`--- ${activeCombatant} ---`);
       if (activeCombatant === "User") {
