@@ -37,6 +37,7 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
 
   const handleUserShot = (cellId: number) => {
     const cell = grid[cellId];
+    const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(grid);
     // console.log(JSON.stringify(cell));
     let updatedCells: TCell[] = [];
     if (cell.id === cellId && !cell.isVisible) {
@@ -62,11 +63,11 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           ).map((cell) => ({ ...cell, isVisible: true }));
           //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
-          const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(grid);
           if (isBrowsersLastSegment) {
-            console.log("---last segment is to be sunk by User ----");
+            console.log("---last segment on grid is to be sunk by User ----");
             setAddMessage({
               text: "User won! Congratulations!!!",
+              classes: "text-4xl font-bold text-yellow-300",
             });
             console.log("User shooting, BattleOver is to be set ", cellId);
             setAppState("BattleOver");

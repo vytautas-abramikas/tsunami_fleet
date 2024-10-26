@@ -15,33 +15,26 @@ export const MessageConsole: React.FC = () => {
 
   return (
     <div className="flex flex-col h-44 pt-8 space-y-2">
-      <div className="flex items-center justify-center h-12 w-full">
-        <p
-          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed ${
-            triggerEffect ? "new-message" : ""
-          } ${messages.length > 0 ? messages[0].classes : ""}`}
+      {messages.map((message, index) => (
+        <div
+          key={index}
+          className="flex items-center justify-center h-12 w-full"
         >
-          {messages.length > 0 ? messages[0].text : null}
-        </p>
-      </div>
-      <div className="flex items-center justify-center h-12 w-full">
-        <p
-          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-50 ${
-            messages.length > 1 ? messages[1].classes : ""
-          }`}
-        >
-          {messages.length > 1 ? messages[1].text : null}
-        </p>
-      </div>
-      <div className="flex items-center justify-center h-12 w-full">
-        <p
-          className={`text-4xl font-bold drop-shadow-lg truncate leading-relaxed text-opacity-25 ${
-            messages.length > 2 ? messages[2].classes : ""
-          }`}
-        >
-          {messages.length > 2 ? messages[2].text : null}
-        </p>
-      </div>
+          <p
+            className={`text-3xl drop-shadow-lg truncate leading-relaxed ${
+              index === 0 && triggerEffect ? "new-message" : ""
+            } ${
+              index === 1
+                ? "text-opacity-50"
+                : index === 2
+                ? "text-opacity-25"
+                : ""
+            } ${message.classes || "text-white font-semibold"}`}
+          >
+            {message.text}
+          </p>
+        </div>
+      ))}
     </div>
   );
 };

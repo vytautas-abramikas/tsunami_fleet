@@ -44,13 +44,23 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     if (appState === "Welcome") {
       console.log("%cappState: Welcome", "color: purple");
       setRandomBrowserGrid();
-      setMessages([{ text: "Dare to brave the seas?" }]);
+      setMessages([
+        {
+          text: "Dare to brave the seas?",
+          classes: "text-4xl font-bold text-white",
+        },
+      ]);
       setButtons(welcomeButtons);
     }
     if (appState === "PlacementGenerate") {
       console.log("%cappState: PlacementGenerate", "color: purple");
       setRandomUserShipsAndGrid();
-      setMessages([{ text: "Ready to set sail?" }]);
+      setMessages([
+        {
+          text: "Captain, do you accept the fleet layout?",
+          classes: "text-4xl font-bold",
+        },
+      ]);
       setButtons(placementGenerateButtons);
     }
     if (appState === "BattleStart") {
@@ -59,20 +69,22 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       const startingPlayer = getWhoGetsFirstTurn();
       setActiveCombatant(startingPlayer);
       setMessages([
-        { text: `${startingPlayer} gets to start. Ready for battle?` },
+        {
+          text: `${startingPlayer} gets to start. Engage in battle?`,
+          classes: "text-4xl font-bold",
+        },
       ]);
       setButtons(battleStartButtons);
     }
     if (appState === "Battle") {
       console.log("%cappState: Battle", "color: purple");
       setButtons([]);
-      setMessages([]);
     }
     if (appState === "BattlePause") {
       console.log("%cappState: BattlePause", "color: purple");
       setTimeout(() => {
         setAppState("Battle");
-      }, 200);
+      }, 500);
     }
     if (appState === "BattleOver") {
       console.log("%cappState: BattleOver", "color: purple");
@@ -99,18 +111,32 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           );
           setUpdateGrid("User", cellsToProcess);
           if (browserHitStatus === "empty") {
+            console.log("Browser missed, User set active");
             setAddMessage({ text: "Browser missed..." });
             setActiveCombatant("User");
           } else if (browserHitStatus === "hit") {
+            console.log(
+              "Browser hit, not last segment, Browser gets another turn"
+            );
             setAddMessage({ text: "Browser hit User's ship" });
             setAppState("BattlePause");
           } else {
             if (!isUsersLastSegment) {
+              console.log(
+                "Browser sank a ship, not last segment on board, Browser gets another turn"
+              );
               setAddMessage({ text: "Browser sank User's ship" });
               setAppState("BattlePause");
             } else {
+              console.log(
+                "--- Browser sank a ship, last segment on board, Browser won ---"
+              );
+              const browserShipsRevealed: TGrid =
+                getGridWithShipsVisible(browserGrid);
+              setUpdateGrid("Browser", browserShipsRevealed);
               setAddMessage({
                 text: "Browser won. Better luck next time Captain!",
+                classes: "text-4xl font-bold text-red-500",
               });
               setAppState("BattleOver");
             }
@@ -192,7 +218,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const setAddMessage = (newMessage: TMessage) => {
     console.log("setAddMessage");
     const text = newMessage.text;
-    const classes = newMessage.classes || "text-white";
+    const classes = newMessage.classes || "text-white font-semibold";
     setMessages((prevMessages) => {
       const updatedMessages = [{ text, classes }, ...prevMessages];
       if (updatedMessages.length > 3) {
@@ -213,7 +239,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const placementGenerateButtons: TButtonProps[] = [
     {
-      text: "Ready",
+      text: "Accept",
       classes: "bg-green-600 hover:bg-green-700 text-white",
       onClick: setAppState,
       args: ["BattleStart"],
