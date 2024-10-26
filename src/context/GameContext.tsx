@@ -35,14 +35,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   // Initialize the state once
   useEffect(() => {
-    console.log("%cInitial useEffect", "color: purple");
+    // console.log("%cInitial useEffect", "color: purple");
     setNewUserGrid(); //just to keep the function needed for now
   }, []);
 
   //Actions on appState change
   useEffect(() => {
     if (appState === "Welcome") {
-      console.log("%cappState: Welcome", "color: purple");
+      // console.log("%cappState: Welcome", "color: purple");
       setRandomBrowserGrid();
       setMessages([
         {
@@ -53,7 +53,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setButtons(welcomeButtons);
     }
     if (appState === "PlacementGenerate") {
-      console.log("%cappState: PlacementGenerate", "color: purple");
+      // console.log("%cappState: PlacementGenerate", "color: purple");
       setRandomUserShipsAndGrid();
       setMessages([
         {
@@ -64,7 +64,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setButtons(placementGenerateButtons);
     }
     if (appState === "BattleStart") {
-      console.log("%cappState: BattleStart", "color: purple");
+      // console.log("%cappState: BattleStart", "color: purple");
       setGridActiveStatus("Browser", "deactivate");
       const startingPlayer = getWhoGetsFirstTurn();
       setActiveCombatant(startingPlayer);
@@ -77,17 +77,17 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setButtons(battleStartButtons);
     }
     if (appState === "Battle") {
-      console.log("%cappState: Battle", "color: purple");
+      // console.log("%cappState: Battle", "color: purple");
       setButtons([]);
     }
     if (appState === "BattlePause") {
-      console.log("%cappState: BattlePause", "color: purple");
+      // console.log("%cappState: BattlePause", "color: purple");
       setTimeout(() => {
         setAppState("Battle");
       }, 500);
     }
     if (appState === "BattleOver") {
-      console.log("%cappState: BattleOver", "color: purple");
+      // console.log("%cappState: BattleOver", "color: purple");
       setGridActiveStatus("User", "deactivate");
       setGridActiveStatus("Browser", "deactivate");
       setButtons(gameOverButtons);
@@ -97,7 +97,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   //Battle orchestration
   useEffect(() => {
     if (appState === "Battle") {
-      console.log(`--- ${activeCombatant} ---`);
+      // console.log(`--- ${activeCombatant} ---`);
       if (activeCombatant === "User") {
         setGridActiveStatus("Browser", "activate");
         setAddMessage({ text: "User, your turn!" });
@@ -111,26 +111,26 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           );
           setUpdateGrid("User", cellsToProcess);
           if (browserHitStatus === "empty") {
-            console.log("Browser missed, User set active");
+            // console.log("Browser missed, User set active");
             setAddMessage({ text: "Browser missed..." });
             setActiveCombatant("User");
           } else if (browserHitStatus === "hit") {
-            console.log(
-              "Browser hit, not last segment, Browser gets another turn"
-            );
+            // console.log(
+            //   "Browser hit, not last segment, Browser gets another turn"
+            // );
             setAddMessage({ text: "Browser hit User's ship" });
             setAppState("BattlePause");
           } else {
             if (!isUsersLastSegment) {
-              console.log(
-                "Browser sank a ship, not last segment on board, Browser gets another turn"
-              );
+              // console.log(
+              //   "Browser sank a ship, not last segment on board, Browser gets another turn"
+              // );
               setAddMessage({ text: "Browser sank User's ship" });
               setAppState("BattlePause");
             } else {
-              console.log(
-                "--- Browser sank a ship, last segment on board, Browser won ---"
-              );
+              // console.log(
+              //   "--- Browser sank a ship, last segment on board, Browser won ---"
+              // );
               const browserShipsRevealed: TGrid =
                 getGridWithShipsVisible(browserGrid);
               setUpdateGrid("Browser", browserShipsRevealed);
@@ -148,7 +148,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   //Setter for grid, updating some cells
   const setUpdateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
-    console.log("setUpdateGrid");
+    // console.log("setUpdateGrid");
     const setGrid = owner === "User" ? setUserGrid : setBrowserGrid;
 
     setGrid((prev) => {
@@ -169,7 +169,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     owner: TCombatant,
     mode: "activate" | "deactivate"
   ) => {
-    console.log("setGridActiveStatus");
+    // console.log("setGridActiveStatus");
     let modifiedGrid: TGrid = [];
     if (owner === "User" && userGrid) {
       // console.log(JSON.stringify(userGrid));
@@ -185,7 +185,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setRandomUserShipsAndGrid = () => {
-    console.log("setRandomUserGrid");
+    // console.log("setRandomUserGrid");
     if (userGrid) {
       const generatedUserShips = getGenerateShips();
       const populatedUserGrid = getPopulateGrid(generatedUserShips);
@@ -200,7 +200,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setNewUserGrid = () => {
-    console.log("setNewUserGrid");
+    // console.log("setNewUserGrid");
     const initialUserShips = getInitializeShips();
     const initialUserGrid = getInitializeGrid();
     setUserShips(initialUserShips);
@@ -208,7 +208,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setRandomBrowserGrid = () => {
-    console.log("setRandomBrowserGrid");
+    // console.log("setRandomBrowserGrid");
     const initialBrowserShips = getGenerateShips();
     const initialBrowserGrid = getPopulateGrid(initialBrowserShips);
     setBrowserShips(initialBrowserShips);
@@ -216,7 +216,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setAddMessage = (newMessage: TMessage) => {
-    console.log("setAddMessage");
+    // console.log("setAddMessage");
     const text = newMessage.text;
     const classes = newMessage.classes || "text-white font-semibold";
     setMessages((prevMessages) => {

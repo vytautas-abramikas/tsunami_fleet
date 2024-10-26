@@ -44,10 +44,10 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
       if (cell.status === "ship") {
         if (isLastSegment(cellId, ships, grid)) {
           //if last ship segment is hit, mark all ship segments as sunk
-          console.log(
-            "User shooting, last segment of a ship detected, cellId: ",
-            cellId
-          );
+          // console.log(
+          //   "User shooting, last segment of a ship detected, cellId: ",
+          //   cellId
+          // );
           const sunkCells = getShipCells(cell.shipId, ships, grid).map(
             (cell) => ({
               ...cell,
@@ -64,12 +64,12 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           //merge all updated cells into one array, display message
           updatedCells = [...sunkCells, ...revealedNeighbors];
           if (isBrowsersLastSegment) {
-            console.log("---last segment on grid is to be sunk by User ----");
+            // console.log("---last segment on grid is to be sunk by User ----");
             setAddMessage({
               text: "User won! Congratulations!!!",
               classes: "text-4xl font-bold text-yellow-300",
             });
-            console.log("User shooting, BattleOver is to be set ", cellId);
+            // console.log("User shooting, BattleOver is to be set ", cellId);
             setAppState("BattleOver");
           } else {
             setAddMessage({ text: "Ship sunk! Find the next one!" });

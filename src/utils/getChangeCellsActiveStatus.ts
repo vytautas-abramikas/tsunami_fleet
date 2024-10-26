@@ -6,7 +6,7 @@ export const getChangeCellsActiveStatus = (
   mode?: "include" | "exclude",
   cellIds?: number[]
 ): TGrid => {
-  console.log("getChangeCellsActiveStatus");
+  // console.log("getChangeCellsActiveStatus");
   // console.log(JSON.stringify(grid));
   let changedCells: TCell[] = [];
   if (mode && cellIds) {

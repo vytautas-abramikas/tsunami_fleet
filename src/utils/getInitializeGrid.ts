@@ -1,7 +1,7 @@
 import { TCell, TGrid } from "../types/types";
 
 export const getInitializeGrid = (): TGrid => {
-  console.log("getInitializeGrid");
+  // console.log("getInitializeGrid");
   const cells: TCell[] = Array.from({ length: 100 }, (_, i) => {
     return {
       id: i,

@@ -6,7 +6,7 @@ export const isLastSegment = (
   ships: TShips,
   grid: TGrid
 ): boolean => {
-  console.log("isLastSegment");
+  // console.log("isLastSegment");
   const shipId = grid[cellId].shipId;
   const shipSegments = ships[shipId - 1].segments;
   const cells = getShipCells(shipId, ships, grid);

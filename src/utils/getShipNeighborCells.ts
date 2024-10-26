@@ -6,7 +6,7 @@ export const getShipNeighborCells = (
   grid: TGrid
 ): TCell[] => {
   const shipSegments = ships[shipId - 1].segments;
-  console.log("getShipNeighborCells");
+  // console.log("getShipNeighborCells");
   let indices = [];
   for (const index of shipSegments) {
     const x = index % 10;

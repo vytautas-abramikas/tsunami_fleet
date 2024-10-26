@@ -107,7 +107,7 @@ const getGenerateShipSegments = (
 };
 
 export const getGenerateShips = (): TShips => {
-  console.log("getGenerateShips");
+  // console.log("getGenerateShips");
   let grid = getInitializeGrid();
   let ships = getInitializeShips();
   const occupiedPositions = new Set<number>();

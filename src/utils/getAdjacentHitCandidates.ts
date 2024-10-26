@@ -5,7 +5,7 @@ export const getAdjacentHitCandidates = (
   grid: TGrid,
   hitSegments: number[]
 ): number[] => {
-  console.log("getAdjacentHitCandidates");
+  // console.log("getAdjacentHitCandidates");
   const candidates = new Set();
 
   const directions = [

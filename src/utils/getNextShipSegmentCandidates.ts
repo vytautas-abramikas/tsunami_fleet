@@ -4,7 +4,7 @@ export const getNextShipSegmentCandidates = (
   grid: TGrid,
   shipSegments: number[]
 ): number[] => {
-  console.log("getNextShipSegmentCandidates");
+  // console.log("getNextShipSegmentCandidates");
   const candidates = new Set();
 
   const directions = [
