@@ -6,6 +6,7 @@ import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { getShipCells } from "../utils/getShipCells";
 import { isLastSegment } from "../utils/isLastSegment";
 import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
+import { fillIn, MSG_LIB } from "../constants/MSG_LIB";
 
 export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
   const {
@@ -65,14 +66,12 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
           updatedCells = [...sunkCells, ...revealedNeighbors];
           if (isBrowsersLastSegment) {
             // console.log("---last segment on grid is to be sunk by User ----");
-            setAddMessage({
-              text: "User won! Congratulations!!!",
-              classes: "text-4xl font-bold text-yellow-300",
-            });
+            setAddMessage(MSG_LIB.UserVictory);
             // console.log("User shooting, BattleOver is to be set ", cellId);
             setAppState("BattleOver");
           } else {
-            setAddMessage({ text: "Ship sunk! Find the next one!" });
+            // ship sunk, but it is not the last one
+            setAddMessage(MSG_LIB.UserSankBrowserShip);
           }
         } else {
           //if the segment hit is not the last one of its ship
@@ -82,13 +81,13 @@ export const Grid: React.FC<{ owner: TCombatant }> = ({ owner }) => {
             isVisible: true,
           };
           updatedCells = [updatedCell];
-          setAddMessage({ text: "Ship hit! Try and sink it!" });
+          setAddMessage(MSG_LIB.UserHitBrowserShip);
         }
       } else {
         //if an empty cell is hit, just reveal it
         const updatedCell = { ...cell, isVisible: true };
         updatedCells = [updatedCell];
-        setAddMessage({ text: "Missed... Browser's turn now." });
+        setAddMessage(fillIn(MSG_LIB.UserMissBrowser, ["Browser"]));
         setActiveCombatant("Browser");
       }
     }

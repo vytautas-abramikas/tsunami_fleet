@@ -18,6 +18,7 @@ import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
 import { getBrowserShotResults } from "../utils/getBrowserShotResults";
 import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
+import { MSG_LIB, fillIn } from "../constants/MSG_LIB";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -44,23 +45,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     if (appState === "Welcome") {
       // console.log("%cappState: Welcome", "color: purple");
       setRandomBrowserGrid();
-      setMessages([
-        {
-          text: "Dare to brave the seas?",
-          classes: "text-4xl font-bold text-white",
-        },
-      ]);
+      setMessages([MSG_LIB.Welcome]);
       setButtons(welcomeButtons);
     }
     if (appState === "PlacementGenerate") {
       // console.log("%cappState: PlacementGenerate", "color: purple");
       setRandomUserShipsAndGrid();
-      setMessages([
-        {
-          text: "Captain, do you accept the fleet layout?",
-          classes: "text-4xl font-bold",
-        },
-      ]);
+      setMessages([MSG_LIB.PlacementGenerate]);
       setButtons(placementGenerateButtons);
     }
     if (appState === "BattleStart") {
@@ -68,12 +59,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setGridActiveStatus("Browser", "deactivate");
       const startingPlayer = getWhoGetsFirstTurn();
       setActiveCombatant(startingPlayer);
-      setMessages([
-        {
-          text: `${startingPlayer} gets to start. Engage in battle?`,
-          classes: "text-4xl font-bold",
-        },
-      ]);
+      setMessages([fillIn(MSG_LIB.BattleStart, [startingPlayer])]);
       setButtons(battleStartButtons);
     }
     if (appState === "Battle") {
@@ -84,7 +70,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       // console.log("%cappState: BattlePause", "color: purple");
       setTimeout(() => {
         setAppState("Battle");
-      }, 500);
+      }, 0);
     }
     if (appState === "BattleOver") {
       // console.log("%cappState: BattleOver", "color: purple");
@@ -100,7 +86,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       // console.log(`--- ${activeCombatant} ---`);
       if (activeCombatant === "User") {
         setGridActiveStatus("Browser", "activate");
-        setAddMessage({ text: "User, your turn!" });
+        setAddMessage(fillIn(MSG_LIB.UsersTurn, [activeCombatant]));
       } else {
         setTimeout(() => {
           const isUsersLastSegment = isLastSegmentToSinkOnGrid(userGrid);
@@ -112,20 +98,24 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           setUpdateGrid("User", cellsToProcess);
           if (browserHitStatus === "empty") {
             // console.log("Browser missed, User set active");
-            setAddMessage({ text: "Browser missed..." });
+            setAddMessage(fillIn(MSG_LIB.BrowserMissUser, ["Browser"]));
             setActiveCombatant("User");
           } else if (browserHitStatus === "hit") {
             // console.log(
             //   "Browser hit, not last segment, Browser gets another turn"
             // );
-            setAddMessage({ text: "Browser hit User's ship" });
+            setAddMessage(
+              fillIn(MSG_LIB.BrowserHitUserShip, ["Browser", "User"])
+            );
             setAppState("BattlePause");
           } else {
             if (!isUsersLastSegment) {
               // console.log(
               //   "Browser sank a ship, not last segment on board, Browser gets another turn"
               // );
-              setAddMessage({ text: "Browser sank User's ship" });
+              setAddMessage(
+                fillIn(MSG_LIB.BrowserSankUserShip, ["Browser", "User"])
+              );
               setAppState("BattlePause");
             } else {
               // console.log(
@@ -134,14 +124,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
               const browserShipsRevealed: TGrid =
                 getGridWithShipsVisible(browserGrid);
               setUpdateGrid("Browser", browserShipsRevealed);
-              setAddMessage({
-                text: "Browser won. Better luck next time Captain!",
-                classes: "text-4xl font-bold text-red-500",
-              });
+              setAddMessage(fillIn(MSG_LIB.BrowserVictory, ["Browser"]));
               setAppState("BattleOver");
             }
           }
-        }, 100);
+        }, 500);
       }
     }
   }, [activeCombatant, appState]);
