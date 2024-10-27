@@ -4,6 +4,9 @@
 body {
   user-select: none; /* Prevents text selection globally */
 }
+.logo {
+  animation: logo-effect infinite 20s ease-in-out;
+}
 .tshadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -35,6 +38,23 @@ body {
   background-color: rgb(75, 25, 25); /* Permanent color change for a kill */
   opacity: 50;
   animation: sunk-effect 0.2s ease-in-out forwards;
+}
+@keyframes logo-effect {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes new-message-effect {
   0% {
