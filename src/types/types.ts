@@ -63,4 +63,5 @@ export type TGameContext = {
   setActiveCombatant: React.Dispatch<React.SetStateAction<TCombatant>>;
   setUpdateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
   setAddMessage: (newMessage: TMessage) => void;
+  handleUserShot: (cellId: number) => void;
 };

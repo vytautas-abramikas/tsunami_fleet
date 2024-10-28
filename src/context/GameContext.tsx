@@ -18,6 +18,9 @@ import { getGridWithShipsVisible } from "../utils/getGridWithShipsVisible";
 import { getWhoGetsFirstTurn } from "../utils/getWhoGetsFirstTurn";
 import { getBrowserShotResults } from "../utils/getBrowserShotResults";
 import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
+import { isLastSegment } from "../utils/isLastSegment";
+import { getShipCells } from "../utils/getShipCells";
+import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { MSG_LIB, fillIn } from "../constants/MSG_LIB";
 
 export const GameContext = createContext<TGameContext | null>(null);
@@ -128,6 +131,68 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, [activeCombatant, appState]);
+
+  // handle User part of battle
+  const handleUserShot = (cellId: number) => {
+    const cell = browserGrid[cellId];
+    const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(browserGrid);
+    // console.log(JSON.stringify(cell));
+    let updatedCells: TCell[] = [];
+    if (cell.id === cellId && !cell.isVisible) {
+      if (cell.status === "ship") {
+        if (isLastSegment(cellId, browserShips, browserGrid)) {
+          //if last ship segment is hit, mark all ship segments as sunk
+          // console.log(
+          //   "User shooting, last segment of a ship detected, cellId: ",
+          //   cellId
+          // );
+          const sunkCells = getShipCells(
+            cell.shipId,
+            browserShips,
+            browserGrid
+          ).map((cell) => ({
+            ...cell,
+            status: "sunk" as "sunk",
+            isVisible: true,
+          }));
+          //mark neighboring cells of a sunk ship as visible
+          const revealedNeighbors: TCell[] = getShipNeighborCells(
+            cell.shipId,
+            browserShips,
+            browserGrid
+          ).map((cell) => ({ ...cell, isVisible: true }));
+          //merge all updated cells into one array, display message
+          updatedCells = [...sunkCells, ...revealedNeighbors];
+          if (isBrowsersLastSegment) {
+            // console.log("---last segment on grid is to be sunk by User ----");
+            setAddMessage(MSG_LIB.UserVictory);
+            // console.log("User shooting, BattleOver is to be set ", cellId);
+            setAppState("BattleOver");
+          } else {
+            // ship sunk, but it is not the last one
+            setAddMessage(MSG_LIB.UserSankBrowserShip);
+          }
+        } else {
+          //if the segment hit is not the last one of its ship
+          const updatedCell = {
+            ...cell,
+            status: "hit" as "hit",
+            isVisible: true,
+          };
+          updatedCells = [updatedCell];
+          setAddMessage(MSG_LIB.UserHitBrowserShip);
+        }
+      } else {
+        //if an empty cell is hit, just reveal it
+        const updatedCell = { ...cell, isVisible: true };
+        updatedCells = [updatedCell];
+        setAddMessage(fillIn(MSG_LIB.UserMissBrowser, ["Browser"]));
+        setActiveCombatant("Browser");
+      }
+    }
+    //set new grid state
+    setUpdateGrid("Browser", updatedCells);
+  };
 
   //Setter for grid, updating some cells
   const setUpdateGrid = (owner: TCombatant, updatedCells: TCell[]) => {
@@ -280,6 +345,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setActiveCombatant,
         setUpdateGrid,
         setAddMessage,
+        handleUserShot,
       }}
     >
       {children}

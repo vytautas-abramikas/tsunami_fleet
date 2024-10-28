@@ -2,7 +2,7 @@ import { useGameContext } from "../hooks/useGameContext";
 import { Grid } from "./Grid";
 
 export const GameBoard: React.FC = () => {
-  const { appState, activeCombatant } = useGameContext();
+  const { appState, activeCombatant, userGrid, browserGrid } = useGameContext();
 
   const isBattle: boolean =
     appState === "BattleStart" ||
@@ -24,7 +24,7 @@ export const GameBoard: React.FC = () => {
           >
             User
           </h2>
-          <Grid owner="User" />
+          <Grid owner="User" grid={userGrid} />
         </div>
         {isBattle && (
           <div className="flex flex-col items-center justify-center">
@@ -37,7 +37,7 @@ export const GameBoard: React.FC = () => {
             >
               Browser
             </h2>
-            <Grid owner="Browser" />
+            <Grid owner="Browser" grid={browserGrid} />
           </div>
         )}
       </div>
