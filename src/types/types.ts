@@ -55,13 +55,7 @@ export type TGameContext = {
   activeCombatant: TCombatant;
   userGrid: TGrid;
   browserGrid: TGrid;
-  userShips: TShips;
-  browserShips: TShips;
   messages: TMessage[];
   buttons: TButtonProps[];
-  setAppState: React.Dispatch<React.SetStateAction<TAppState>>;
-  setActiveCombatant: React.Dispatch<React.SetStateAction<TCombatant>>;
-  setUpdateGrid: (owner: TCombatant, updatedCells: TCell[]) => void;
-  setAddMessage: (newMessage: TMessage) => void;
   handleUserShot: (cellId: number) => void;
 };

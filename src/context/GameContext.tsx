@@ -337,14 +337,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         activeCombatant,
         userGrid,
         browserGrid,
-        userShips,
-        browserShips,
         messages,
         buttons,
-        setAppState,
-        setActiveCombatant,
-        setUpdateGrid,
-        setAddMessage,
         handleUserShot,
       }}
     >
