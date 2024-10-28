@@ -3,7 +3,7 @@ import { getInitializeGrid } from "./getInitializeGrid";
 
 export const getPopulateGrid = (ships: TShips): TGrid => {
   // console.log("getPopulateGrid");
-  let grid = getInitializeGrid();
+  const grid = getInitializeGrid();
   ships.forEach((ship) =>
     ship.segments.forEach((segment) => {
       grid[segment].status = "ship";

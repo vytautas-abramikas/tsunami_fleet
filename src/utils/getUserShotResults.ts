@@ -20,11 +20,11 @@ export const getUserShotResults = (
         //   "User shooting, last segment of a ship detected, cellId: ",
         //   cellId
         // );
-        userHitStatus = "sunk" as "sunk";
+        userHitStatus = "sunk" as const;
         const sunkCells: TCell[] = getShipCells(cell.shipId, ships, grid).map(
           (cell) => ({
             ...cell,
-            status: "sunk" as "sunk",
+            status: "sunk" as const,
             isVisible: true,
           })
         );
@@ -34,14 +34,14 @@ export const getUserShotResults = (
           ships,
           grid
         ).map((cell) => ({ ...cell, isVisible: true }));
-        //merge all updated cells into one array, display message
+        //merge all updated cells into one array
         cellsToProcess = [...sunkCells, ...revealedNeighbors];
       } else {
         //if the segment hit is not the last one of its ship
-        userHitStatus = "hit" as "hit";
+        userHitStatus = "hit" as const;
         const updatedCell = {
           ...cell,
-          status: "hit" as "hit",
+          status: "hit" as const,
           isVisible: true,
         };
         cellsToProcess = [updatedCell];

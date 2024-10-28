@@ -135,7 +135,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // handle User part of battle
   const handleUserShot = (cellId: number) => {
     const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(browserGrid);
-    // console.log(JSON.stringify(cell));
     const { userHitStatus, cellsToProcess } = getUserShotResults(
       cellId,
       browserGrid,

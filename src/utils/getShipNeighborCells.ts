@@ -7,7 +7,7 @@ export const getShipNeighborCells = (
 ): TCell[] => {
   const shipSegments = ships[shipId - 1].segments;
   // console.log("getShipNeighborCells");
-  let indices = [];
+  const indices = [];
   for (const index of shipSegments) {
     const x = index % 10;
     const y = Math.floor(index / 10);
