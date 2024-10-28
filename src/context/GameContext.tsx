@@ -196,7 +196,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setRandomUserShipsAndGrid = () => {
-    // console.log("setRandomUserGrid");
+    // console.log("setRandomUserShipsAndGrid");
     if (userGrid) {
       const generatedUserShips = getGenerateShips();
       const populatedUserGrid = getPopulateGrid(generatedUserShips);
@@ -241,7 +241,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const welcomeButtons: TButtonProps[] = [
     {
-      text: "Build your fleet",
+      text: "Prepare for battle",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
       onClick: setAppState,
       args: ["PlacementGenerate"],

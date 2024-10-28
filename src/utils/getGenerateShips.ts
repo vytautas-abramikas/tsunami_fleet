@@ -1,13 +1,12 @@
-import { TGrid, TShips } from "../types/types";
-import { getInitializeGrid } from "./getInitializeGrid";
+import { TShips } from "../types/types";
 import { getInitializeShips } from "./getInitializeShips";
 
 const getRandomPosition = () => Math.floor(Math.random() * 10);
 
-const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
+const isShipPlacementValid = (grid: string[], segments: number[]) => {
   // console.log("isShipPlacementValid");
   const anyCellsOccupied: boolean = segments.some(
-    (segment) => grid[segment].status === "ship"
+    (segment) => grid[segment] === "ship"
   );
   if (anyCellsOccupied) {
     //any segments in grid cells already occupied
@@ -38,7 +37,7 @@ const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
         Math.abs(adjX - x) <= 1 &&
         Math.abs(adjY - y) <= 1
       ) {
-        if (grid[adj].status === "ship") {
+        if (grid[adj] === "ship") {
           //only checks if a cell is occupied if it is really adjacent
           return false;
         }
@@ -51,7 +50,7 @@ const isShipPlacementValid = (grid: TGrid, segments: number[]) => {
 const getGenerateShipSegments = (
   start: number,
   size: number,
-  grid: TGrid
+  grid: string[]
 ): number[] => {
   let attempts = 0;
   const maxAttempts = 100;
@@ -80,7 +79,7 @@ const getGenerateShipSegments = (
             newX < 10 &&
             newY >= 0 &&
             newY < 10 &&
-            grid[newIndex].status === "empty" &&
+            grid[newIndex] === "empty" &&
             !segments.includes(newIndex) &&
             !candidates.includes(newIndex)
           ) {
@@ -108,7 +107,7 @@ const getGenerateShipSegments = (
 
 export const getGenerateShips = (): TShips => {
   // console.log("getGenerateShips");
-  const grid = getInitializeGrid();
+  const grid: string[] = Array(100).fill("empty");
   const ships = getInitializeShips();
   const occupiedPositions = new Set<number>();
   const maxAttempts = 100;
@@ -138,7 +137,7 @@ export const getGenerateShips = (): TShips => {
         ) {
           ship.segments = segments;
           segments.forEach((index) => {
-            grid[index].status = "ship";
+            grid[index] = "ship";
             occupiedPositions.add(index);
           });
           placed = true;
@@ -160,9 +159,7 @@ export const getGenerateShips = (): TShips => {
   });
 
   // Final validation - there is an exact number of ship segments needed on board
-  const shipSegmentsCount = grid.filter(
-    (cell) => cell.status === "ship"
-  )?.length;
+  const shipSegmentsCount = grid.filter((cell) => cell === "ship")?.length;
 
   const expectedCount = ships.reduce((acc, curr) => acc + curr.size, 0);
 
