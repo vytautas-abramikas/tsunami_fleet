@@ -147,7 +147,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           //   "User shooting, last segment of a ship detected, cellId: ",
           //   cellId
           // );
-          const sunkCells = getShipCells(
+          const sunkCells: TCell[] = getShipCells(
             cell.shipId,
             browserShips,
             browserGrid
