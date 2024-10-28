@@ -9,7 +9,7 @@ export const MessageConsole: React.FC = () => {
   useEffect(() => {
     if (messages.length > 0) {
       setTriggerEffect(true);
-      setTimeout(() => setTriggerEffect(false), 300); // Match the animation duration
+      setTimeout(() => setTriggerEffect(false), 200); // Match the animation duration
     }
   }, [messages]);
 

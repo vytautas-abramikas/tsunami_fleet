@@ -104,18 +104,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
             // console.log(
             //   "Browser hit, not last segment, Browser gets another turn"
             // );
-            setAddMessage(
-              fillIn(MSG_LIB.BrowserHitUserShip, ["Browser", "User"])
-            );
+            setAddMessage(fillIn(MSG_LIB.BrowserHitUserShip, ["Browser"]));
             setAppState("BattlePause");
           } else {
             if (!isUsersLastSegment) {
               // console.log(
               //   "Browser sank a ship, not last segment on board, Browser gets another turn"
               // );
-              setAddMessage(
-                fillIn(MSG_LIB.BrowserSankUserShip, ["Browser", "User"])
-              );
+              setAddMessage(fillIn(MSG_LIB.BrowserSankUserShip, ["Browser"]));
               setAppState("BattlePause");
             } else {
               // console.log(

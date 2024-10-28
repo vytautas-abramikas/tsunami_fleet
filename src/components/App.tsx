@@ -3,6 +3,7 @@ import { Welcome } from "./Welcome";
 import { ButtonBoard } from "./ButtonBoard";
 import { GameBoard } from "./GameBoard";
 import { MessageConsole } from "./MessageConsole";
+import { Copyright } from "./Copyright";
 
 export const App: React.FC = () => {
   const { appState } = useGameContext();
@@ -26,6 +27,7 @@ export const App: React.FC = () => {
         {showGameBoard && <GameBoard />}
         <MessageConsole />
         <ButtonBoard />
+        <Copyright />
       </main>
     </>
   );

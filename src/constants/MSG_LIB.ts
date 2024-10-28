@@ -28,7 +28,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
   BrowserMissUser: { text: "{0} missed..." },
   UserMissBrowser: { text: "You missed... {0}'s turn now." },
   BrowserHitUserShip: {
-    text: "{0} hit {1}'s ship and gets to shoot again...",
+    text: "{0} hit your ship and gets to shoot again...",
     classes: "text-semibold text-red-400",
   },
   UserHitBrowserShip: {
@@ -36,7 +36,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     classes: "font-semibold text-green-400",
   },
   BrowserSankUserShip: {
-    text: "{0} sank {1}'s ship and gets to shoot again...",
+    text: "{0} sank your ship and gets to shoot again...",
     classes: "text-semibold text-red-400",
   },
   UserSankBrowserShip: {
@@ -44,7 +44,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     classes: "font-semibold text-green-400",
   },
   BrowserVictory: {
-    text: "{0} won. Better luck next time Admiral!",
+    text: "{0} won. Better luck next time, Admiral!",
     classes: "text-4xl font-bold text-red-400",
   },
   UserVictory: {
