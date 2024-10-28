@@ -9,7 +9,7 @@
   outline: none;
 }
 html {
-  font-size: calc(0.58vw + 0.58vh);
+  font-size: calc(0.5vw + 0.5vh);
 }
 .logo {
   animation: logo-effect infinite 20s ease-in-out;
