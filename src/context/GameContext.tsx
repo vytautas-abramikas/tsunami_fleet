@@ -22,6 +22,7 @@ import { isLastSegment } from "../utils/isLastSegment";
 import { getShipCells } from "../utils/getShipCells";
 import { getShipNeighborCells } from "../utils/getShipNeighborCells";
 import { MSG_LIB, fillIn } from "../constants/MSG_LIB";
+import { BROWSER_TURN_TIMEOUT } from "../constants/BROWSER_TURN_TIMEOUT";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -127,7 +128,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
               setAppState("BattleOver");
             }
           }
-        }, 500);
+        }, BROWSER_TURN_TIMEOUT);
       }
     }
   }, [activeCombatant, appState]);
