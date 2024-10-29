@@ -1,4 +1,4 @@
-export type TCombatant = "User" | "Browser";
+export type TCombatant = "Player" | "Browser";
 
 export type TAppState =
   | "Welcome"
@@ -53,9 +53,9 @@ export type TButtonProps = {
 export type TGameContext = {
   appState: TAppState;
   activeCombatant: TCombatant;
-  userGrid: TGrid;
+  playerGrid: TGrid;
   browserGrid: TGrid;
   messages: TMessage[];
   buttons: TButtonProps[];
-  handleUserShot: (cellId: number) => void;
+  handlePlayerShot: (cellId: number) => void;
 };

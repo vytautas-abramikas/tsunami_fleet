@@ -21,25 +21,25 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "{0} gets to start. Engage in battle?",
     classes: "text-4xl font-bold",
   },
-  UsersTurn: {
+  PlayersTurn: {
     text: "{0}, your turn!",
     classes: "font-semibold text-green-400",
   },
-  BrowserMissUser: { text: "{0} missed..." },
-  UserMissBrowser: { text: "You missed... {0}'s turn now." },
-  BrowserHitUserShip: {
+  BrowserMissPlayer: { text: "{0} missed..." },
+  PlayerMissBrowser: { text: "You missed... {0}'s turn now." },
+  BrowserHitPlayerShip: {
     text: "{0} hit your ship and gets to shoot again...",
     classes: "text-semibold text-red-400",
   },
-  UserHitBrowserShip: {
+  PlayerHitBrowserShip: {
     text: "You hit an enemy ship! Shoot again and sink it!",
     classes: "font-semibold text-green-400",
   },
-  BrowserSankUserShip: {
+  BrowserSankPlayerShip: {
     text: "{0} sank your ship and gets to shoot again...",
     classes: "text-semibold text-red-400",
   },
-  UserSankBrowserShip: {
+  PlayerSankBrowserShip: {
     text: "You sank an enemy ship! Shoot again to find the next one!",
     classes: "font-semibold text-green-400",
   },
@@ -47,7 +47,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "{0} won. Better luck next time, Admiral!",
     classes: "text-4xl font-bold text-red-400",
   },
-  UserVictory: {
+  PlayerVictory: {
     text: "You won! Congratulations!!!",
     classes: "text-4xl font-bold text-yellow-300",
   },

@@ -7,30 +7,43 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   owner,
   grid,
 }) => {
-  const { appState, activeCombatant, handleUserShot } = useGameContext();
+  const { appState, activeCombatant, handlePlayerShot } = useGameContext();
 
   const pointerStyle = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant === "Browser") {
-        return "cursor-wait";
+        return "cursor-not-allowed";
       }
     } else {
       return "";
     }
   }, [appState, activeCombatant]);
 
+  const border = useMemo(() => {
+    if (appState === "Battle" || appState === "BattlePause") {
+      if (activeCombatant !== owner) {
+        return "p-1 border-dashed border border-sky-500";
+      } else {
+        return "";
+      }
+    }
+  }, [appState, activeCombatant]);
+
   const handleCellClick = (cellId: number) => {
     if (
       appState === "Battle" &&
-      activeCombatant === "User" &&
+      activeCombatant === "Player" &&
       owner === "Browser"
     ) {
-      handleUserShot(cellId);
+      handlePlayerShot(cellId);
     }
   };
 
   return (
-    <div key={owner} className={`grid grid-cols-10 gap-1 ${pointerStyle}`}>
+    <div
+      key={owner}
+      className={`grid grid-cols-10 gap-1 ${border} ${pointerStyle}`}
+    >
       {grid.map((cell) => (
         <Cell key={cell.id} cell={cell} onClick={handleCellClick} />
       ))}

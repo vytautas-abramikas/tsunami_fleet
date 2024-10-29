@@ -3,12 +3,12 @@ import { isLastSegment } from "./isLastSegment";
 import { getShipCells } from "./getShipCells";
 import { getShipNeighborCells } from "./getShipNeighborCells";
 
-export const getUserShotResults = (
+export const getPlayerShotResults = (
   cellId: number,
   grid: TGrid,
   ships: TShips
-): { userHitStatus: "empty" | "hit" | "sunk"; cellsToProcess: TCell[] } => {
-  let userHitStatus: "empty" | "hit" | "sunk" = "empty";
+): { playerHitStatus: "empty" | "hit" | "sunk"; cellsToProcess: TCell[] } => {
+  let playerHitStatus: "empty" | "hit" | "sunk" = "empty";
   let cellsToProcess: TCell[] = [];
   const cell: TCell = grid[cellId];
 
@@ -17,10 +17,10 @@ export const getUserShotResults = (
       if (isLastSegment(cellId, ships, grid)) {
         //if last ship segment is hit, mark all ship segments as sunk
         // console.log(
-        //   "User shooting, last segment of a ship detected, cellId: ",
+        //   "Player shooting, last segment of a ship detected, cellId: ",
         //   cellId
         // );
-        userHitStatus = "sunk" as const;
+        playerHitStatus = "sunk" as const;
         const sunkCells: TCell[] = getShipCells(cell.shipId, ships, grid).map(
           (cell) => ({
             ...cell,
@@ -38,7 +38,7 @@ export const getUserShotResults = (
         cellsToProcess = [...sunkCells, ...revealedNeighbors];
       } else {
         //if the segment hit is not the last one of its ship
-        userHitStatus = "hit" as const;
+        playerHitStatus = "hit" as const;
         const updatedCell = {
           ...cell,
           status: "hit" as const,
@@ -53,8 +53,8 @@ export const getUserShotResults = (
     }
   } else {
     console.error(
-      `Illegal action on user click, cellId:${cellId}, grid:${grid}, ships:${ships}`
+      `Illegal action on player click, cellId:${cellId}, grid:${grid}, ships:${ships}`
     );
   }
-  return { userHitStatus: userHitStatus, cellsToProcess: cellsToProcess };
+  return { playerHitStatus: playerHitStatus, cellsToProcess: cellsToProcess };
 };

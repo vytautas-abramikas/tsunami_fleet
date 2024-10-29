@@ -22,7 +22,7 @@ export const getBrowserShotResults = (
   //there is a ship hit but not sunk on grid
   if (cellsHitIds.length > 0) {
     const potentialTargetIds = getAdjacentHitCandidates(
-      "User",
+      "Player",
       grid,
       cellsHitIds
     );
