@@ -28,6 +28,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [appState, setAppState] = useState<TAppState>("Welcome");
+  const [currentShipId, setCurrentShipId] = useState<number>(1);
   const [activeCombatant, setActiveCombatant] = useState<TCombatant>("Player");
   const [playerShips, setPlayerShips] = useState<TShips | []>([]);
   const [playerGrid, setPlayerGrid] = useState<TGrid | []>([]);
@@ -54,6 +55,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setEmptyPlayerGridAndShipsForPlacement();
       setMessages([MSG_LIB.PlacementStart]);
       setButtons(placementStartButtons);
+    }
+    if (appState === "PlacementEmpty") {
+      // console.log("%cappState: PlacementEmpty", "color: purple");
+      setEmptyPlayerGridAndShipsForPlacement();
+      setCurrentShipId(1);
+      setMessages([]);
+      setGridActiveStatus("Player", "activate");
+      setAppState("PlacementFirstSegment");
+    }
+    if (appState === "PlacementFirstSegment") {
+      // console.log("%cappState: PlacementFirstSegment", "color: purple");
+      setGridActiveStatus("Player", "activate");
+      const shipSize: number = playerShips[currentShipId - 1].size;
+      setAddMessage(fillIn(MSG_LIB.PlacementFirstSegment, [String(shipSize)]));
+      setButtons(PlacementFirstSegmentButtons);
     }
     if (appState === "PlacementGenerate") {
       // console.log("%cappState: PlacementGenerate", "color: purple");
@@ -270,8 +286,17 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       text: "Manually",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
       onClick: setAppState,
-      args: ["PlacementGenerate"],
+      args: ["PlacementEmpty"],
     },
+    {
+      text: "Exit",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAppState,
+      args: ["Welcome"],
+    },
+  ];
+
+  const PlacementFirstSegmentButtons: TButtonProps[] = [
     {
       text: "Exit",
       classes: "bg-red-600 hover:bg-red-700 text-white",

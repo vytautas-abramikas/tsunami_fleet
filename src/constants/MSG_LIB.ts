@@ -17,6 +17,14 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "Admiral, how do you want your fleet to be placed?",
     classes: "text-4xl font-bold",
   },
+  PlacementFirstSegment: {
+    text: "Admiral, place your size-{0} ship",
+    classes: "text-4xl font-bold",
+  },
+  PlacementAdditionalSegment: {
+    text: "Place an additional segment of your size-{0} ship",
+    classes: "font-semibold text-white",
+  },
   PlacementGenerate: {
     text: "Admiral, do you accept the fleet layout?",
     classes: "text-4xl font-bold",
