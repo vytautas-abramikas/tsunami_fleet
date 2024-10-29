@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, ReactNode } from "react";
 import {
   TGrid,
   TGameContext,
+  TShip,
   TShips,
   TMessage,
   TCell,
@@ -21,6 +22,7 @@ import { isLastSegmentToSinkOnGrid } from "../utils/isLastSegmentToSinkOnGrid";
 import { MSG_LIB, fillIn } from "../constants/MSG_LIB";
 import { BROWSER_TURN_TIMEOUT } from "../constants/BROWSER_TURN_TIMEOUT";
 import { getPlayerShotResults } from "../utils/getPlayerShotResults";
+import { getPlayerPlacementResults } from "../utils/getPlayerPlacementResults";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -195,6 +197,19 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   //handle Player clicks while placing ships
   const handlePlayerPlacement = (cellId: number) => {
     console.log("handlePlayerPlacement");
+    const { isShipFinished, shipToProcess, cellsToProcess } =
+      getPlayerPlacementResults(
+        cellId,
+        playerShips[currentShipId - 1],
+        playerGrid
+      );
+    console.log(isShipFinished, shipToProcess, cellsToProcess);
+    setUpdatePlayerShip(shipToProcess);
+    setUpdateGrid("Player", cellsToProcess);
+    if (isShipFinished) {
+      setCurrentShipId((prev) => prev + 1);
+    }
+    setAppState("PlacementTransition");
   };
 
   //Setter for grid, updating some cells
@@ -211,6 +226,19 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         ...prev.map(
           (cell) =>
             updatedCells.find((updated) => updated.id === cell.id) || cell
+        ),
+      ];
+    });
+  };
+
+  const setUpdatePlayerShip = (updatedShip: TShip) => {
+    setPlayerShips((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      return [
+        ...prev.map((ship) =>
+          ship.id === updatedShip.id ? { ...updatedShip } : ship
         ),
       ];
     });
