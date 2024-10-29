@@ -13,6 +13,10 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "Dare to brave the seas?",
     classes: "text-4xl font-bold text-white",
   },
+  PlacementStart: {
+    text: "Admiral, how do you want your fleet to be placed?",
+    classes: "text-4xl font-bold",
+  },
   PlacementGenerate: {
     text: "Admiral, do you accept the fleet layout?",
     classes: "text-4xl font-bold",

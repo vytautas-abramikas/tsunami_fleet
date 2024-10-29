@@ -5,6 +5,7 @@ export type TAppState =
   | "PlacementStart"
   | "PlacementGenerate"
   | "PlacementFirstSegment"
+  | "PlacementTransition"
   | "PlacementAdditionalSegments"
   | "PlacementFinalize"
   | "BattleStart"
@@ -16,7 +17,7 @@ export type TCell = {
   id: number;
   isVisible: boolean;
   isVisibleToBrowser: boolean;
-  status: "empty" | "segment" | "ship" | "hit" | "sunk";
+  status: "empty" | "candidate" | "segment" | "ship" | "hit" | "sunk";
   shipId: number;
   isActive: boolean;
 };

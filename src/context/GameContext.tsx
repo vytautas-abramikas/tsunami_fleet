@@ -36,10 +36,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
 
-  // Initialize the state once
+  // Initialization empty for now
   useEffect(() => {
     // console.log("%cInitial useEffect", "color: purple");
-    setNewPlayerGrid(); //just to keep the function needed for now
   }, []);
 
   //Actions on appState change
@@ -49,6 +48,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setRandomBrowserGrid();
       setMessages([MSG_LIB.Welcome]);
       setButtons(welcomeButtons);
+    }
+    if (appState === "PlacementStart") {
+      // console.log("%cappState: PlacementStart", "color: purple");
+      setEmptyPlayerGridAndShipsForPlacement();
+      setMessages([MSG_LIB.PlacementStart]);
+      setButtons(placementStartButtons);
     }
     if (appState === "PlacementGenerate") {
       // console.log("%cappState: PlacementGenerate", "color: purple");
@@ -212,12 +217,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const setNewPlayerGrid = () => {
+  const setEmptyPlayerGridAndShipsForPlacement = () => {
     // console.log("setNewPlayerGrid");
     const initialPlayerShips = getInitializeShips();
     const initialPlayerGrid = getInitializeGrid();
     setPlayerShips(initialPlayerShips);
-    setPlayerGrid(initialPlayerGrid);
+    const disabledGrid = getChangeCellsActiveStatus(
+      initialPlayerGrid,
+      "deactivate"
+    );
+    setPlayerGrid(disabledGrid);
   };
 
   const setRandomBrowserGrid = () => {
@@ -246,7 +255,28 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       text: "Prepare for battle",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
       onClick: setAppState,
+      args: ["PlacementStart"],
+    },
+  ];
+
+  const placementStartButtons: TButtonProps[] = [
+    {
+      text: "Randomly",
+      classes: "bg-green-600 hover:bg-green-700 text-white",
+      onClick: setAppState,
       args: ["PlacementGenerate"],
+    },
+    {
+      text: "Manually",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setAppState,
+      args: ["PlacementGenerate"],
+    },
+    {
+      text: "Exit",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAppState,
+      args: ["Welcome"],
     },
   ];
 

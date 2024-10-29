@@ -20,7 +20,7 @@ export const GameBoard: React.FC = () => {
   }, [appState]);
 
   const hidePlayerTitle: boolean = useMemo(() => {
-    if (appState === "PlacementGenerate") {
+    if (appState === "PlacementStart" || appState === "PlacementGenerate") {
       return true;
     } else {
       return false;
