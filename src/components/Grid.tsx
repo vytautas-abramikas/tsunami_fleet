@@ -9,23 +9,27 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
 }) => {
   const { appState, activeCombatant, handlePlayerShot } = useGameContext();
 
-  const pointerStyle = useMemo(() => {
+  const pointerStyle: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant === "Browser") {
         return "cursor-not-allowed";
+      } else {
+        return "";
       }
     } else {
       return "";
     }
   }, [appState, activeCombatant]);
 
-  const border = useMemo(() => {
+  const border: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant !== owner) {
         return "p-1 border-dashed border border-sky-500";
       } else {
         return "";
       }
+    } else {
+      return "";
     }
   }, [appState, activeCombatant]);
 

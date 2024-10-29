@@ -44,7 +44,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     classes: "font-semibold text-green-400",
   },
   BrowserVictory: {
-    text: "{0} won. Better luck next time, Admiral!",
+    text: "{0} won. Better luck next time, {1}!",
     classes: "text-4xl font-bold text-red-400",
   },
   PlayerVictory: {

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useGameContext } from "../hooks/useGameContext";
 import { Grid } from "./Grid";
 
@@ -5,11 +6,27 @@ export const GameBoard: React.FC = () => {
   const { appState, activeCombatant, playerGrid, browserGrid } =
     useGameContext();
 
-  const isBattle: boolean =
-    appState === "BattleStart" ||
-    appState === "Battle" ||
-    appState === "BattlePause" ||
-    appState === "BattleOver";
+  const isBattle: boolean = useMemo(() => {
+    if (
+      appState === "BattleStart" ||
+      appState === "Battle" ||
+      appState === "BattlePause" ||
+      appState === "BattleOver"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [appState]);
+
+  const hidePlayerTitle: boolean = useMemo(() => {
+    if (appState === "PlacementGenerate") {
+      return true;
+    } else {
+      return false;
+    }
+  }, [appState]);
+
   return (
     <>
       <div
@@ -18,6 +35,8 @@ export const GameBoard: React.FC = () => {
         <div className="flex flex-col items-center justify-center">
           <h2
             className={`font-bold mb-4 drop-shadow-lg h-10 ${
+              hidePlayerTitle ? "opacity-0" : ""
+            } ${
               isBattle && activeCombatant === "Player"
                 ? "text-yellow-300 text-3xl"
                 : "text-white text-2xl"

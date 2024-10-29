@@ -123,7 +123,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
               const browserShipsRevealed: TGrid =
                 getGridWithShipsVisible(browserGrid);
               setUpdateGrid("Browser", browserShipsRevealed);
-              setAddMessage(fillIn(MSG_LIB.BrowserVictory, ["Browser"]));
+              setAddMessage(
+                fillIn(MSG_LIB.BrowserVictory, ["Browser", "Player"])
+              );
               setAppState("BattleOver");
             }
           }
