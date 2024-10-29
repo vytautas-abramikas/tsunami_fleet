@@ -7,7 +7,8 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   owner,
   grid,
 }) => {
-  const { appState, activeCombatant, handlePlayerShot } = useGameContext();
+  const { appState, activeCombatant, handlePlayerShot, handlePlayerPlacement } =
+    useGameContext();
 
   const pointerStyle: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
@@ -40,6 +41,11 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
       owner === "Browser"
     ) {
       handlePlayerShot(cellId);
+    } else if (
+      appState === "PlacementFirstSegment" ||
+      appState === "PlacementAdditionalSegment"
+    ) {
+      handlePlayerPlacement(cellId);
     }
   };
 

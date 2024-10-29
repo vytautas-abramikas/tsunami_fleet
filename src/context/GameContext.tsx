@@ -71,6 +71,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setAddMessage(fillIn(MSG_LIB.PlacementFirstSegment, [String(shipSize)]));
       setButtons(PlacementFirstSegmentButtons);
     }
+    if (appState === "PlacementAdditionalSegment") {
+      // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
+      setAppState("PlacementTransition");
+    }
+    if (appState === "PlacementTransition") {
+      // console.log("%cappState: PlacementTransition", "color: purple");
+      setAppState("PlacementFirstSegment");
+    }
+    if (appState === "PlacementFinalize") {
+      // console.log("%cappState: PlacementFinalize", "color: purple");
+      setAppState("PlacementFirstSegment");
+    }
     if (appState === "PlacementGenerate") {
       // console.log("%cappState: PlacementGenerate", "color: purple");
       setRandomPlayerShipsAndGrid();
@@ -178,6 +190,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAppState("BattleOver");
       }
     }
+  };
+
+  //handle Player clicks while placing ships
+  const handlePlayerPlacement = (cellId: number) => {
+    console.log("handlePlayerPlacement");
   };
 
   //Setter for grid, updating some cells
@@ -360,6 +377,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         messages,
         buttons,
         handlePlayerShot,
+        handlePlayerPlacement,
       }}
     >
       {children}

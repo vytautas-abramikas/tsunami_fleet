@@ -60,4 +60,5 @@ export type TGameContext = {
   messages: TMessage[];
   buttons: TButtonProps[];
   handlePlayerShot: (cellId: number) => void;
+  handlePlayerPlacement: (cellId: number) => void;
 };
