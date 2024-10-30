@@ -25,6 +25,10 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "Place an additional segment",
     classes: "font-semibold text-white",
   },
+  PlacementFinalize: {
+    text: "Fleet placement complete. Accept layout?",
+    classes: "text-4xl font-bold text-white",
+  },
   PlacementGenerate: {
     text: "Accept the fleet layout?",
     classes: "text-4xl font-bold text-white",
