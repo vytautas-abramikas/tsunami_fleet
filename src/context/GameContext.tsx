@@ -187,9 +187,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
               const browserShipsRevealed: TGrid =
                 getGridWithShipsVisible(browserGrid);
               setUpdateGrid("Browser", browserShipsRevealed);
-              setAddMessage(
-                fillIn(MSG_LIB.BrowserVictory, ["Browser", "Player"])
-              );
+              setMessages([
+                fillIn(MSG_LIB.BrowserVictory, ["Browser", "Player"]),
+              ]);
               setAppState("BattleOver");
             }
           }
@@ -217,7 +217,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       if (!isBrowsersLastSegment) {
         setAddMessage(MSG_LIB.PlayerSankBrowserShip);
       } else {
-        setAddMessage(MSG_LIB.PlayerVictory);
+        setMessages([MSG_LIB.PlayerVictory]);
         setAppState("BattleOver");
       }
     }
