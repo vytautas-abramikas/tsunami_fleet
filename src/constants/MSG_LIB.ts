@@ -14,24 +14,24 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     classes: "text-4xl font-bold text-white",
   },
   PlacementStart: {
-    text: "Admiral, how do you want your fleet to be placed?",
-    classes: "text-4xl font-bold",
+    text: "How do you want your fleet to be placed?",
+    classes: "text-4xl font-bold text-white",
   },
   PlacementFirstSegment: {
-    text: "Admiral, place your size-{0} ship",
-    classes: "text-4xl font-bold",
+    text: "Place your size-{0} ship",
+    classes: "font-semibold text-white",
   },
   PlacementAdditionalSegment: {
-    text: "Place an additional segment of your size-{0} ship",
+    text: "Place an additional segment",
     classes: "font-semibold text-white",
   },
   PlacementGenerate: {
-    text: "Admiral, do you accept the fleet layout?",
-    classes: "text-4xl font-bold",
+    text: "Accept the fleet layout?",
+    classes: "text-4xl font-bold text-white",
   },
   BattleStart: {
     text: "{0} gets to start. Engage in battle?",
-    classes: "text-4xl font-bold",
+    classes: "text-4xl font-bold text-white",
   },
   PlayersTurn: {
     text: "{0}, your turn!",

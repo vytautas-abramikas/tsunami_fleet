@@ -83,11 +83,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         playerShips[currentShipId - 1].segments
       );
       setUpdateGrid("Player", gridNewCandidates);
-      setAddMessage(
-        fillIn(MSG_LIB.PlacementAdditionalSegment, [
-          String(playerShips[currentShipId - 1].size),
-        ])
-      );
+      setAddMessage(MSG_LIB.PlacementAdditionalSegment);
       //TODO: function (onClick) to remove segments from ship and grid and send to PlacementTransition
       setButtons(placementAdditionalSegmentButtons);
     }
