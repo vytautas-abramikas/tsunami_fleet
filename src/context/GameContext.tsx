@@ -448,7 +448,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const battleButtons: TButtonProps[] = [
     {
-      text: "Surrender",
+      text: "Quit",
       classes: "bg-red-600 hover:bg-red-700 text-white",
       onClick: setAppState,
       args: ["Welcome"],
