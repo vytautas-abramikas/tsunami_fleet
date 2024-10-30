@@ -23,6 +23,7 @@ import { MSG_LIB, fillIn } from "../constants/MSG_LIB";
 import { BROWSER_TURN_TIMEOUT } from "../constants/BROWSER_TURN_TIMEOUT";
 import { getPlayerShotResults } from "../utils/getPlayerShotResults";
 import { getPlayerPlacementResults } from "../utils/getPlayerPlacementResults";
+import { getHandlePlacementCandidates } from "../utils/getHandlePlacementCandidates";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -67,23 +68,49 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setAppState("PlacementFirstSegment");
     }
     if (appState === "PlacementFirstSegment") {
-      // console.log("%cappState: PlacementFirstSegment", "color: purple");
-      setGridActiveStatus("Player", "activate");
-      const shipSize: number = playerShips[currentShipId - 1].size;
-      setAddMessage(fillIn(MSG_LIB.PlacementFirstSegment, [String(shipSize)]));
-      setButtons(PlacementFirstSegmentButtons);
+      console.log("%cappState: PlacementFirstSegment", "color: purple");
+      setAddMessage(
+        fillIn(MSG_LIB.PlacementFirstSegment, [
+          String(playerShips[currentShipId - 1].size),
+        ])
+      );
+      setButtons(placementFirstSegmentButtons);
     }
     if (appState === "PlacementAdditionalSegment") {
-      // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
-      setAppState("PlacementTransition");
+      console.log("%cappState: PlacementAdditionalSegment", "color: purple");
+      const gridNewCandidates = getHandlePlacementCandidates(
+        playerGrid,
+        playerShips[currentShipId - 1].segments
+      );
+      setUpdateGrid("Player", gridNewCandidates);
+      setAddMessage(
+        fillIn(MSG_LIB.PlacementAdditionalSegment, [
+          String(playerShips[currentShipId - 1].size),
+        ])
+      );
+      //TODO: function (onClick) to remove segments from ship and grid and send to PlacementTransition
+      setButtons(placementAdditionalSegmentButtons);
     }
     if (appState === "PlacementTransition") {
-      // console.log("%cappState: PlacementTransition", "color: purple");
-      setAppState("PlacementFirstSegment");
+      console.log("%cappState: PlacementTransition", "color: purple");
+      const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
+      setUpdateGrid("Player", gridActiveNoCandidates);
+      if (
+        playerShips[currentShipId - 1].size ===
+        playerShips[currentShipId - 1].segments.length
+      ) {
+        if (currentShipId === playerShips.length) {
+          setAppState("PlacementFinalize");
+        } else {
+          setCurrentShipId((prev) => prev + 1);
+          setAppState("PlacementFirstSegment");
+        }
+      } else {
+        setAppState("PlacementAdditionalSegment");
+      }
     }
     if (appState === "PlacementFinalize") {
       // console.log("%cappState: PlacementFinalize", "color: purple");
-      setAppState("PlacementFirstSegment");
     }
     if (appState === "PlacementGenerate") {
       // console.log("%cappState: PlacementGenerate", "color: purple");
@@ -197,18 +224,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   //handle Player clicks while placing ships
   const handlePlayerPlacement = (cellId: number) => {
     console.log("handlePlayerPlacement");
-    const { isShipFinished, shipToProcess, cellsToProcess } =
-      getPlayerPlacementResults(
-        cellId,
-        playerShips[currentShipId - 1],
-        playerGrid
-      );
-    console.log(isShipFinished, shipToProcess, cellsToProcess);
+    const { shipToProcess, cellsToProcess } = getPlayerPlacementResults(
+      cellId,
+      playerShips[currentShipId - 1],
+      playerGrid
+    );
+    console.log(shipToProcess, cellsToProcess);
     setUpdatePlayerShip(shipToProcess);
     setUpdateGrid("Player", cellsToProcess);
-    if (isShipFinished) {
-      setCurrentShipId((prev) => prev + 1);
-    }
     setAppState("PlacementTransition");
   };
 
@@ -341,9 +364,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     },
   ];
 
-  const PlacementFirstSegmentButtons: TButtonProps[] = [
+  const placementFirstSegmentButtons: TButtonProps[] = [
     {
       text: "Exit",
+      classes: "bg-red-600 hover:bg-red-700 text-white",
+      onClick: setAppState,
+      args: ["Welcome"],
+    },
+  ];
+
+  const placementAdditionalSegmentButtons: TButtonProps[] = [
+    {
+      text: "Reset this ship",
       classes: "bg-red-600 hover:bg-red-700 text-white",
       onClick: setAppState,
       args: ["Welcome"],
