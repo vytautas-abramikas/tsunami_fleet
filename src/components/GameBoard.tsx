@@ -3,8 +3,13 @@ import { useGameContext } from "../hooks/useGameContext";
 import { Grid } from "./Grid";
 
 export const GameBoard: React.FC = () => {
-  const { appState, activeCombatant, playerGrid, browserGrid } =
-    useGameContext();
+  const {
+    appState,
+    activeCombatant,
+    playerGrid,
+    browserGrid,
+    setIsStatsModalVisible,
+  } = useGameContext();
 
   const isBattle: boolean = useMemo(() => {
     if (
@@ -33,6 +38,12 @@ export const GameBoard: React.FC = () => {
       return false;
     }
   }, [appState]);
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsStatsModalVisible(true);
+  };
 
   return (
     <>
@@ -64,9 +75,12 @@ export const GameBoard: React.FC = () => {
             >
               Browser
               {isBattle && activeCombatant === "Player" && (
-                <span className="absolute top-4 right-[-2rem] text-sm text-blue-200 border-2 rounded-full border-blue-200 flex items-center justify-center w-5 h-5 hover:text-blue-400 hover:border-blue-400 hover:cursor-pointer">
+                <button
+                  className="absolute top-4 right-[-2rem] text-sm text-blue-200 border-2 rounded-full border-blue-200 flex items-center justify-center w-5 h-5 hover:text-blue-400 hover:border-blue-400 hover:cursor-pointer"
+                  onClick={onClick}
+                >
                   ?
-                </span>
+                </button>
               )}
             </h2>
             <Grid owner="Browser" grid={browserGrid} />

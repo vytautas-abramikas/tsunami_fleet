@@ -1,4 +1,4 @@
-import { TBattleStatistics } from "../types/types";
+import { useGameContext } from "../hooks/useGameContext";
 
 const getEmojiRepresentation = (afloat: number, sunk: number) => {
   return (
@@ -9,12 +9,16 @@ const getEmojiRepresentation = (afloat: number, sunk: number) => {
   );
 };
 
-export const StatsModal: React.FC<{
-  isOpen: boolean;
-  onClose: () => void;
-  stats: TBattleStatistics;
-}> = ({ isOpen, onClose, stats }) => {
-  if (!isOpen) return null;
+export const StatsModal: React.FC<{}> = () => {
+  const { isStatsModalVisible, stats, setIsStatsModalVisible } =
+    useGameContext();
+  if (!isStatsModalVisible) return null;
+
+  const onClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsStatsModalVisible(false);
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -51,10 +55,10 @@ export const StatsModal: React.FC<{
           </tbody>
         </table>
       </div>
-      <div
+      <button
         className="fixed inset-0 bg-black opacity-50"
         onClick={onClose}
-      ></div>
+      ></button>
     </div>
   );
 };

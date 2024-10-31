@@ -26,6 +26,7 @@ import { getPlayerShotResults } from "../utils/getPlayerShotResults";
 import { getPlayerPlacementResults } from "../utils/getPlayerPlacementResults";
 import { getHandlePlacementCandidates } from "../utils/getHandlePlacementCandidates";
 import { getPreparePlayerGridForBattle } from "../utils/getPreparePlayerGridForBattle";
+import { getBattleStatistics } from "../utils/getBattleStatistics";
 
 export const GameContext = createContext<TGameContext | null>(null);
 
@@ -204,6 +205,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, [activeCombatant, appState]);
+
+  useEffect(() => {
+    if (appState === "Battle" || appState === "BattleOver") {
+      console.log("useEffect setting stats");
+      setStats(
+        getBattleStatistics(playerShips, playerGrid, browserShips, browserGrid)
+      );
+    }
+  }, [playerGrid, browserGrid]);
 
   // handle Player part of battle
   const handlePlayerShot = (cellId: number) => {

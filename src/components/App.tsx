@@ -8,15 +8,7 @@ import { StatsModal } from "./StatsModal";
 import { useMemo } from "react";
 
 export const App: React.FC = () => {
-  const { appState } = useGameContext();
-
-  const showWelcome: boolean = useMemo(() => {
-    if (appState === "Welcome") {
-      return true;
-    } else {
-      return false;
-    }
-  }, [appState]);
+  const { appState, isStatsModalVisible } = useGameContext();
 
   const showGameBoard: boolean = useMemo(() => {
     if (
@@ -41,12 +33,12 @@ export const App: React.FC = () => {
   return (
     <>
       <main className="font-sans text-white flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-animation">
-        {showWelcome && <Welcome />}
+        {appState === "Welcome" && <Welcome />}
         {showGameBoard && <GameBoard />}
         <MessageConsole />
         <ButtonBoard />
         <Copyright />
-        <StatsModal />
+        {isStatsModalVisible && <StatsModal />}
       </main>
     </>
   );
