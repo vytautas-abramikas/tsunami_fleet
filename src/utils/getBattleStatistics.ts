@@ -30,7 +30,7 @@ export const getBattleStatistics = (
     const { afloat: playerShipsAfloat, sunk: playerShipsSunk } =
       getShipsAfloatAndSunkBySize(shipSize, playerShips, playerGrid);
     stats.player.push({
-      name: `Size ${shipSize}`,
+      size: String(shipSize),
       afloat: playerShipsAfloat,
       sunk: playerShipsSunk,
     });
@@ -38,7 +38,7 @@ export const getBattleStatistics = (
     const { afloat: browserShipsAfloat, sunk: browserShipsSunk } =
       getShipsAfloatAndSunkBySize(shipSize, browserShips, browserGrid);
     stats.browser.push({
-      name: `Size ${shipSize}`,
+      size: String(shipSize),
       afloat: browserShipsAfloat,
       sunk: browserShipsSunk,
     });

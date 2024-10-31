@@ -14,51 +14,52 @@ export const StatsModal: React.FC<{}> = () => {
     useGameContext();
   if (!isStatsModalVisible) return null;
 
-  const onClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClose = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
     setIsStatsModalVisible(false);
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-2xl">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Battle Statistics</h2>
-          <button onClick={onClose} className="text-red-500 hover:text-red-700">
-            &times;
-          </button>
+    <>
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="relative z-40">
+          <div className="bg-blue-500 p-6 shadow-lg">
+            <div className="flex justify-center items-center mb-4">
+              <h2 className="text-xl font-bold">Fleet Comparison</h2>
+            </div>
+            <table className="table-auto">
+              <thead>
+                <tr>
+                  <th className="px-2 py-2 text-center">Ship size</th>
+                  <th className="px-2 py-2 text-center">Player</th>
+                  <th className="px-2 py-2 text-center">Browser</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.player.map((stat, index) => (
+                  <tr key={index}>
+                    <td className="px-2 py-2 text-center">{stat.size}</td>
+                    <td className="px-2 py-2 text-center">
+                      {getEmojiRepresentation(stat.afloat, stat.sunk)}
+                    </td>
+                    <td className="px-2 py-2 text-center">
+                      {getEmojiRepresentation(
+                        stats.browser[index].afloat,
+                        stats.browser[index].sunk
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border">Type</th>
-              <th className="px-4 py-2 border">Player</th>
-              <th className="px-4 py-2 border">Browser</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stats.player.map((stat, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2 border">{stat.name}</td>
-                <td className="px-4 py-2 border">
-                  {getEmojiRepresentation(stat.afloat, stat.sunk)}
-                </td>
-                <td className="px-4 py-2 border">
-                  {getEmojiRepresentation(
-                    stats.browser[index].afloat,
-                    stats.browser[index].sunk
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div
+          className="fixed inset-0 bg-black opacity-30 z-30"
+          onClick={onClose}
+        ></div>
       </div>
-      <button
-        className="fixed inset-0 bg-black opacity-50"
-        onClick={onClose}
-      ></button>
-    </div>
+    </>
   );
 };
