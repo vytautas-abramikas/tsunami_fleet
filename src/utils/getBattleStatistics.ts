@@ -21,8 +21,8 @@ export const getBattleStatistics = (
   browserShips: TShips,
   browserGrid: TGrid
 ): TBattleStatistics => {
-  console.log("getBattleStatistics");
-  let stats: TBattleStatistics = { player: [], browser: [] };
+  // console.log("getBattleStatistics");
+  const stats: TBattleStatistics = { player: [], browser: [] };
 
   const sizes = Array.from(new Set(FLEET_COMPOSITION));
 
@@ -43,6 +43,6 @@ export const getBattleStatistics = (
       sunk: browserShipsSunk,
     });
   });
-  console.log(stats);
+  // console.log(stats);
   return stats;
 };

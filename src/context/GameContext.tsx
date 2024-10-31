@@ -144,7 +144,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       // console.log("%cappState: BattlePause", "color: purple");
       setTimeout(() => {
         setAppState("Battle");
-      }, BROWSER_TURN_TIMEOUT / 4);
+      }, BROWSER_TURN_TIMEOUT / 5);
     }
     if (appState === "BattleOver") {
       // console.log("%cappState: BattleOver", "color: purple");
@@ -208,7 +208,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (appState === "Battle" || appState === "BattleOver") {
-      console.log("useEffect setting stats");
+      // console.log("useEffect setting stats");
       setStats(
         getBattleStatistics(playerShips, playerGrid, browserShips, browserGrid)
       );
@@ -465,6 +465,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   const battleButtons: TButtonProps[] = [
     {
+      text: "Compare",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setIsStatsModalVisible,
+      args: [true],
+    },
+    {
       text: "Quit",
       classes: "bg-red-600 hover:bg-red-700 text-white",
       onClick: setAppState,
@@ -473,6 +479,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   ];
 
   const gameOverButtons: TButtonProps[] = [
+    {
+      text: "Compare",
+      classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
+      onClick: setIsStatsModalVisible,
+      args: [true],
+    },
     {
       text: "Exit",
       classes: "bg-red-600 hover:bg-red-700 text-white",

@@ -49,7 +49,7 @@ export const getPlayerPlacementResults = (
   const isLastShipSegment: boolean =
     currentShip.size - currentShip.segments.length === 1;
   let cellsToProcess: TCell[] = [];
-  let shipToProcess: TShip = {
+  const shipToProcess: TShip = {
     ...currentShip,
     segments: [...currentShip.segments, cellId],
   };
