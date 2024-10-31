@@ -56,13 +56,18 @@ export const GameBoard: React.FC = () => {
         {isBattle && (
           <div className="flex flex-col items-center justify-center">
             <h2
-              className={`flex items-end font-bold mb-4 drop-shadow-lg h-10 ${
+              className={`flex items-end font-bold mb-4 drop-shadow-lg h-10 relative ${
                 isBattle && activeCombatant === "Browser"
                   ? "text-yellow-300 text-3xl"
                   : "text-white text-2xl"
               }`}
             >
               Browser
+              {isBattle && activeCombatant === "Player" && (
+                <span className="absolute top-4 right-[-2rem] text-sm text-blue-200 border-2 rounded-full border-blue-200 flex items-center justify-center w-5 h-5 hover:text-blue-400 hover:border-blue-400 hover:cursor-pointer">
+                  ?
+                </span>
+              )}
             </h2>
             <Grid owner="Browser" grid={browserGrid} />
           </div>
