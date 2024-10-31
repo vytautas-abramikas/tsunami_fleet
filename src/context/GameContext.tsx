@@ -136,7 +136,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       // console.log("%cappState: BattlePause", "color: purple");
       setTimeout(() => {
         setAppState("Battle");
-      }, 0);
+      }, BROWSER_TURN_TIMEOUT / 4);
     }
     if (appState === "BattleOver") {
       // console.log("%cappState: BattleOver", "color: purple");
