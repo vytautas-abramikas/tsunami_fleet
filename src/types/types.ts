@@ -62,3 +62,26 @@ export type TGameContext = {
   handlePlayerShot: (cellId: number) => void;
   handlePlayerPlacement: (cellId: number) => void;
 };
+
+export type TBattleStatistics = {
+  player: {
+    size4Afloat: number;
+    size4Sunk: number;
+    size3Afloat: number;
+    size3Sunk: number;
+    size2Afloat: number;
+    size2Sunk: number;
+    size1Afloat: number;
+    size1Sunk: number;
+  };
+  browser: {
+    size4Afloat: number;
+    size4Sunk: number;
+    size3Afloat: number;
+    size3Sunk: number;
+    size2Afloat: number;
+    size2Sunk: number;
+    size1Afloat: number;
+    size1Sunk: number;
+  };
+};
