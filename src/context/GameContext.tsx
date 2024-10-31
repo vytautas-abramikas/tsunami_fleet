@@ -338,7 +338,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const setAddMessage = (newMessage: TMessage) => {
     // console.log("setAddMessage");
     const text = newMessage.text;
-    const classes = newMessage.classes || "text-white font-semibold";
+    const classes = newMessage.classes || "";
     setMessages((prevMessages) => {
       const updatedMessages = [{ text, classes }, ...prevMessages];
       if (updatedMessages.length > 3) {

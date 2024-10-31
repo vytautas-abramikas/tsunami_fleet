@@ -41,11 +41,17 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "{0}, your turn!",
     classes: "font-semibold text-green-400",
   },
-  BrowserMissPlayer: { text: "{0} missed..." },
-  PlayerMissBrowser: { text: "You missed... {0}'s turn now." },
+  BrowserMissPlayer: {
+    text: "{0} missed...",
+    classes: "font-semibold text-white",
+  },
+  PlayerMissBrowser: {
+    text: "You missed... {0}'s turn now.",
+    classes: "font-semibold text-white",
+  },
   BrowserHitPlayerShip: {
     text: "{0} hit your ship and gets to shoot again...",
-    classes: "text-semibold text-red-400",
+    classes: "text-semibold text-[#8B0000]",
   },
   PlayerHitBrowserShip: {
     text: "You hit an enemy ship! Shoot again and sink it!",
@@ -53,7 +59,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
   },
   BrowserSankPlayerShip: {
     text: "{0} sank your ship and gets to shoot again...",
-    classes: "text-semibold text-red-400",
+    classes: "text-semibold text-[#8B0000]",
   },
   PlayerSankBrowserShip: {
     text: "You sank an enemy ship! Shoot again to find the next one!",
@@ -61,7 +67,7 @@ export const MSG_LIB: { [key: string]: TMessage } = {
   },
   BrowserVictory: {
     text: "{0} won. Better luck next time, {1}!",
-    classes: "text-4xl font-bold text-red-400",
+    classes: "text-4xl font-bold text-[#8B0000]",
   },
   PlayerVictory: {
     text: "You won! Congratulations!!!",

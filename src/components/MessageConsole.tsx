@@ -29,7 +29,7 @@ export const MessageConsole: React.FC = () => {
                 : index === 2
                 ? "text-opacity-25"
                 : ""
-            } ${message.classes || "text-white font-semibold"}`}
+            } ${message.classes || ""}`}
           >
             {message.text}
           </p>
