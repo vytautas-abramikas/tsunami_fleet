@@ -12,9 +12,9 @@ const getEmojiRepresentation = (afloat: number, sunk: number) => {
 export const StatsModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-  stats: TBattleStatistics | null;
+  stats: TBattleStatistics;
 }> = ({ isOpen, onClose, stats }) => {
-  if (!isOpen || !stats) return null;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">

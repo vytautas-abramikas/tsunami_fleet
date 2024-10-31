@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type TCombatant = "Player" | "Browser";
 
 export type TAppState =
@@ -57,10 +59,13 @@ export type TGameContext = {
   activeCombatant: TCombatant;
   playerGrid: TGrid;
   browserGrid: TGrid;
+  stats: TBattleStatistics;
+  isStatsModalVisible: boolean;
   messages: TMessage[];
   buttons: TButtonProps[];
   handlePlayerShot: (cellId: number) => void;
   handlePlayerPlacement: (cellId: number) => void;
+  setIsStatsModalVisible: Dispatch<SetStateAction<boolean>>;
 };
 
 export type TShipStatsBySize = {

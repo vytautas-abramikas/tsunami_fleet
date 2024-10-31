@@ -9,6 +9,7 @@ import {
   TButtonProps,
   TCombatant,
   TAppState,
+  TBattleStatistics,
 } from "../types/types";
 import { getInitializeGrid } from "../utils/getInitializeGrid";
 import { getInitializeShips } from "../utils/getInitializeShips";
@@ -38,6 +39,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [playerGrid, setPlayerGrid] = useState<TGrid | []>([]);
   const [browserShips, setBrowserShips] = useState<TShips | []>([]);
   const [browserGrid, setBrowserGrid] = useState<TGrid | []>([]);
+  const [stats, setStats] = useState<TBattleStatistics>({
+    player: [],
+    browser: [],
+  });
+  const [isStatsModalVisible, setIsStatsModalVisible] =
+    useState<boolean>(false);
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
 
@@ -471,10 +478,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         activeCombatant,
         playerGrid,
         browserGrid,
+        stats,
+        isStatsModalVisible,
         messages,
         buttons,
         handlePlayerShot,
         handlePlayerPlacement,
+        setIsStatsModalVisible,
       }}
     >
       {children}
