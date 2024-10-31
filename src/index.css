@@ -11,40 +11,33 @@
 html {
   font-size: calc(0.5vw + 0.5vh);
 }
-.logo {
-  animation: logo-effect infinite 20s ease-in-out;
-}
 .tshadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-.new-message {
-  animation: new-message-effect 0.2s ease-in-out;
+.bg-animation {
+  background-size: 200% 200%;
+  background-image: linear-gradient(
+    -45deg,
+    #9f7aea 0%,
+    #215fb4 25%,
+    #215fb4 50%,
+    #9f7aea 100%
+  );
+  animation: bg-effect 20s ease-in-out infinite;
 }
-.unknown:hover {
-  transform: scale(1.5); /* scale-150 */
-  transition: transform 0.2s ease-in-out; /* transition-transform, transform, duration-200, ease-in-out */
+@keyframes bg-effect {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
-.empty {
-  background-color: rgb(11, 99, 69); /* Permanent color change for a miss */
-  opacity: 50%;
-  animation: empty-effect 0.2s ease-in-out forwards;
-}
-.segment {
-  background-color: green; /* Permanent color change for a ship segment */
-  animation: segment-effect 0.2s ease-in-out forwards;
-}
-.ship {
-  background-color: #32cd32; /* Slightly brighter color for the final ship segment */
-  animation: ship-effect 0.2s ease-in-out forwards;
-}
-.hit {
-  background-color: red; /* Permanent color change for a hit */
-  animation: hit-effect 0.2s ease-in-out forwards;
-}
-.sunk {
-  background-color: rgb(75, 25, 25); /* Permanent color change for a kill */
-  opacity: 50;
-  animation: sunk-effect 0.2s ease-in-out forwards;
+.logo {
+  animation: logo-effect infinite 20s ease-in-out;
 }
 @keyframes logo-effect {
   0% {
@@ -63,6 +56,10 @@ html {
     transform: scale(1);
   }
 }
+
+.new-message {
+  animation: new-message-effect 0.2s ease-in-out;
+}
 @keyframes new-message-effect {
   0% {
     transform: scale(2) rotate(0deg);
@@ -79,6 +76,15 @@ html {
   100% {
     transform: scale(1) rotate(0deg);
   }
+}
+.unknown:hover {
+  transform: scale(1.5);
+  transition: transform 0.2s ease-in-out;
+}
+.empty {
+  background-color: rgb(11, 99, 69);
+  opacity: 50%;
+  animation: empty-effect 0.2s ease-in-out forwards;
 }
 @keyframes empty-effect {
   0% {
@@ -97,6 +103,10 @@ html {
     transform: scale(1);
   }
 }
+.segment {
+  background-color: green;
+  animation: segment-effect 0.2s ease-in-out forwards;
+}
 @keyframes segment-effect {
   0% {
     transform: scale(1);
@@ -113,6 +123,10 @@ html {
   100% {
     transform: scale(1);
   }
+}
+.ship {
+  background-color: #32cd32;
+  animation: ship-effect 0.2s ease-in-out forwards;
 }
 @keyframes ship-effect {
   0% {
@@ -131,6 +145,10 @@ html {
     transform: scale(1);
   }
 }
+.hit {
+  background-color: red;
+  animation: hit-effect 0.2s ease-in-out forwards;
+}
 @keyframes hit-effect {
   0% {
     transform: scale(1);
@@ -147,6 +165,11 @@ html {
   100% {
     transform: scale(1);
   }
+}
+.sunk {
+  background-color: rgb(75, 25, 25);
+  opacity: 50;
+  animation: sunk-effect 0.2s ease-in-out forwards;
 }
 @keyframes sunk-effect {
   0% {

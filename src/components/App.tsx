@@ -39,7 +39,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <main className="font-sans bg-gradient-to-r from-purple-500 to-blue-900 text-white flex flex-col items-center justify-center min-h-screen overflow-hidden">
+      <main className="font-sans text-white flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-animation">
         {showWelcome && <Welcome />}
         {showGameBoard && <GameBoard />}
         <MessageConsole />
