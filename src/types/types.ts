@@ -63,25 +63,14 @@ export type TGameContext = {
   handlePlayerPlacement: (cellId: number) => void;
 };
 
+export type TShipStatsBySize = {
+  name: string;
+  size: number;
+  afloat: number;
+  sunk: number;
+};
+
 export type TBattleStatistics = {
-  player: {
-    size4Afloat: number;
-    size4Sunk: number;
-    size3Afloat: number;
-    size3Sunk: number;
-    size2Afloat: number;
-    size2Sunk: number;
-    size1Afloat: number;
-    size1Sunk: number;
-  };
-  browser: {
-    size4Afloat: number;
-    size4Sunk: number;
-    size3Afloat: number;
-    size3Sunk: number;
-    size2Afloat: number;
-    size2Sunk: number;
-    size1Afloat: number;
-    size1Sunk: number;
-  };
+  player: TShipStatsBySize[];
+  browser: TShipStatsBySize[];
 };
