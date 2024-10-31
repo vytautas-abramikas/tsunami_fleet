@@ -21,31 +21,24 @@ export const getBattleStatistics = (
   browserShips: TShips,
   browserGrid: TGrid
 ): TBattleStatistics => {
-  let stats: TBattleStatistics = {
-    player: FLEET_COMPOSITION.map((shipSize) => ({
-      name: `Size ${shipSize}`,
-      size: shipSize,
-      afloat: 0,
-      sunk: 0,
-    })),
-    browser: FLEET_COMPOSITION.map((shipSize) => ({
-      name: `Size ${shipSize}`,
-      size: shipSize,
-      afloat: 0,
-      sunk: 0,
-    })),
-  };
+  let stats: TBattleStatistics = { player: [], browser: [] };
 
-  FLEET_COMPOSITION.forEach((shipSize, index) => {
+  FLEET_COMPOSITION.forEach((shipSize) => {
     const { afloat: playerShipsAfloat, sunk: playerShipsSunk } =
       getShipsAfloatAndSunkBySize(shipSize, playerShips, playerGrid);
-    stats.player[index].afloat = playerShipsAfloat;
-    stats.player[index].sunk = playerShipsSunk;
+    stats.player.push({
+      name: `Size ${shipSize}`,
+      afloat: playerShipsAfloat,
+      sunk: playerShipsSunk,
+    });
 
     const { afloat: browserShipsAfloat, sunk: browserShipsSunk } =
       getShipsAfloatAndSunkBySize(shipSize, browserShips, browserGrid);
-    stats.browser[index].afloat = browserShipsAfloat;
-    stats.browser[index].sunk = browserShipsSunk;
+    stats.browser.push({
+      name: `Size ${shipSize}`,
+      afloat: browserShipsAfloat,
+      sunk: browserShipsSunk,
+    });
   });
 
   return stats;

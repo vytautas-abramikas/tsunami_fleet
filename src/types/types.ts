@@ -65,7 +65,6 @@ export type TGameContext = {
 
 export type TShipStatsBySize = {
   name: string;
-  size: number;
   afloat: number;
   sunk: number;
 };

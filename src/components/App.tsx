@@ -4,6 +4,7 @@ import { ButtonBoard } from "./ButtonBoard";
 import { GameBoard } from "./GameBoard";
 import { MessageConsole } from "./MessageConsole";
 import { Copyright } from "./Copyright";
+import { StatsModal } from "./StatsModal";
 import { useMemo } from "react";
 
 export const App: React.FC = () => {
@@ -45,6 +46,7 @@ export const App: React.FC = () => {
         <MessageConsole />
         <ButtonBoard />
         <Copyright />
+        <StatsModal />
       </main>
     </>
   );
