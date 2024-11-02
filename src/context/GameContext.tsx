@@ -77,7 +77,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setGridActiveStatus("Player", "activate");
         setAppState("PlacementFirstSegment");
         break;
-      case "PlacementFirstSegment":
+      case "PlacementFirstSegment": {
         // console.log("%cappState: PlacementFirstSegment", "color: purple");
         const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
         setUpdateGrid("Player", gridActiveNoCandidates);
@@ -88,7 +88,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         );
         setButtons(placementFirstSegmentButtons);
         break;
-      case "PlacementAdditionalSegment":
+      }
+      case "PlacementAdditionalSegment": {
         // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
         const gridNewCandidates = getHandlePlacementCandidates(
           playerGrid,
@@ -98,7 +99,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAddMessage(MSG_LIB.PlacementAdditionalSegment);
         setButtons(placementAdditionalSegmentButtons);
         break;
-      case "PlacementTransition":
+      }
+      case "PlacementTransition": {
         // console.log("%cappState: PlacementTransition", "color: purple");
         const gridCleardCandidatesActivated =
           getHandlePlacementCandidates(playerGrid);
@@ -117,20 +119,22 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           setAppState("PlacementAdditionalSegment");
         }
         break;
-      case "PlacementFinalize":
+      }
+      case "PlacementFinalize": {
         // console.log("%cappState: PlacementFinalize", "color: purple");
         const preparedPlayerGrid = getPreparePlayerGridForBattle(playerGrid);
         setUpdateGrid("Player", preparedPlayerGrid);
         setMessages([MSG_LIB.PlacementFinalize]);
         setButtons(placementFinalizeButtons);
         break;
+      }
       case "PlacementGenerate":
         // console.log("%cappState: PlacementGenerate", "color: purple");
         setRandomPlayerShipsAndGrid();
         setMessages([MSG_LIB.PlacementGenerate]);
         setButtons(placementGenerateButtons);
         break;
-      case "BattleStart":
+      case "BattleStart": {
         // console.log("%cappState: BattleStart", "color: purple");
         setGridActiveStatus("Browser", "deactivate");
         const startingCombatant = getWhoGetsFirstTurn();
@@ -138,6 +142,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setMessages([fillIn(MSG_LIB.BattleStart, [startingCombatant])]);
         setButtons(battleStartButtons);
         break;
+      }
       case "Battle":
         // console.log("%cappState: Battle", "color: purple");
         setButtons(battleButtons);
@@ -168,7 +173,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           setGridActiveStatus("Browser", "activate");
           setAddMessage(fillIn(MSG_LIB.PlayersTurn, [activeCombatant]));
           break;
-        case "Browser":
+        case "Browser": {
           const isPlayersLastSegment = isLastSegmentToSinkOnGrid(playerGrid);
           setGridActiveStatus("Browser", "deactivate");
           const { browserHitStatus, cellsToProcess } = getBrowserShotResults(
@@ -191,7 +196,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
                 );
                 setAppState("BattlePause");
                 break;
-              case "sunk":
+              case "sunk": {
                 if (!isPlayersLastSegment) {
                   // console.log("Browser sank a ship, not last segment on board, Browser gets another turn");
                   setAddMessage(
@@ -209,11 +214,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
                   setAppState("BattleOver");
                 }
                 break;
+              }
               default:
                 break;
             }
           }, BROWSER_TURN_TIMEOUT);
           break;
+        }
         default:
           break;
       }
