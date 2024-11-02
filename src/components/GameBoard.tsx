@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useGameContext } from "../hooks/useGameContext";
 import { Grid } from "./Grid";
 
@@ -6,33 +5,19 @@ export const GameBoard: React.FC = () => {
   const { appState, activeCombatant, playerGrid, browserGrid } =
     useGameContext();
 
-  const isBattle: boolean = useMemo(() => {
-    if (
-      appState === "BattleStart" ||
-      appState === "Battle" ||
-      appState === "BattlePause" ||
-      appState === "BattleOver"
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [appState]);
+  const isBattle: boolean =
+    appState === "BattleStart" ||
+    appState === "Battle" ||
+    appState === "BattlePause" ||
+    appState === "BattleOver";
 
-  const hidePlayerTitle: boolean = useMemo(() => {
-    if (
-      appState === "PlacementStart" ||
-      appState === "PlacementEmpty" ||
-      appState === "PlacementFirstSegment" ||
-      appState === "PlacementAdditionalSegment" ||
-      appState === "PlacementFinalize" ||
-      appState === "PlacementGenerate"
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [appState]);
+  const hidePlayerTitle: boolean =
+    appState === "PlacementStart" ||
+    appState === "PlacementEmpty" ||
+    appState === "PlacementFirstSegment" ||
+    appState === "PlacementAdditionalSegment" ||
+    appState === "PlacementFinalize" ||
+    appState === "PlacementGenerate";
 
   return (
     <>

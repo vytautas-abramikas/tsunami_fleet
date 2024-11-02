@@ -14,12 +14,6 @@ export const StatsModal: React.FC = () => {
     useGameContext();
   if (!isStatsModalVisible) return null;
 
-  const onClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setIsStatsModalVisible(false);
-  };
-
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -65,7 +59,7 @@ export const StatsModal: React.FC = () => {
         </div>
         <div
           className="fixed inset-0 bg-black opacity-40 z-30"
-          onClick={onClose}
+          onClick={() => setIsStatsModalVisible(false)}
         ></div>
       </div>
     </>
