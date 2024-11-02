@@ -56,152 +56,166 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   //Actions on appState change
   useEffect(() => {
-    if (appState === "Welcome") {
-      // console.log("%cappState: Welcome", "color: purple");
-      setRandomBrowserGrid();
-      setMessages([MSG_LIB.Welcome]);
-      setButtons(welcomeButtons);
-    }
-    if (appState === "PlacementStart") {
-      // console.log("%cappState: PlacementStart", "color: purple");
-      setEmptyPlayerGridAndShipsForPlacement();
-      setMessages([MSG_LIB.PlacementStart]);
-      setButtons(placementStartButtons);
-    }
-    if (appState === "PlacementEmpty") {
-      // console.log("%cappState: PlacementEmpty", "color: purple");
-      setEmptyPlayerGridAndShipsForPlacement();
-      setCurrentShipId(1);
-      setMessages([]);
-      setGridActiveStatus("Player", "activate");
-      setAppState("PlacementFirstSegment");
-    }
-    if (appState === "PlacementFirstSegment") {
-      // console.log("%cappState: PlacementFirstSegment", "color: purple");
-      const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
-      setUpdateGrid("Player", gridActiveNoCandidates);
-      setAddMessage(
-        fillIn(MSG_LIB.PlacementFirstSegment, [
-          String(playerShips[currentShipId - 1].size),
-        ])
-      );
-      setButtons(placementFirstSegmentButtons);
-    }
-    if (appState === "PlacementAdditionalSegment") {
-      // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
-      const gridNewCandidates = getHandlePlacementCandidates(
-        playerGrid,
-        playerShips[currentShipId - 1].segments
-      );
-      setUpdateGrid("Player", gridNewCandidates);
-      setAddMessage(MSG_LIB.PlacementAdditionalSegment);
-      setButtons(placementAdditionalSegmentButtons);
-    }
-    if (appState === "PlacementTransition") {
-      // console.log("%cappState: PlacementTransition", "color: purple");
-      const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
-      setUpdateGrid("Player", gridActiveNoCandidates);
-      if (
-        playerShips[currentShipId - 1].size ===
-        playerShips[currentShipId - 1].segments.length
-      ) {
-        if (currentShipId === playerShips.length) {
-          setAppState("PlacementFinalize");
+    switch (appState) {
+      case "Welcome":
+        // console.log("%cappState: Welcome", "color: purple");
+        setRandomBrowserGrid();
+        setMessages([MSG_LIB.Welcome]);
+        setButtons(welcomeButtons);
+        break;
+      case "PlacementStart":
+        // console.log("%cappState: PlacementStart", "color: purple");
+        setEmptyPlayerGridAndShipsForPlacement();
+        setMessages([MSG_LIB.PlacementStart]);
+        setButtons(placementStartButtons);
+        break;
+      case "PlacementEmpty":
+        // console.log("%cappState: PlacementEmpty", "color: purple");
+        setEmptyPlayerGridAndShipsForPlacement();
+        setCurrentShipId(1);
+        setMessages([]);
+        setGridActiveStatus("Player", "activate");
+        setAppState("PlacementFirstSegment");
+        break;
+      case "PlacementFirstSegment":
+        // console.log("%cappState: PlacementFirstSegment", "color: purple");
+        const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
+        setUpdateGrid("Player", gridActiveNoCandidates);
+        setAddMessage(
+          fillIn(MSG_LIB.PlacementFirstSegment, [
+            String(playerShips[currentShipId - 1].size),
+          ])
+        );
+        setButtons(placementFirstSegmentButtons);
+        break;
+      case "PlacementAdditionalSegment":
+        // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
+        const gridNewCandidates = getHandlePlacementCandidates(
+          playerGrid,
+          playerShips[currentShipId - 1].segments
+        );
+        setUpdateGrid("Player", gridNewCandidates);
+        setAddMessage(MSG_LIB.PlacementAdditionalSegment);
+        setButtons(placementAdditionalSegmentButtons);
+        break;
+      case "PlacementTransition":
+        // console.log("%cappState: PlacementTransition", "color: purple");
+        const gridCleardCandidatesActivated =
+          getHandlePlacementCandidates(playerGrid);
+        setUpdateGrid("Player", gridCleardCandidatesActivated);
+        if (
+          playerShips[currentShipId - 1].size ===
+          playerShips[currentShipId - 1].segments.length
+        ) {
+          if (currentShipId === playerShips.length) {
+            setAppState("PlacementFinalize");
+          } else {
+            setCurrentShipId((prev) => prev + 1);
+            setAppState("PlacementFirstSegment");
+          }
         } else {
-          setCurrentShipId((prev) => prev + 1);
-          setAppState("PlacementFirstSegment");
+          setAppState("PlacementAdditionalSegment");
         }
-      } else {
-        setAppState("PlacementAdditionalSegment");
-      }
-    }
-    if (appState === "PlacementFinalize") {
-      // console.log("%cappState: PlacementFinalize", "color: purple");
-      const preparedPlayerGrid = getPreparePlayerGridForBattle(playerGrid);
-      setUpdateGrid("Player", preparedPlayerGrid);
-      setMessages([MSG_LIB.PlacementFinalize]);
-      setButtons(placementFinalizeButtons);
-    }
-    if (appState === "PlacementGenerate") {
-      // console.log("%cappState: PlacementGenerate", "color: purple");
-      setRandomPlayerShipsAndGrid();
-      setMessages([MSG_LIB.PlacementGenerate]);
-      setButtons(placementGenerateButtons);
-    }
-    if (appState === "BattleStart") {
-      // console.log("%cappState: BattleStart", "color: purple");
-      setGridActiveStatus("Browser", "deactivate");
-      const startingCombatant = getWhoGetsFirstTurn();
-      setActiveCombatant(startingCombatant);
-      setMessages([fillIn(MSG_LIB.BattleStart, [startingCombatant])]);
-      setButtons(battleStartButtons);
-    }
-    if (appState === "Battle") {
-      // console.log("%cappState: Battle", "color: purple");
-      setButtons(battleButtons);
-    }
-    if (appState === "BattlePause") {
-      // console.log("%cappState: BattlePause", "color: purple");
-      setTimeout(() => {
-        setAppState("Battle");
-      }, BROWSER_TURN_TIMEOUT / 5);
-    }
-    if (appState === "BattleOver") {
-      // console.log("%cappState: BattleOver", "color: purple");
-      setGridActiveStatus("Player", "deactivate");
-      setGridActiveStatus("Browser", "deactivate");
-      setButtons(gameOverButtons);
+        break;
+      case "PlacementFinalize":
+        // console.log("%cappState: PlacementFinalize", "color: purple");
+        const preparedPlayerGrid = getPreparePlayerGridForBattle(playerGrid);
+        setUpdateGrid("Player", preparedPlayerGrid);
+        setMessages([MSG_LIB.PlacementFinalize]);
+        setButtons(placementFinalizeButtons);
+        break;
+      case "PlacementGenerate":
+        // console.log("%cappState: PlacementGenerate", "color: purple");
+        setRandomPlayerShipsAndGrid();
+        setMessages([MSG_LIB.PlacementGenerate]);
+        setButtons(placementGenerateButtons);
+        break;
+      case "BattleStart":
+        // console.log("%cappState: BattleStart", "color: purple");
+        setGridActiveStatus("Browser", "deactivate");
+        const startingCombatant = getWhoGetsFirstTurn();
+        setActiveCombatant(startingCombatant);
+        setMessages([fillIn(MSG_LIB.BattleStart, [startingCombatant])]);
+        setButtons(battleStartButtons);
+        break;
+      case "Battle":
+        // console.log("%cappState: Battle", "color: purple");
+        setButtons(battleButtons);
+        break;
+      case "BattlePause":
+        // console.log("%cappState: BattlePause", "color: purple");
+        setTimeout(() => {
+          setAppState("Battle");
+        }, BROWSER_TURN_TIMEOUT / 5);
+        break;
+      case "BattleOver":
+        // console.log("%cappState: BattleOver", "color: purple");
+        setGridActiveStatus("Player", "deactivate");
+        setGridActiveStatus("Browser", "deactivate");
+        setButtons(gameOverButtons);
+        break;
+      default:
+        break;
     }
   }, [appState]);
 
-  //Battle orchestration
+  // Battle orchestration
   useEffect(() => {
     if (appState === "Battle") {
       // console.log(`--- ${activeCombatant} ---`);
-      if (activeCombatant === "Player") {
-        setGridActiveStatus("Browser", "activate");
-        setAddMessage(fillIn(MSG_LIB.PlayersTurn, [activeCombatant]));
-      } else {
-        //browser is gonna shoot now
-        setTimeout(() => {
+      switch (activeCombatant) {
+        case "Player":
+          setGridActiveStatus("Browser", "activate");
+          setAddMessage(fillIn(MSG_LIB.PlayersTurn, [activeCombatant]));
+          break;
+        case "Browser":
           const isPlayersLastSegment = isLastSegmentToSinkOnGrid(playerGrid);
           setGridActiveStatus("Browser", "deactivate");
           const { browserHitStatus, cellsToProcess } = getBrowserShotResults(
             playerGrid,
             playerShips
           );
-          setUpdateGrid("Player", cellsToProcess);
-          if (browserHitStatus === "empty") {
-            // console.log("Browser missed, Player set active");
-            setAddMessage(fillIn(MSG_LIB.BrowserMissPlayer, ["Browser"]));
-            setActiveCombatant("Player");
-          } else if (browserHitStatus === "hit") {
-            // console.log(
-            //   "Browser hit, not last segment, Browser gets another turn"
-            // );
-            setAddMessage(fillIn(MSG_LIB.BrowserHitPlayerShip, ["Browser"]));
-            setAppState("BattlePause");
-          } else {
-            if (!isPlayersLastSegment) {
-              // console.log(
-              //   "Browser sank a ship, not last segment on board, Browser gets another turn"
-              // );
-              setAddMessage(fillIn(MSG_LIB.BrowserSankPlayerShip, ["Browser"]));
-              setAppState("BattlePause");
-            } else {
-              // console.log(
-              //   "--- Browser sank a ship, last segment on board, Browser won ---"
-              // );
-              const browserShipsRevealed: TGrid =
-                getGridWithShipsVisible(browserGrid);
-              setUpdateGrid("Browser", browserShipsRevealed);
-              setMessages([
-                fillIn(MSG_LIB.BrowserVictory, ["Browser", "Player"]),
-              ]);
-              setAppState("BattleOver");
+          // browser is gonna shoot now
+          setTimeout(() => {
+            setUpdateGrid("Player", cellsToProcess);
+            switch (browserHitStatus) {
+              case "empty":
+                // console.log("Browser missed, Player set active");
+                setAddMessage(fillIn(MSG_LIB.BrowserMissPlayer, ["Browser"]));
+                setActiveCombatant("Player");
+                break;
+              case "hit":
+                // console.log("Browser hit, not last segment, Browser gets another turn");
+                setAddMessage(
+                  fillIn(MSG_LIB.BrowserHitPlayerShip, ["Browser"])
+                );
+                setAppState("BattlePause");
+                break;
+              case "sunk":
+                if (!isPlayersLastSegment) {
+                  // console.log("Browser sank a ship, not last segment on board, Browser gets another turn");
+                  setAddMessage(
+                    fillIn(MSG_LIB.BrowserSankPlayerShip, ["Browser"])
+                  );
+                  setAppState("BattlePause");
+                } else {
+                  // console.log("--- Browser sank a ship, last segment on board, Browser won ---");
+                  const browserShipsRevealed: TGrid =
+                    getGridWithShipsVisible(browserGrid);
+                  setUpdateGrid("Browser", browserShipsRevealed);
+                  setMessages([
+                    fillIn(MSG_LIB.BrowserVictory, ["Browser", "Player"]),
+                  ]);
+                  setAppState("BattleOver");
+                }
+                break;
+              default:
+                break;
             }
-          }
-        }, BROWSER_TURN_TIMEOUT);
+          }, BROWSER_TURN_TIMEOUT);
+          break;
+        default:
+          break;
       }
     }
   }, [activeCombatant, appState]);
