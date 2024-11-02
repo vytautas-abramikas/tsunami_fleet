@@ -142,8 +142,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setGridActiveStatus("Browser", "deactivate");
         const startingCombatant = getWhoGetsFirstTurn();
         setActiveCombatant(startingCombatant);
-        setMessages([fillIn(MSG_LIB.BattleStart, [startingCombatant])]);
-        setButtons(battleStartButtons);
+        setMessages([
+          fillIn(
+            startingCombatant === "Player"
+              ? MSG_LIB.BattleStartPlayer
+              : MSG_LIB.BattleStartBrowser,
+            [startingCombatant]
+          ),
+        ]);
+        setButtons([]);
+        setTimeout(() => {
+          setAppState("Battle");
+        }, BROWSER_TURN_TIMEOUT * 4);
         break;
       }
       case "Battle":
@@ -472,21 +482,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       onClick: setRandomPlayerShipsAndGrid,
     },
 
-    {
-      text: "Exit",
-      classes: "bg-red-600 hover:bg-red-700 text-white",
-      onClick: setAppState,
-      args: ["Welcome"],
-    },
-  ];
-
-  const battleStartButtons: TButtonProps[] = [
-    {
-      text: "Start battle",
-      classes: "bg-green-600 hover:bg-green-700 text-white",
-      onClick: setAppState,
-      args: ["Battle"],
-    },
     {
       text: "Exit",
       classes: "bg-red-600 hover:bg-red-700 text-white",

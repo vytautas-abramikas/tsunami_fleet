@@ -33,9 +33,13 @@ export const MSG_LIB: { [key: string]: TMessage } = {
     text: "Accept the fleet layout?",
     classes: "text-4xl font-bold text-white",
   },
-  BattleStart: {
-    text: "{0} gets to start. Engage in battle?",
-    classes: "text-4xl font-bold text-white",
+  BattleStartPlayer: {
+    text: "Battle begins. {0} strikes first!",
+    classes: "text-4xl font-bold text-green-400",
+  },
+  BattleStartBrowser: {
+    text: "Battle begins. {0} strikes first...",
+    classes: "text-4xl font-bold text-[#8B0000]",
   },
   PlayersTurn: {
     text: "{0}, your turn!",
