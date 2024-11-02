@@ -49,28 +49,29 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
 
-  // Initialization empty for now
-  useEffect(() => {
-    // console.log("%cInitial useEffect", "color: purple");
-  }, []);
+  //See when Provider code is run
+  console.log("%cProvider code run", "color: cyan");
+
+  // Initial useEffect for testing
+  // useEffect(() => {
+  //   console.log("%cInitial useEffect", "color: purple");
+  // }, []);
 
   //Actions on appState change
   useEffect(() => {
+    console.log("%cappState: " + appState, "color: blue");
     switch (appState) {
       case "Welcome":
-        // console.log("%cappState: Welcome", "color: purple");
         setRandomBrowserGrid();
         setMessages([MSG_LIB.Welcome]);
         setButtons(welcomeButtons);
         break;
       case "PlacementStart":
-        // console.log("%cappState: PlacementStart", "color: purple");
         setEmptyPlayerGridAndShipsForPlacement();
         setMessages([MSG_LIB.PlacementStart]);
         setButtons(placementStartButtons);
         break;
       case "PlacementEmpty":
-        // console.log("%cappState: PlacementEmpty", "color: purple");
         setEmptyPlayerGridAndShipsForPlacement();
         setCurrentShipId(1);
         setMessages([]);
@@ -78,7 +79,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setAppState("PlacementFirstSegment");
         break;
       case "PlacementFirstSegment": {
-        // console.log("%cappState: PlacementFirstSegment", "color: purple");
         const gridActiveNoCandidates = getHandlePlacementCandidates(playerGrid);
         setUpdateGrid("Player", gridActiveNoCandidates);
         setAddMessage(
@@ -90,7 +90,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "PlacementAdditionalSegment": {
-        // console.log("%cappState: PlacementAdditionalSegment", "color: purple");
         const gridNewCandidates = getHandlePlacementCandidates(
           playerGrid,
           playerShips[currentShipId - 1].segments
@@ -101,7 +100,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "PlacementTransition": {
-        // console.log("%cappState: PlacementTransition", "color: purple");
         const gridCleardCandidatesActivated =
           getHandlePlacementCandidates(playerGrid);
         setUpdateGrid("Player", gridCleardCandidatesActivated);
@@ -121,7 +119,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "PlacementFinalize": {
-        // console.log("%cappState: PlacementFinalize", "color: purple");
         const preparedPlayerGrid = getPreparePlayerGridForBattle(playerGrid);
         setUpdateGrid("Player", preparedPlayerGrid);
         setMessages([MSG_LIB.PlacementFinalize]);
@@ -129,13 +126,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "PlacementGenerate":
-        // console.log("%cappState: PlacementGenerate", "color: purple");
         setRandomPlayerShipsAndGrid();
         setMessages([MSG_LIB.PlacementGenerate]);
         setButtons(placementGenerateButtons);
         break;
       case "BattleStart": {
-        // console.log("%cappState: BattleStart", "color: purple");
         setGridActiveStatus("Browser", "deactivate");
         const startingCombatant = getWhoGetsFirstTurn();
         setActiveCombatant(startingCombatant);
@@ -144,17 +139,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "Battle":
-        // console.log("%cappState: Battle", "color: purple");
         setButtons(battleButtons);
         break;
       case "BattlePause":
-        // console.log("%cappState: BattlePause", "color: purple");
         setTimeout(() => {
           setAppState("Battle");
         }, BROWSER_TURN_TIMEOUT / 5);
         break;
       case "BattleOver":
-        // console.log("%cappState: BattleOver", "color: purple");
         setGridActiveStatus("Player", "deactivate");
         setGridActiveStatus("Browser", "deactivate");
         setButtons(gameOverButtons);
@@ -167,7 +159,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Battle orchestration
   useEffect(() => {
     if (appState === "Battle") {
-      // console.log(`--- ${activeCombatant} ---`);
+      console.log(
+        "%c" + activeCombatant + "'s turn",
+        `color: ${activeCombatant === "Player" ? "green" : "red"}`
+      );
       switch (activeCombatant) {
         case "Player":
           setGridActiveStatus("Browser", "activate");
@@ -180,17 +175,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
             playerGrid,
             playerShips
           );
-          // browser is gonna shoot now
           setTimeout(() => {
             setUpdateGrid("Player", cellsToProcess);
             switch (browserHitStatus) {
               case "empty":
-                // console.log("Browser missed, Player set active");
                 setAddMessage(fillIn(MSG_LIB.BrowserMissPlayer, ["Browser"]));
                 setActiveCombatant("Player");
                 break;
               case "hit":
-                // console.log("Browser hit, not last segment, Browser gets another turn");
                 setAddMessage(
                   fillIn(MSG_LIB.BrowserHitPlayerShip, ["Browser"])
                 );
@@ -198,13 +190,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
                 break;
               case "sunk": {
                 if (!isPlayersLastSegment) {
-                  // console.log("Browser sank a ship, not last segment on board, Browser gets another turn");
                   setAddMessage(
                     fillIn(MSG_LIB.BrowserSankPlayerShip, ["Browser"])
                   );
                   setAppState("BattlePause");
                 } else {
-                  // console.log("--- Browser sank a ship, last segment on board, Browser won ---");
                   const browserShipsRevealed: TGrid =
                     getGridWithShipsVisible(browserGrid);
                   setUpdateGrid("Browser", browserShipsRevealed);
@@ -229,7 +219,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (appState === "Battle" || appState === "BattleOver") {
-      // console.log("useEffect setting stats");
+      // console.log("useEffect calculating and setting battle statistics");
       setStats(
         getBattleStatistics(playerShips, playerGrid, browserShips, browserGrid)
       );
@@ -238,6 +228,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
 
   // handle Player part of battle
   const handlePlayerShot = (cellId: number) => {
+    // console.log("handlePlayerShot");
     const isBrowsersLastSegment = isLastSegmentToSinkOnGrid(browserGrid);
     const { playerHitStatus, cellsToProcess } = getPlayerShotResults(
       cellId,
@@ -269,7 +260,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       playerShips[currentShipId - 1],
       playerGrid
     );
-    // console.log(shipToProcess, cellsToProcess);
     setUpdatePlayerShip(shipToProcess);
     setUpdateGrid("Player", cellsToProcess);
     setAppState("PlacementTransition");
@@ -281,7 +271,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     const setGrid = owner === "Player" ? setPlayerGrid : setBrowserGrid;
 
     setGrid((prev) => {
-      // console.log(JSON.stringify(prev));
       if (!prev) {
         return prev;
       }
@@ -295,6 +284,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setUpdatePlayerShip = (updatedShip: TShip) => {
+    // console.log("setUpdatePlayerShip");
     setPlayerShips((prev) => {
       if (!prev) {
         return prev;
@@ -308,6 +298,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setResetCurrentPlayerShip = () => {
+    // console.log("setResetCurrentPlayerShip");
     const currentShip: TShip = { ...playerShips[currentShipId - 1] };
     const updatedGridCells: TCell[] = currentShip.segments.map((segment) => ({
       ...playerGrid[segment],
@@ -326,14 +317,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     // console.log("setGridActiveStatus");
     let modifiedGrid: TGrid = [];
     if (owner === "Player" && playerGrid) {
-      // console.log(JSON.stringify(playerGrid));
       modifiedGrid = getChangeCellsActiveStatus(playerGrid, mode);
       setUpdateGrid(owner, modifiedGrid);
     } else if (browserGrid) {
-      // console.log(JSON.stringify(browserGrid));
       modifiedGrid = getChangeCellsActiveStatus(browserGrid, mode);
-      // console.log(JSON.stringify(deactivatedGrid));
-      // setBrowserGrid(deactivatedGrid);
       setUpdateGrid(owner, modifiedGrid);
     }
   };
@@ -354,7 +341,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const setEmptyPlayerGridAndShipsForPlacement = () => {
-    // console.log("setNewPlayerGrid");
+    // console.log("setEmptyPlayerGridAndShipsForPlacement");
     const initialPlayerShips = getInitializeShips();
     const initialPlayerGrid = getInitializeGrid();
     setPlayerShips(initialPlayerShips);
