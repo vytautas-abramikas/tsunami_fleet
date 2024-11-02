@@ -32,7 +32,7 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
     } else {
       return "";
     }
-  }, [appState, activeCombatant]);
+  }, [appState, activeCombatant, owner]);
 
   const handleCellClick = (cellId: number) => {
     if (

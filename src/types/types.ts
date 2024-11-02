@@ -47,12 +47,14 @@ export type TMessage = {
   classes?: string;
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type TButtonProps = {
   text: string;
   classes: string;
   onClick: (...args: any[]) => any;
   args?: any[];
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export type TGameContext = {
   appState: TAppState;

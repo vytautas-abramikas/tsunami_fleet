@@ -167,10 +167,6 @@ export const getGenerateShips = (): TShips => {
     console.error(
       `Mismatch in occupied cells: Found ${shipSegmentsCount}, expected ${expectedCount}`
     );
-  } else {
-    // console.log(
-    //   `All ships placed correctly with ${shipSegmentsCount} occupied cells`
-    // );
   }
 
   return ships;
