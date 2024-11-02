@@ -2,10 +2,13 @@ import { TGrid } from "../types/types";
 import { getChangeCellsActiveStatus } from "./getChangeCellsActiveStatus";
 import { getNextShipSegmentCandidates } from "./getNextShipSegmentCandidates";
 
+//Clears candidates and then either activates the grid for placement of a next segment (if no cell ids of an unfinished ship are provided) or calculates
+//and sets new candidates (given current ship cell ids) and then activates the grid for placement of a next segment
 export const getHandlePlacementCandidates = (
   grid: TGrid,
   shipCellIds?: number[]
 ): TGrid => {
+  // console.log("getHandlePlacementCandidates");
   let updatedGrid: TGrid = [];
   const gridWithClearedCandidates = grid.map((cell) => ({
     ...cell,

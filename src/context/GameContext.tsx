@@ -108,9 +108,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         break;
       }
       case "PlacementTransition": {
-        const gridCleardCandidatesActivated =
+        const gridClearedCandidatesActivated =
           getHandlePlacementCandidates(playerGrid);
-        setUpdateGrid("Player", gridCleardCandidatesActivated);
+        setUpdateGrid("Player", gridClearedCandidatesActivated);
         if (
           playerShips[currentShipId - 1].size ===
           playerShips[currentShipId - 1].segments.length

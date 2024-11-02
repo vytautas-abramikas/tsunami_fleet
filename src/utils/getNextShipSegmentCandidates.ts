@@ -1,5 +1,6 @@
 import { TGrid } from "../types/types";
 
+//Provides a list of cell ids of suitable candidates for the placement of a next ship segment
 export const getNextShipSegmentCandidates = (
   grid: TGrid,
   shipSegments: number[]

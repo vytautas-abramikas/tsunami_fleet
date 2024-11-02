@@ -1,4 +1,5 @@
 import { TCell, TGrid, TShip } from "../types/types";
+//Provides a list of neighboring empty cells (or still marked as candidates) to uncover after ship placement is complete. Returns cells
 const getNeighbors = (cellIds: number[], grid: TGrid): TCell[] => {
   const indices: number[] = [];
 
@@ -37,6 +38,8 @@ const getNeighbors = (cellIds: number[], grid: TGrid): TCell[] => {
   return uniqueIndices.map((i) => ({ ...grid[i] }));
 };
 
+//Executed when Player clicks on grid to place a new segment, if it is the last segment, reveals neighboring cells and marks the segments as "ship",
+//if it is not the last segment, marks the cell as "segment". Returns the updated ship and updated grid.
 export const getPlayerPlacementResults = (
   cellId: number,
   currentShip: TShip,
@@ -45,7 +48,7 @@ export const getPlayerPlacementResults = (
   shipToProcess: TShip;
   cellsToProcess: TCell[];
 } => {
-  //   console.log("getPlayerPlacementResults");
+  // console.log("getPlayerPlacementResults");
   const isLastShipSegment: boolean =
     currentShip.size - currentShip.segments.length === 1;
   let cellsToProcess: TCell[] = [];
