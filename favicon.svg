@@ -1,0 +1,32 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#00008B"/>
+  <rect x="0" y="0" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="12.8" y="0" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="0" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="38.4" y="0" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="51.2" y="0" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="0" y="12.8" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="12.8" y="12.8" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="12.8" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="38.4" y="12.8" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="51.2" y="12.8" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="0" y="25.6" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="12.8" y="25.6" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="25.6" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="38.4" y="25.6" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="51.2" y="25.6" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="0" y="38.4" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="12.8" y="38.4" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="38.4" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="38.4" y="38.4" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="51.2" y="38.4" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="0" y="51.2" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="12.8" y="51.2" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="51.2" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="38.4" y="51.2" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="51.2" y="51.2" width="12.8" height="12.8" fill="none" stroke="#ADD8E6" stroke-width="0.8"/>
+  <rect x="25.6" y="12.8" width="12.8" height="12.8" fill="#008000"/>
+  <rect x="25.6" y="25.6" width="12.8" height="12.8" fill="#008000"/>
+  <rect x="25.6" y="38.4" width="12.8" height="12.8" fill="#FF0000"/>
+  <rect x="38.4" y="38.4" width="12.8" height="12.8" fill="#008000"/>
+</svg>
