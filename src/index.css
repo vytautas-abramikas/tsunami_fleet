@@ -56,7 +56,6 @@ html {
     transform: scale(1);
   }
 }
-
 .new-message {
   animation: new-message-effect 0.2s ease-in-out;
 }
