@@ -6,9 +6,6 @@ export default {
       fontFamily: {
         sans: ["Open Sans", "sans-serif"],
       },
-      fontSize: {
-        "7xl": "7rem", // Custom class for 7rem font size
-      },
     },
   },
   plugins: [],
