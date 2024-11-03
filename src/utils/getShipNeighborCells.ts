@@ -1,14 +1,13 @@
-import { TCell, TShips, TGrid } from "../types/types";
+import { TCell, TGrid } from "../types/types";
 
 export const getShipNeighborCells = (
-  shipId: number,
-  ships: TShips,
+  cellIds: number[],
   grid: TGrid
 ): TCell[] => {
-  const shipSegments = ships[shipId - 1].segments;
   // console.log("getShipNeighborCells");
-  const indices = [];
-  for (const index of shipSegments) {
+  const indices = new Set<number>();
+
+  for (const index of cellIds) {
     const x = index % 10;
     const y = Math.floor(index / 10);
 
@@ -27,17 +26,18 @@ export const getShipNeighborCells = (
       const adjX = adj % 10;
       const adjY = Math.floor(adj / 10);
       if (
-        // this filters out false adjacents in edge cases
+        // this filters out false adjacents in edge cases and given cellIds indices
         adj >= 0 &&
         adj < 100 &&
         Math.abs(adjX - x) <= 1 &&
         Math.abs(adjY - y) <= 1 &&
-        grid[adj].status === "empty"
+        (grid[adj].status === "empty" || grid[adj].status === "candidate") &&
+        !cellIds.includes(adj)
       ) {
-        indices.push(adj);
+        indices.add(adj);
       }
     }
   }
-  const uniqueIndices = [...new Set(indices)];
+  const uniqueIndices = [...indices];
   return uniqueIndices.map((i) => ({ ...grid[i] }));
 };

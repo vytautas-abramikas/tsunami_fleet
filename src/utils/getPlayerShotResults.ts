@@ -30,8 +30,7 @@ export const getPlayerShotResults = (
         );
         //mark neighboring cells of a sunk ship as visible
         const revealedNeighbors: TCell[] = getShipNeighborCells(
-          cell.shipId,
-          ships,
+          ships[cell.shipId - 1].segments,
           grid
         ).map((cell) => ({ ...cell, isVisible: true }));
         //merge all updated cells into one array

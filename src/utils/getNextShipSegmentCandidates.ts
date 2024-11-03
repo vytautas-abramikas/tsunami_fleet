@@ -6,7 +6,7 @@ export const getNextShipSegmentCandidates = (
   shipSegments: number[]
 ): number[] => {
   // console.log("getNextShipSegmentCandidates");
-  const candidates = new Set();
+  const candidates = new Set<number>();
 
   const directions = [
     { dx: -1, dy: 0 }, // left
@@ -65,5 +65,5 @@ export const getNextShipSegmentCandidates = (
     });
   });
 
-  return [...candidates] as number[];
+  return [...candidates];
 };

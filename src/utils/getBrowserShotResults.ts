@@ -59,8 +59,7 @@ export const getBrowserShotResults = (
         isVisibleToBrowser: true,
       }));
       const revealedNeighbors: TCell[] = getShipNeighborCells(
-        shipId,
-        ships,
+        ships[shipId - 1].segments,
         grid
       ).map((cell) => ({ ...cell, isVisible: true, isVisibleToBrowser: true }));
 
