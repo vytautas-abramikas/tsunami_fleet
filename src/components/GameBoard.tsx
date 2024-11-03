@@ -39,7 +39,7 @@ export const GameBoard: React.FC = () => {
           <Grid owner="Player" grid={playerGrid} />
         </div>
         {isBattle && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center new-message">
             <h2
               className={`flex items-end font-bold mb-4 drop-shadow-lg h-10 ${
                 isBattle && activeCombatant === "Browser"
