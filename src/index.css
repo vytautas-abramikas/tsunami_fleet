@@ -20,11 +20,11 @@ html {
     -90deg,
     #2772da 0%,
     #2265c4 25%,
-    #9227da 50%,
-    #6822c4 75%,
+    #2772da 50%,
+    #2265c4 75%,
     #2772da 100%
   );
-  animation: bg-effect 20s linear infinite;
+  animation: bg-effect 10s linear infinite;
 }
 
 @keyframes bg-effect {
