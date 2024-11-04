@@ -3,10 +3,10 @@ import { useGameContext } from "../hooks/useGameContext";
 export const ButtonBoard: React.FC = () => {
   const { appState, activeCombatant, buttons } = useGameContext();
 
-  const onDisable =
+  const onDisable: string =
     (appState === "Battle" || appState === "BattlePause") &&
     activeCombatant === "Browser"
-      ? "bg-gray-500 pointer-events-none"
+      ? "pointer-events-none bg-[#6b7280]"
       : "";
 
   return (
