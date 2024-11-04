@@ -15,25 +15,22 @@ html {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .bg-animation {
-  background-size: 300% 100%;
-  background-image: linear-gradient(
-    -90deg,
-    #2772da 0%,
-    #2265c4 25%,
-    #2772da 50%,
-    #2265c4 75%,
-    #2772da 100%
-  );
-  animation: bg-effect 10s linear infinite;
+  animation: bg-effect 5s linear infinite;
 }
 
 @keyframes bg-effect {
   0% {
-    background-position: 0% 0%;
+    background-color: #2772da;
+  }
+  50% {
+    background-color: #190eaf;
   }
   100% {
-    background-position: 150% 0%;
+    background-color: #2772da;
   }
+}
+.bg-static {
+  background: linear-gradient(to right, #2772da, #0fa4e9);
 }
 .logo {
   animation: logo-effect 6s ease-in-out infinite;

@@ -22,9 +22,14 @@ export const App: React.FC = () => {
     appState === "BattlePause" ||
     appState === "BattleOver";
 
+  const bgSelect: string =
+    appState === "Welcome" ? "bg-animation" : "bg-static";
+
   return (
     <>
-      <main className="font-sans text-white flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-animation">
+      <main
+        className={`font-sans text-white flex flex-col items-center justify-center w-screen h-screen overflow-hidden ${bgSelect}`}
+      >
         {appState === "Welcome" && <Welcome />}
         {showGameBoard && <GameBoard />}
         <MessageConsole />
