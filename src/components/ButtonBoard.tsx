@@ -6,7 +6,7 @@ export const ButtonBoard: React.FC = () => {
   const onDisable: string =
     (appState === "Battle" || appState === "BattlePause") &&
     activeCombatant === "Browser"
-      ? "pointer-events-none bg-[#6b7280]"
+      ? "pointer-events-none filter grayscale-[50%]"
       : "";
 
   return (
