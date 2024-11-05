@@ -25,7 +25,7 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   const border: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant !== owner) {
-        return "p-1 border-dashed border border-sky-500";
+        return "p-1 border-dashed border border-sky-100";
       } else {
         return "";
       }
