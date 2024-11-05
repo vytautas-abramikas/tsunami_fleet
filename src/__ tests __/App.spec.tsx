@@ -3,8 +3,8 @@ import { render } from "@testing-library/react";
 import { GameProvider } from "../context/GameContext";
 import { App } from "../components/App";
 
-describe("App initial components are rendered", () => {
-  it("has a correct heading", () => {
+describe("App initial components should be rendered correctly", () => {
+  it("should render a correct heading", () => {
     const { getByRole } = render(
       <GameProvider>
         <App />
@@ -12,7 +12,7 @@ describe("App initial components are rendered", () => {
     );
     expect(getByRole("heading", { name: "Tsunami Fleet" })).toBeInTheDocument();
   });
-  it("has a correct message", () => {
+  it("should render a correct message", () => {
     const { getByText } = render(
       <GameProvider>
         <App />
@@ -20,7 +20,7 @@ describe("App initial components are rendered", () => {
     );
     expect(getByText("Dare to brave the seas?")).toBeInTheDocument();
   });
-  it("has a correct button", () => {
+  it("should render a correct button", () => {
     const { getByRole } = render(
       <GameProvider>
         <App />
@@ -30,7 +30,7 @@ describe("App initial components are rendered", () => {
       getByRole("button", { name: "Prepare for battle" })
     ).toBeInTheDocument();
   });
-  it("has correct copyright info", () => {
+  it("should render correct copyright info", () => {
     const { getByText } = render(
       <GameProvider>
         <App />
