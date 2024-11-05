@@ -1,6 +1,6 @@
 ## Tsunami Fleet
 
-### Vite + React + TypeScript + Tailwind
+### Vite + React + TypeScript + Tailwind + Jest
 
 npm install  
 npm run dev
