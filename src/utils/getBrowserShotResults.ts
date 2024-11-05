@@ -45,11 +45,8 @@ export const getBrowserShotResults = (
   } else if (grid[cellToHitId].status === "ship") {
     //hit the ship but didn't sink it, return the hit cell and uncover it
     const lastSegment = isLastSegment(cellToHitId, ships, grid);
-    // console.log(lastSegment);
-    // console.log(cellToHitId, ships, grid);
     if (lastSegment) {
       //hit the ship and sunk it, return the sunk cells and uncover its neighbors
-      // console.log("isLastSegment found");
       const shipId = grid[cellToHitId].shipId;
       browserHitStatus = "sunk";
       const sunkCells = getShipCells(shipId, ships, grid).map((cell) => ({

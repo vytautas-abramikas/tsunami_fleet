@@ -8,7 +8,6 @@ export const isLastSegmentToSinkOnGrid = (grid: TGrid): boolean => {
       acc + (curr.status === "sunk" || curr.status === "hit" ? 1 : 0),
     0
   );
-  // console.log("ship cells sunk: ", howManyShipCellsHitOrSunk);
   if (howManyShipCellsHitOrSunk === SHIP_CELLS_ON_GRID - 1) {
     return true;
   } else return false;

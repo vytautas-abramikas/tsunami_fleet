@@ -15,7 +15,7 @@ describe("getGenerateShips should work correctly", () => {
   it("should produce results when run 1000 times", () => {
     expect(results.length).toBe(1000);
   });
-  it("should produce a correct number of unique ship cells 1000 times", () => {
+  it("should produce a correct number of unique ship cell ids 1000 times", () => {
     const allCorrect = results.every((result) => {
       const allSegmentIds = result.reduce((segments, ship) => {
         ship.segments.forEach((segment) => segments.add(segment));

@@ -43,6 +43,5 @@ export const getBattleStatistics = (
       sunk: browserShipsSunk,
     });
   });
-  // console.log(stats);
   return stats;
 };

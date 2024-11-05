@@ -153,7 +153,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setButtons([]);
         setTimeout(() => {
           setAppState("Battle");
-        }, BROWSER_TURN_TIMEOUT * 4);
+        }, BROWSER_TURN_TIMEOUT * 3);
         break;
       }
       case "Battle":

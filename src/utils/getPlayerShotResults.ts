@@ -16,10 +16,6 @@ export const getPlayerShotResults = (
     if (cell.status === "ship") {
       if (isLastSegment(cellId, ships, grid)) {
         //if last ship segment is hit, mark all ship segments as sunk
-        // console.log(
-        //   "Player shooting, last segment of a ship detected, cellId: ",
-        //   cellId
-        // );
         playerHitStatus = "sunk" as const;
         const sunkCells: TCell[] = getShipCells(cell.shipId, ships, grid).map(
           (cell) => ({

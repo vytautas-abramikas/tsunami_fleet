@@ -6,7 +6,6 @@ export const getChangeCellsActiveStatus = (
   cellIds?: number[]
 ): TGrid => {
   // console.log("getChangeCellsActiveStatus");
-  // console.log(JSON.stringify(grid));
   let changedCells: TCell[] = [];
   if (cellIds) {
     if (action === "activate") {
@@ -30,7 +29,5 @@ export const getChangeCellsActiveStatus = (
       }));
     }
   }
-  // console.log(changedCells.length);
-  // console.log(JSON.stringify(changedCells));
   return [...changedCells];
 };

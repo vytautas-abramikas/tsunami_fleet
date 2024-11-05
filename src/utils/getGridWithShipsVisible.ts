@@ -5,7 +5,5 @@ export const getGridWithShipsVisible = (grid: TGrid): TGrid => {
   const gridWithShipsVisible = grid.map((cell) =>
     cell.status === "ship" ? { ...cell, isVisible: true } : cell
   );
-
-  // console.log(JSON.stringify(gridWithShipsVisible));
   return gridWithShipsVisible;
 };
