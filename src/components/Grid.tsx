@@ -29,6 +29,12 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
       } else {
         return "border-transparent";
       }
+    } else if (appState === "BattleOver") {
+      if (activeCombatant !== owner) {
+        return "border-solid border-[#8B0000]";
+      } else {
+        return "border-solid border-yellow-300";
+      }
     } else {
       return "border-transparent";
     }
