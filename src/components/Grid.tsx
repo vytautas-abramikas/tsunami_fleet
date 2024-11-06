@@ -25,12 +25,12 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   const border: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant !== owner) {
-        return "p-1 border-dashed border border-sky-100";
+        return "border-dashed border-sky-100";
       } else {
-        return "";
+        return "border-transparent";
       }
     } else {
-      return "";
+      return "border-transparent";
     }
   }, [appState, activeCombatant, owner]);
 
@@ -52,7 +52,7 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   return (
     <div
       key={owner}
-      className={`grid grid-cols-10 gap-1 ${border} ${pointerStyle}`}
+      className={`grid grid-cols-10 gap-1 p-1 border ${border} ${pointerStyle}`}
     >
       {grid.map((cell) => (
         <Cell key={cell.id} cell={cell} onClick={handleCellClick} />
