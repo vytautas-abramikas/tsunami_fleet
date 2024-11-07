@@ -46,11 +46,7 @@ export const GameBoard: React.FC = () => {
 
   return (
     <>
-      <div
-        className={`grid ${
-          isShowBothGrids ? "grid-cols-2 gap-24" : "grid-cols-1"
-        }`}
-      >
+      <div className={`grid-custom ${isShowBothGrids ? "two-columns" : ""}`}>
         <div className="flex flex-col items-center justify-center">
           <h2
             className={`flex items-end font-bold mb-4 drop-shadow-lg h-10 text-3xl ${playerTitleClasses}`}

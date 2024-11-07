@@ -9,7 +9,7 @@
   outline: none;
 }
 html {
-  font-size: min(1.6vw, 1.6vh);
+  font-size: min(1.7vw, 1.7vh);
 }
 .tshadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -197,4 +197,19 @@ html {
 }
 .lost {
   animation: sunk-effect 0.2s ease-in-out forwards;
+}
+.grid-custom {
+  display: grid;
+}
+@media (min-aspect-ratio: 5 / 7) {
+  .grid-custom.two-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+@media (max-aspect-ratio: 5 / 7) {
+  .grid-custom.two-columns {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
 }
