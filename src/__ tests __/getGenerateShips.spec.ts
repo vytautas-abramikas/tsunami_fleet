@@ -17,11 +17,15 @@ describe("getGenerateShips should work correctly", () => {
   });
   it("should produce a correct number of unique ship cell ids 1000 times", () => {
     const allCorrect = results.every((result) => {
-      const allSegmentIds = result.reduce((segments, ship) => {
-        ship.segments.forEach((segment) => segments.add(segment));
+      const allSegmentIds = result.reduce((segments: number[], ship) => {
+        ship.segments.forEach((segment) => segments.push(segment));
         return segments;
-      }, new Set());
-      return allSegmentIds.size === SHIP_CELLS_ON_GRID;
+      }, []);
+      const uniqueIds = new Set(allSegmentIds);
+      return (
+        allSegmentIds.length === SHIP_CELLS_ON_GRID &&
+        uniqueIds.size === SHIP_CELLS_ON_GRID
+      );
     });
     expect(allCorrect).toBe(true);
   });
