@@ -1,43 +1,84 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { GameProvider } from "../context/GameContext";
 import { App } from "../components/App";
 
-describe("App initial components should be rendered correctly", () => {
-  it("should render a correct heading", () => {
-    const { getByRole } = render(
-      <GameProvider>
-        <App />
-      </GameProvider>
-    );
-    expect(getByRole("heading", { name: "Tsunami Fleet" })).toBeInTheDocument();
-  });
-  it("should render a correct message", () => {
-    const { getByText } = render(
-      <GameProvider>
-        <App />
-      </GameProvider>
-    );
-    expect(getByText("Dare to brave the seas?")).toBeInTheDocument();
-  });
-  it("should render a correct button", () => {
-    const { getByRole } = render(
+describe("App should have correct behavior from start to battle", () => {
+  it("should render correct elements and react to button clicks from initial state to battle", async () => {
+    render(
       <GameProvider>
         <App />
       </GameProvider>
     );
     expect(
-      getByRole("button", { name: "Prepare for battle" })
+      screen.getByRole("heading", { name: "Tsunami Fleet" })
     ).toBeInTheDocument();
-  });
-  it("should render correct copyright info", () => {
-    const { getByText } = render(
-      <GameProvider>
-        <App />
-      </GameProvider>
-    );
+    expect(screen.getByText("Dare to brave the seas?")).toBeInTheDocument();
     expect(
-      getByText("Tsunami Fleet © 2024 by Vytautas Abramikas")
+      screen.getByRole("button", { name: "Prepare for battle" })
     ).toBeInTheDocument();
+    expect(
+      screen.getByText("Tsunami Fleet © 2024 by Vytautas Abramikas")
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Prepare for battle" }));
+
+    await Promise.all([
+      waitFor(() =>
+        expect(
+          screen.getByRole("button", { name: "Randomly" })
+        ).toBeInTheDocument()
+      ),
+      waitFor(() =>
+        expect(
+          screen.getByRole("button", { name: "Manually" })
+        ).toBeInTheDocument()
+      ),
+      waitFor(() =>
+        expect(screen.getByRole("button", { name: "Exit" })).toBeInTheDocument()
+      ),
+    ]);
+
+    fireEvent.click(screen.getByRole("button", { name: "Randomly" }));
+
+    await Promise.all([
+      waitFor(() =>
+        expect(
+          screen.getByRole("button", { name: "Accept" })
+        ).toBeInTheDocument()
+      ),
+      waitFor(() =>
+        expect(
+          screen.getByRole("button", { name: "Reroll" })
+        ).toBeInTheDocument()
+      ),
+      waitFor(() =>
+        expect(screen.getByRole("button", { name: "Exit" })).toBeInTheDocument()
+      ),
+    ]);
+
+    fireEvent.click(screen.getByRole("button", { name: "Accept" }));
+
+    await Promise.all([
+      waitFor(() => expect(screen.getByText("Player")).toBeInTheDocument()),
+      waitFor(() => expect(screen.getByText("Browser")).toBeInTheDocument()),
+    ]);
+
+    await Promise.all([
+      waitFor(
+        () =>
+          expect(
+            screen.getByRole("button", { name: "Quit" })
+          ).toBeInTheDocument(),
+        { timeout: 3000 }
+      ),
+      waitFor(
+        () =>
+          expect(
+            screen.getByRole("button", { name: "Compare" })
+          ).toBeInTheDocument(),
+        { timeout: 3000 }
+      ),
+    ]);
   });
 });
