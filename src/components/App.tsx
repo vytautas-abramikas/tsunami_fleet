@@ -5,6 +5,7 @@ import { GameBoard } from "./GameBoard";
 import { MessageConsole } from "./MessageConsole";
 import { Copyright } from "./Copyright";
 import { StatsModal } from "./StatsModal";
+import { FullScreenButton } from "./FullScreenButton";
 
 export const App: React.FC = () => {
   const { appState, isStatsModalVisible } = useGameContext();
@@ -34,6 +35,7 @@ export const App: React.FC = () => {
         {showGameBoard && <GameBoard />}
         <MessageConsole />
         <ButtonBoard />
+        <FullScreenButton />
         <Copyright />
         {isStatsModalVisible && <StatsModal />}
       </main>

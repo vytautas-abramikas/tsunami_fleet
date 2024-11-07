@@ -18,7 +18,6 @@ import {
   TAppState,
   TBattleStatistics,
 } from "../types/types";
-import { openFullscreen } from "../utils/openFullScreen";
 import { getInitializeGrid } from "../utils/getInitializeGrid";
 import { getInitializeShips } from "../utils/getInitializeShips";
 import { getGenerateShips } from "../utils/getGenerateShips";
@@ -56,7 +55,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     useState<boolean>(false);
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
-  const [isFirstGame, setIsFirstGame] = useState<boolean>(true);
 
   // //See when Provider code is run
   // console.log("%cGameProvider", "color: cyan");
@@ -409,19 +407,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     [playerShips, playerGrid, currentShipId, setUpdatePlayerShip, setUpdateGrid]
   );
 
-  const handlePlacementStart = () => {
-    if (isFirstGame) {
-      openFullscreen();
-      setIsFirstGame(false);
-    }
-    setAppState("PlacementStart");
-  };
-
   const welcomeButtons: TButtonProps[] = [
     {
       text: "Prepare for battle",
       classes: "bg-indigo-600 hover:bg-indigo-700 text-white",
-      onClick: handlePlacementStart,
+      onClick: setAppState,
+      args: ["PlacementStart"],
     },
   ];
 
