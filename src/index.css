@@ -53,6 +53,7 @@ html {
 .new-message {
   animation: new-message-effect 0.2s ease-in-out;
 }
+/*effect also used for grids when they first appear on screen */
 @keyframes new-message-effect {
   0% {
     transform: scale(2) rotate(0deg);
@@ -121,6 +122,7 @@ html {
   background-color: #32cd32;
   animation: ship-effect 0.2s ease-in-out forwards;
 }
+/*effect also used for winner's grid when the battle is over */
 @keyframes ship-effect {
   0% {
     transform: scale(1);
@@ -164,6 +166,7 @@ html {
   opacity: 50;
   animation: sunk-effect 0.2s ease-in-out forwards;
 }
+/*effect also used for loser's grid when the battle is over */
 @keyframes sunk-effect {
   0% {
     transform: scale(1);
@@ -185,4 +188,13 @@ html {
     transform: scale(1);
     opacity: 0.5;
   }
+}
+.grid-initial {
+  animation: new-message-effect 0.2s ease-in-out;
+}
+.won {
+  animation: ship-effect 0.2s ease-in-out forwards;
+}
+.lost {
+  animation: sunk-effect 0.2s ease-in-out forwards;
 }

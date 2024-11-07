@@ -60,7 +60,7 @@ export const GameBoard: React.FC = () => {
           <Grid owner="Player" grid={playerGrid} />
         </div>
         {isShowBothGrids && (
-          <div className="flex flex-col items-center justify-center new-message">
+          <div className="flex flex-col items-center justify-center">
             <h2
               className={`flex items-end font-bold mb-4 drop-shadow-lg h-10 text-3xl ${browserTitleClasses}`}
             >

@@ -22,7 +22,7 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
     }
   }, [appState, activeCombatant]);
 
-  const border: string = useMemo(() => {
+  const borderStyle: string = useMemo(() => {
     if (appState === "Battle" || appState === "BattlePause") {
       if (activeCombatant !== owner) {
         return "border-dashed border-sky-100";
@@ -39,6 +39,13 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
       return "border-transparent";
     }
   }, [appState, activeCombatant, owner]);
+
+  const battleOverEffect: string =
+    appState === "BattleOver"
+      ? owner === activeCombatant
+        ? "won"
+        : "lost"
+      : "";
 
   const handleCellClick = (cellId: number) => {
     if (
@@ -58,7 +65,7 @@ export const Grid: React.FC<{ owner: TCombatant; grid: TGrid }> = ({
   return (
     <div
       key={owner}
-      className={`grid grid-cols-10 gap-1 p-1 border ${border} ${pointerStyle}`}
+      className={`grid grid-cols-10 gap-1 p-1 border grid-initial ${borderStyle} ${pointerStyle} ${battleOverEffect}`}
     >
       {grid.map((cell) => (
         <Cell key={cell.id} cell={cell} onClick={handleCellClick} />
