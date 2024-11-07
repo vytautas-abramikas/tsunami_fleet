@@ -56,6 +56,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     useState<boolean>(false);
   const [buttons, setButtons] = useState<TButtonProps[]>([]);
   const [messages, setMessages] = useState<TMessage[]>([]);
+  const [isFirstGame, setIsFirstGame] = useState<boolean>(true);
 
   // //See when Provider code is run
   // console.log("%cGameProvider", "color: cyan");
@@ -409,7 +410,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const handlePlacementStart = () => {
-    openFullscreen();
+    if (isFirstGame) {
+      openFullscreen();
+      setIsFirstGame(false);
+    }
     setAppState("PlacementStart");
   };
 
